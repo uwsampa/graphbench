@@ -2,6 +2,7 @@
 #include <cstdlib>
 #include <string>
 #include <set>
+#include <ctime>
 #include "graph.h"
 #include "graph_io.h"
 #include "bfs.h"
@@ -25,6 +26,7 @@ void printTree(Graph& graph, Node node, std::string tabbing) {
 
 int main(int argc, const char **argv) {
 	Graph graph, bfsResult;
+	timespec before, after;
 	
 	importGraph(argv[1], graph);
 	
@@ -32,7 +34,14 @@ int main(int argc, const char **argv) {
 	std::cout << "original graph:" <<std::endl;
 	printTree(graph, node, std::string(""));
 	
+	clock_gettime(CLOCK_MONOTONIC, &before);
 	bfs(node, graph, bfsResult);
+	clock_gettime(CLOCK_MONOTONIC, &after);
+	
+	std::cout << "Runtime: "
+			  << after.tv_nsec - before.tv_nsec
+			  << "ns"
+			  << std::endl;
 	
 	std::cout << "bfs result:" <<std::endl;
 	printTree(bfsResult, node, std::string(""));

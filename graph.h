@@ -24,7 +24,7 @@ class Node {
 };
 
 /*
-	A class describing a graph represented by Nodes.
+	A class describing a directed graph represented by Nodes.
 	Edges are unweighted.
 */
 class Graph {
