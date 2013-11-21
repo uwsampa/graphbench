@@ -13,14 +13,14 @@ class Node {
 		uint32_t label;
 		
 	public:
-		Node(uint32_t _label) : label(_label) {};
-		Node(void) : label(0) {};
+        Node(uint32_t _label) : label(_label) {}
+        Node(void) : label(0) {}
 		
-		uint32_t getLabel(void) const {return label;};
+        uint32_t getLabel(void) const {return label;}
 		
 		bool operator< (const Node& rhs) const {
 			return label < rhs.label;
-		};
+        }
 };
 
 /*
