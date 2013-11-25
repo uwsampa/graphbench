@@ -12,28 +12,23 @@ int Graph::removeNode(const Node& n) {
 	return 1;
 }
 
-int Graph::addEdge(const Node& from, const Node& to) {
-	adjList[from].insert(to);
+int Graph::addEdge(const Node& from, const Node& to, const double& weight) {
+    Edge edge(from, to, weight);
+    adjList[from].insert(edge);
 	
 	return 1;
 }
 
-int Graph::removeEdge(const Node& from, const Node& to) {
-	adjList[from].erase(to);
-	
-	return 1;
-}
-
-std::map<Node,std::set<Node> >::const_iterator Graph::begin(void) const {
+std::map<Node,std::set<Edge> >::const_iterator Graph::begin(void) const {
 	return adjList.begin();
 }
 
-std::map<Node,std::set<Node> >::const_iterator Graph::end(void) const {
+std::map<Node,std::set<Edge> >::const_iterator Graph::end(void) const {
 	return adjList.end();
 }
 
-int Graph::getEdges(const Node& n, std::set<Node>* edgesOut) const{
-	std::map<Node,std::set<Node> >::const_iterator edges = adjList.find(n);
+int Graph::getEdges(const Node& n, std::set<Edge>* edgesOut) const{
+    std::map<Node,std::set<Edge> >::const_iterator edges = adjList.find(n);
 	if(edges == adjList.end()) return -1;
 	*edgesOut = edges->second;
 	

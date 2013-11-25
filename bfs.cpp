@@ -4,11 +4,11 @@
 #include <queue>
 
 int bfs(const Node& start, const Graph& in, Graph& out) {
-	Node current;
+    Node current, next;
 	std::set<Node> seen;
 	std::queue<Node> q;
-	std::set<Node> currentEdges;
-	std::set<Node>::const_iterator it;
+    std::set<Edge> currentEdges;
+    std::set<Edge>::const_iterator it;
 	
 	out.addNode(start);
 	seen.insert(start);
@@ -20,23 +20,24 @@ int bfs(const Node& start, const Graph& in, Graph& out) {
 		q.pop();
 		
 		in.getEdges(current, &currentEdges);
-		for(it=currentEdges.begin();
-			it !=currentEdges.end();
+        for(it = currentEdges.begin();
+            it != currentEdges.end();
 			++it) {
 			// for every edge from that node...
-			if(!seen.count(*it)) {
+            next = (*it).to;
+            if(!seen.count(next)) {
 				// if the neighbor node has not been added
 				// to the queue yet...
 				
 				// add to queue
-				q.push(*it);
+                q.push(next);
 				
 				// mark as seen
-				seen.insert(*it);
-				out.addNode(*it);
+                seen.insert(next);
+                out.addNode(next);
 				
 				// add an edge in the return graph
-				out.addEdge(current, *it);
+                out.addEdge(current, next, (*it).weight);
 			}
 		}
 	}

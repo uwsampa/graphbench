@@ -4,28 +4,30 @@
 #include <string>
 #include <iostream>
 #include <set>
+#include <map>
 #include "graph.h"
 #include "graph_io.h"
 #include "bfs.h"
+#include "sp.h"
 
 /*
 	Print the structure of the graph to the console, starting at the given node.
 	Assumes a directed, acyclic graph.
 */
-void printTree(Graph& graph, Node node, std::string tabbing) {
-	std::set<Node> currentEdges;
-	std::set<Node>::const_iterator it;
+static void printTree(Graph& graph, Node node, std::string tabbing) {
+    std::set<Edge> currentEdges;
+    std::set<Edge>::const_iterator it;
 	
 	graph.getEdges(node, &currentEdges);
 	std::cout << tabbing << node.getLabel() <<std::endl;
 	
 	std::string nextTab = tabbing + std::string("	");
 	for(it=currentEdges.begin(); it !=currentEdges.end(); ++it) {
-		printTree(graph, *it, nextTab);
+        printTree(graph, (*it).to, nextTab);
 	}
 }
 
-void doBFS (const char* graphFile) {
+static void doBFS (const char* graphFile) {
     Graph graph, bfsResult;
     timespec before, after;
     importGraph(graphFile, graph);
@@ -47,8 +49,25 @@ void doBFS (const char* graphFile) {
     printTree(bfsResult, node, std::string(""));
 }
 
-void doShortestPath (const char* graphFile) {
-    std::cout << "Unimplemented." << std::endl;
+static void doShortestPath (const char* graphFile) {
+    Graph graph;
+    timespec before, after;
+    std::map<Node, double> costs;
+
+    importGraph(graphFile, graph);
+
+    Node node(1);
+
+    std::cout << "Running single-source shortest path" << std::endl;
+
+    clock_gettime(CLOCK_MONOTONIC, &before);
+    shortestPath(node, graph, costs);
+    clock_gettime(CLOCK_MONOTONIC, &after);
+
+    std::cout << "Runtime: "
+              << after.tv_nsec - before.tv_nsec
+              << "ns"
+              << std::endl;
 }
 
 int main(int argc, const char **argv) {
