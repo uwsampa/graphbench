@@ -8,6 +8,6 @@
     Calculates the cost of the shortest path from the given node
     to all other nodes in the graph.
 */
-int shortestPath(const Node& start, const Graph& in, std::map<Node, double>& out);
+int shortestPath(const Node& start, const Graph& in, std::map<Node, double>& costs_out);
 
 #endif /* SP_H */
