@@ -35,7 +35,32 @@
         under development in the Sampa group at the University of
         Washington, Department of Computer Science and
         Engineering. Check back soon for updates!</p>
-		<p>Test!</p>
+		<p>Initial benchmarks include straw man implementations of the following graph kernels:
+			<ul>
+				<li>
+					<h4>Breadth-First Search</h4>
+					<p>
+						Starting from a specified node, create a tree, of minimum height, stretching from that node to all other reachable nodes in the graph.
+						
+						A simple benchmark to characterize the ability of the system to traverse the edges of a graph.
+					</p>
+				</li>
+				<li>
+					<h4>Single-Source Shortest Path</h4>
+					<p>
+						Starting from a specified node in a graph with non-negative edge weights, for each other node in the graph, calculate minimum cost path from the origin to that node. For each node, it is sufficient the specify the 'previous' node on the least-cost path.
+						
+						Relevant for transportation network analysis.
+					</p>
+				</li>
+				<li>
+					<h4>Triangle Counting</h4>
+						Count the triangles present in the graph.
+						
+						Relevant to applications which require the characterization of sub-graphs, such as social network and protein interaction analysis.
+				</li>
+			</ul>
+		</p>
       </section>
     </div>
 
