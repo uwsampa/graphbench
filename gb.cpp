@@ -53,6 +53,7 @@ static void doShortestPath (const char* graphFile) {
     Graph graph;
     timespec before, after;
     std::map<Node, double> costs;
+    std::map<Node, Node> prev;
 
     importGraph(graphFile, graph);
 
@@ -61,7 +62,7 @@ static void doShortestPath (const char* graphFile) {
     std::cout << "Running single-source shortest path" << std::endl;
 
     clock_gettime(CLOCK_MONOTONIC, &before);
-    shortestPath(node, graph, costs);
+    shortestPath(node, graph, costs, prev);
     clock_gettime(CLOCK_MONOTONIC, &after);
 
     std::cout << "Runtime: "
