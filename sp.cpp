@@ -26,9 +26,13 @@ int shortestPath(const Node& start,
     double cost;
     std::set<Node> visited;
     std::set<Node> toVisit;
-    std::map<Node,std::set<Edge> >::const_iterator graph_it;
-    std::set<Edge>::const_iterator edge_it;
-    std::set<Edge> edges;
+    std::map<Node,std::map<Node, double> >::const_iterator graph_it;
+    std::map<Node, double>::const_iterator edge_it;
+    std::map<Node, double> edges;
+
+    // ensure that the output maps are clear
+    costs_out.clear();
+    prev_out.clear();
 
     for(graph_it = in.begin(); graph_it != in.end(); ++graph_it) {
         costs_out[graph_it->first] = HUGE_VAL;
@@ -50,14 +54,14 @@ int shortestPath(const Node& start,
             ++edge_it) {
 
             // if the neighboring node has not been visited
-            if(visited.count(edge_it->to) == 0) {
-                cost = costs_out[current] + edge_it->weight;
+            if(visited.count(edge_it->first) == 0) {
+                cost = costs_out[current] + edge_it->second;
 
                 // if this is the lowest cost path so far
-                if(cost < costs_out[edge_it->to]) {
-                    costs_out[edge_it->to] = cost;
-                    prev_out[edge_it->to] = current;
-                    toVisit.insert(edge_it->to);
+                if(cost < costs_out[edge_it->first]) {
+                    costs_out[edge_it->first] = cost;
+                    prev_out[edge_it->first] = current;
+                    toVisit.insert(edge_it->first);
                 }
             }
         }

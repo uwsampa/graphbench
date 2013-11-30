@@ -9,28 +9,13 @@
 #include "graph_io.h"
 #include "bfs.h"
 #include "sp.h"
-
-/*
-	Print the structure of the graph to the console, starting at the given node.
-	Assumes a directed, acyclic graph.
-*/
-static void printTree(Graph& graph, Node node, std::string tabbing) {
-    std::set<Edge> currentEdges;
-    std::set<Edge>::const_iterator it;
-	
-	graph.getEdges(node, &currentEdges);
-	std::cout << tabbing << node.getLabel() <<std::endl;
-	
-	std::string nextTab = tabbing + std::string("	");
-	for(it=currentEdges.begin(); it !=currentEdges.end(); ++it) {
-        printTree(graph, (*it).to, nextTab);
-	}
-}
+#include "tc.h"
+#include "graph_util.h"
 
 static void doBFS (const char* graphFile) {
     Graph graph, bfsResult;
     timespec before, after;
-    importGraph(graphFile, graph);
+    importTestGraph(graphFile, graph);
 
     Node node(1);
     std::cout << "original graph:" <<std::endl;
@@ -55,7 +40,7 @@ static void doShortestPath (const char* graphFile) {
     std::map<Node, double> costs;
     std::map<Node, Node> prev;
 
-    importGraph(graphFile, graph);
+    importTestGraph(graphFile, graph);
 
     Node node(1);
 
@@ -69,6 +54,39 @@ static void doShortestPath (const char* graphFile) {
               << after.tv_nsec - before.tv_nsec
               << "ns"
               << std::endl;
+}
+
+static void doTriangleCount (const char* graphFile) {
+    Graph graph;
+    timespec before, after;
+    std::set<Triangle> triangles;
+    std::set<Triangle>::iterator it;
+
+    importTriangleTestGraph(graphFile, graph);
+
+    std::cout << "Running triangle count" << std::endl;
+
+    clock_gettime(CLOCK_MONOTONIC, &before);
+    triangleCount(graph, triangles);
+    clock_gettime(CLOCK_MONOTONIC, &after);
+
+    std::cout << "Runtime: "
+              << after.tv_nsec - before.tv_nsec
+              << "ns"
+              << std::endl;
+
+    std::cout << "Triangle count: "
+              << triangles.size()
+              << std::endl;
+
+    for(it = triangles.begin(); it != triangles.end(); ++it) {
+        std::cout << it->a.getLabel()
+                  << " "
+                  << it->b.getLabel()
+                  << " "
+                  << it->c.getLabel()
+                  << std::endl;
+    }
 }
 
 int main(int argc, const char **argv) {
@@ -103,8 +121,11 @@ int main(int argc, const char **argv) {
         doBFS(graph_file);
     } else if (strcmp(graph_kern, "sp") == 0) {
         doShortestPath(graph_file);
+    } else if (strcmp(graph_kern, "tc") == 0) {
+        doTriangleCount(graph_file);
     } else {
         std::cout << "Unknown benchmark: " << graph_kern << std::endl;
+        std::cout << "Valid benchmarks: bfs, sp, tc" << std::endl;
         return EXIT_FAILURE;
     }
 	

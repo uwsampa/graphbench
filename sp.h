@@ -7,6 +7,8 @@
 /*
     Calculates the cost of the shortest path from the given node
     to all other nodes in the graph.
+
+    Returns <0 on error.
 */
 int shortestPath(const Node& start,
                  const Graph& in,

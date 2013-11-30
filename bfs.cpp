@@ -1,14 +1,15 @@
+#include <set>
+#include <map>
+#include <queue>
 #include "bfs.h"
 #include "graph.h"
-#include <set>
-#include <queue>
 
 int bfs(const Node& start, const Graph& in, Graph& out) {
     Node current, next;
 	std::set<Node> seen;
 	std::queue<Node> q;
-    std::set<Edge> currentEdges;
-    std::set<Edge>::const_iterator it;
+    std::map<Node, double> currentEdges;
+    std::map<Node, double>::const_iterator it;
 	
 	out.addNode(start);
 	seen.insert(start);
@@ -24,7 +25,7 @@ int bfs(const Node& start, const Graph& in, Graph& out) {
             it != currentEdges.end();
 			++it) {
 			// for every edge from that node...
-            next = (*it).to;
+            next = it->first;
             if(!seen.count(next)) {
 				// if the neighbor node has not been added
 				// to the queue yet...
@@ -37,7 +38,7 @@ int bfs(const Node& start, const Graph& in, Graph& out) {
                 out.addNode(next);
 				
 				// add an edge in the return graph
-                out.addEdge(current, next, (*it).weight);
+                out.addEdge(current, next, it->second);
 			}
 		}
 	}

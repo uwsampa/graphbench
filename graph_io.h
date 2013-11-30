@@ -6,6 +6,8 @@
 /*
 	Reutrns a graph derived from the specified file.
 */
-void importGraph(char const* filename, Graph& out);
+void importTestGraph(char const* filename, Graph& out);
+
+void importTriangleTestGraph(char const* filename, Graph& out);
 
 #endif /* GRAPH_IO_H */
