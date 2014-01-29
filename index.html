@@ -40,55 +40,10 @@
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
         <ng-include src="'contents/intro.ng'"></ng-include>
-    		<p>
-    			<h4>
-    				Initial benchmarks include single-threaded, straw man implementations of the following graph kernels:
-    			</h4>
-    			<ul>
-    				<li>
-    					<h4>Breadth-First Search</h4>
-    					<p>
-    						Starting from a specified node, create a tree, of minimum height, stretching from that node to all other reachable nodes in the graph.
-    						
-    						A simple benchmark to characterize the ability of the application to traverse the edges of a graph.
-    					</p>
-    				</li>
-    				<li>
-    					<h4>Single-Source Shortest Path</h4>
-    					<p>
-    						Starting from a specified node in a graph with non-negative edge weights, for each other node in the graph, calculate minimum cost path from the origin to that node. For each node, it is sufficient the specify the 'previous' node on the least-cost path.
-    						
-    						Relevant for transportation network analysis.
-    					</p>
-    				</li>
-    				<li>
-    					<h4>Triangle Counting</h4>
-    						Find the unique triangles in the graph.
-    						
-    						Relevant to applications which require the characterization of sub-graphs, such as social network and protein interaction analysis.
-    				</li>
-    			</ul>
-    		</p>
-    		<p>
-    			<h4>
-    				Current areas of development:
-    			</h4>
-    			<ul>
-    				<li>
-    					Result verifiers
-    				</li>
-    				<li>
-    					Selection of distributable datasets
-    				</li>
-    				<li>
-    					Graph generator
-    				</li>
-    				<li>
-    					Additional Kernels
-    				</li>
-    			<ul>
-    		</p>
-        <table border="1">
+    		<ng-include src="'contents/kernels.ng'"></ng-include>
+        <ng-include src="'contents/todo.ng'"></ng-include>
+    		
+        <!-- <table border="1">
           <tr>
           <th></th>
           <th>Header 2</th>
@@ -104,7 +59,7 @@
           <td>row 2, cell 1</td>
           <td>row 2, cell 2</td>
           </tr>
-        </table>
+        </table> -->
       </section>
     </div>
 
