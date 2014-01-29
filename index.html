@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" ng-app>
 
   <head>
     <meta charset='utf-8' />
@@ -7,6 +7,8 @@
     <meta name="description" content="GraphBench : A graph application benchmark suite" />
 
     <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.10/angular.min.js"></script>
 
     <title>GraphBench</title>
   </head>
@@ -21,74 +23,93 @@
           <h1 id="project_title">Graphbench</h1>
           <h2 id="project_tagline">A graph application benchmark suite</h2>
 
-            <!-- <section id="downloads"> -->
-            <!--   <a class="zip_download_link" href="https://github.com/uwsampa/graphbench/zipball/master">Download this project as a .zip file</a> -->
-            <!--   <a class="tar_download_link" href="https://github.com/uwsampa/graphbench/tarball/master">Download this project as a tar.gz file</a> -->
-            <!-- </section> -->
+            <!-- <section id="downloads">
+               <a class="zip_download_link" href="https://github.com/uwsampa/graphbench/zipball/master">Download this project as a .zip file</a>
+               <a class="tar_download_link" href="https://github.com/uwsampa/graphbench/tarball/master">Download this project as a tar.gz file</a>
+            </section> -->
+          <section id="menu_items">
+            <a id="menu_button" href="http://graphbench.org">Home</a>
+            <a id="menu_button" href="http://graphbench.org">Apps</a>
+            <a id="menu_button" href="http://graphbench.org">TODO</a>
+            <a id="menu_button" href="http://graphbench.forumatic.com/">Forum</a>
+          </section>
         </header>
     </div>
 
     <!-- MAIN CONTENT -->
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
-        <p>
-			GraphBench is a suite of graph application benchmarks
-			under development in the Sampa group at the University of
-			Washington, Department of Computer Science and
-			Engineering.
-		</p>
-		<p>
-			GraphBench's raison d'etre is to aid in the development of new hardware and runtime systems by providing a standardized, relevant performance testbed.
-		</p>
-		<p>
-			<h4>
-				Initial benchmarks include single-threaded, straw man implementations of the following graph kernels:
-			</h4>
-			<ul>
-				<li>
-					<h4>Breadth-First Search</h4>
-					<p>
-						Starting from a specified node, create a tree, of minimum height, stretching from that node to all other reachable nodes in the graph.
-						
-						A simple benchmark to characterize the ability of the application to traverse the edges of a graph.
-					</p>
-				</li>
-				<li>
-					<h4>Single-Source Shortest Path</h4>
-					<p>
-						Starting from a specified node in a graph with non-negative edge weights, for each other node in the graph, calculate minimum cost path from the origin to that node. For each node, it is sufficient the specify the 'previous' node on the least-cost path.
-						
-						Relevant for transportation network analysis.
-					</p>
-				</li>
-				<li>
-					<h4>Triangle Counting</h4>
-						Find the unique triangles in the graph.
-						
-						Relevant to applications which require the characterization of sub-graphs, such as social network and protein interaction analysis.
-				</li>
-			</ul>
-		</p>
-		<p>
-			<h4>
-				Current areas of development:
-			</h4>
-			<ul>
-				<li>
-					Result verifiers
-				</li>
-				<li>
-					Selection of distributable datasets
-				</li>
-				<li>
-					Graph generator
-				</li>
-				<li>
-					Additional Kernels
-				</li>
-			<ul>
-		</p>
+        <ng-include src="'contents/intro.ng'"></ng-include>
+    		<p>
+    			<h4>
+    				Initial benchmarks include single-threaded, straw man implementations of the following graph kernels:
+    			</h4>
+    			<ul>
+    				<li>
+    					<h4>Breadth-First Search</h4>
+    					<p>
+    						Starting from a specified node, create a tree, of minimum height, stretching from that node to all other reachable nodes in the graph.
+    						
+    						A simple benchmark to characterize the ability of the application to traverse the edges of a graph.
+    					</p>
+    				</li>
+    				<li>
+    					<h4>Single-Source Shortest Path</h4>
+    					<p>
+    						Starting from a specified node in a graph with non-negative edge weights, for each other node in the graph, calculate minimum cost path from the origin to that node. For each node, it is sufficient the specify the 'previous' node on the least-cost path.
+    						
+    						Relevant for transportation network analysis.
+    					</p>
+    				</li>
+    				<li>
+    					<h4>Triangle Counting</h4>
+    						Find the unique triangles in the graph.
+    						
+    						Relevant to applications which require the characterization of sub-graphs, such as social network and protein interaction analysis.
+    				</li>
+    			</ul>
+    		</p>
+    		<p>
+    			<h4>
+    				Current areas of development:
+    			</h4>
+    			<ul>
+    				<li>
+    					Result verifiers
+    				</li>
+    				<li>
+    					Selection of distributable datasets
+    				</li>
+    				<li>
+    					Graph generator
+    				</li>
+    				<li>
+    					Additional Kernels
+    				</li>
+    			<ul>
+    		</p>
+        <table border="1">
+          <tr>
+          <th></th>
+          <th>Header 2</th>
+          <th>Header 3</th>
+          </tr>
+          <tr>
+          <th>Header 3</th>
+          <td>row 1, cell 1</td>
+          <td>row 1, cell 2</td>
+          </tr>
+          <tr>
+          <th>Header 3</th>
+          <td>row 2, cell 1</td>
+          <td>row 2, cell 2</td>
+          </tr>
+        </table>
       </section>
+    </div>
+
+    <div id="sidebar">
+
     </div>
 
     <!-- FOOTER  -->
