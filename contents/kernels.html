@@ -1,22 +1,37 @@
-<!-- <table border="1">
+<table border="1">
   <tr>
-  <th></th>
-  <th>Header 2</th>
-  <th>Header 3</th>
+	  <th></th>
+	  <th title="Single-threaded, simple implementation">Plain C++</th>
+	  <th>Graphlab</th>
+	  <th>Spark</th>
   </tr>
   <tr>
-  <th>Header 3</th>
-  <td>row 1, cell 1</td>
-  <td>row 1, cell 2</td>
+	  <th title="Breadth-First Search">BFS</th>
+	  <td>X</td>
+	  <td></td>
+	  <td></td>
   </tr>
   <tr>
-  <th>Header 3</th>
-  <td>row 2, cell 1</td>
-  <td>row 2, cell 2</td>
+	  <th title="Single-Source Shortest Path">SSSP</th>
+	  <td>X</td>
+	  <td></td>
+	  <td></td>
   </tr>
-</table> -->
+  <tr>
+	  <th title="Triangle Counting">TC</th>
+	  <td>X</td>
+	  <td></td>
+	  <td></td>
+  </tr>
+  <tr>
+	  <th title="PageRank">PR</th>
+	  <td>X</td>
+	  <td></td>
+	  <td></td>
+  </tr>
+</table>
 
-<p>
+<div>
 	<h4>
 		Initial benchmarks include single-threaded, straw man implementations of the following graph kernels:
 	</h4>
@@ -24,19 +39,30 @@
 	<h4>Breadth-First Search</h4>
 	<p>
 		Starting from a specified node, create a tree, of minimum height, stretching from that node to all other reachable nodes in the graph.
-		
+	</p>
+	<p>
 		A simple benchmark to characterize the ability of the application to traverse the edges of a graph.
 	</p>
 
 	<h4>Single-Source Shortest Path</h4>
 	<p>
 		Starting from a specified node in a graph with non-negative edge weights, for each other node in the graph, calculate minimum cost path from the origin to that node. For each node, it is sufficient the specify the 'previous' node on the least-cost path.
-		
+	</p>
+	<p>
 		Relevant for transportation network analysis.
 	</p>
-	<h4>Triangle Counting</h4>
-		Find the unique triangles in the graph.
-		
-		Relevant to applications which require the characterization of sub-graphs, such as social network and protein interaction analysis.
 
-</p>
+	<h4>Triangle Counting</h4>
+	<p>
+		Find the unique triangles in the graph.
+	</p>
+	<p>
+		Relevant to applications which require the characterization of sub-graphs, such as social network and protein interaction analysis.
+	</p>
+
+	<h4>PageRank</h4>
+	<p>
+		(Forthcoming)
+		Do the Google.
+	</p>
+</div>
