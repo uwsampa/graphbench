@@ -9,6 +9,7 @@
     <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
 
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.10/angular.min.js"></script>
+    <script src="javascripts/main.js"></script>
 
     <title>GraphBench</title>
   </head>
@@ -28,9 +29,9 @@
                <a class="tar_download_link" href="https://github.com/uwsampa/graphbench/tarball/master">Download this project as a tar.gz file</a>
             </section> -->
           <section id="menu_items">
-            <a id="menu_button" href="http://graphbench.org">Home</a>
-            <a id="menu_button" href="">Apps</a>
-            <a id="menu_button" href="">TODO</a>
+            <a id="menu_button" href="#/intro">Home</a>
+            <a id="menu_button" href="#/kernels">Kernels</a>
+            <a id="menu_button" href="#/todo">In Development</a>
             <a id="menu_button" href="http://graphbench.forumatic.com/">Forum</a>
           </section>
         </header>
@@ -39,9 +40,9 @@
     <!-- MAIN CONTENT -->
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
-        <ng-include src="'contents/intro.html'"></ng-include>
-    		<ng-include src="'contents/kernels.html'"></ng-include>
-        <ng-include src="'contents/todo.html'"></ng-include>
+        <ng-include ng-src="'contents/{{page}}.html'"></ng-include>
+    		<!-- <ng-include src="'contents/kernels.html'"></ng-include>
+        <ng-include src="'contents/todo.html'"></ng-include> -->
       </section>
     </div>
 
