@@ -10,22 +10,19 @@ app.config(function ($routeProvider) {
   $routeProvider
     .when('/intro',
     {
-      templateUrl: "contents/intro.html",
-      controller: "RouteCntl"
+      templateUrl: "contents/intro.html"
     }
   )
   $routeProvider
     .when('/kernels',
     {
-      templateUrl: "contents/kernels.html",
-      controller: "RouteCntl"
+      templateUrl: "contents/kernels.html"
     }
   )
   $routeProvider
     .when('/todo',
     {
-      templateUrl: "contents/todo.html",
-      controller: "RouteCntl"
+      templateUrl: "contents/todo.html"
     }
   )
   $routeProvider.otherwise({redirectTo: '/intro'});
