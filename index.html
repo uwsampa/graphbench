@@ -41,10 +41,9 @@
     <!-- MAIN CONTENT -->
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
+        <!-- this content is controlled by the angularJS route provider,
+            see main.js for mappings between URL and body content -->
         <ng-view></ng-view>
-        <!-- <ng-include src="'contents/intro.html'"></ng-include> -->
-    		<!-- <ng-include src="'contents/kernels.html'"></ng-include>
-        <ng-include src="'contents/todo.html'"></ng-include> -->
       </section>
     </div>
 

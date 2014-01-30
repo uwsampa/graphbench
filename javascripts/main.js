@@ -14,6 +14,20 @@ app.config(function ($routeProvider) {
       controller: "RouteCntl"
     }
   )
+  $routeProvider
+    .when('/kernels',
+    {
+      templateUrl: "contents/kernels.html",
+      controller: "RouteCntl"
+    }
+  )
+  $routeProvider
+    .when('/todo',
+    {
+      templateUrl: "contents/todo.html",
+      controller: "RouteCntl"
+    }
+  )
   $routeProvider.otherwise({redirectTo: '/intro'});
 });
 
