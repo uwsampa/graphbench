@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" ng-app>
+<html lang="en" ng-app="gbApp">
 
   <head>
     <meta charset='utf-8' />
@@ -9,6 +9,7 @@
     <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
 
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.10/angular.min.js"></script>
+    <script src="javascripts/angular-route.min_1.2.10.js"></script>
     <script src="javascripts/main.js"></script>
 
     <title>GraphBench</title>
@@ -40,7 +41,8 @@
     <!-- MAIN CONTENT -->
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
-        <ng-include ng-src="'contents/{{page}}.html'"></ng-include>
+        <ng-view></ng-view>
+        <!-- <ng-include src="'contents/intro.html'"></ng-include> -->
     		<!-- <ng-include src="'contents/kernels.html'"></ng-include>
         <ng-include src="'contents/todo.html'"></ng-include> -->
       </section>
@@ -58,16 +60,16 @@
       </footer>
     </div>
 
-              <script type="text/javascript">
-            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-          </script>
-          <script type="text/javascript">
-            try {
-              var pageTracker = _gat._getTracker("UA-45087705-1");
-            pageTracker._trackPageview();
-            } catch(err) {}
-          </script>
+    <script type="text/javascript">
+      var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+      document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+    <script type="text/javascript">
+      try {
+        var pageTracker = _gat._getTracker("UA-45087705-1");
+      pageTracker._trackPageview();
+      } catch(err) {}
+    </script>
 
 
   </body>
