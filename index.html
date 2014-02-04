@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>GraphBench: A one-stop shop for graph analytics systems benchmarking.</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="jumbotron-narrow.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy this line! -->
+    <!--[if lt IE 9]><script src="../../docs-assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-33911150-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+  </head>
+
+  <body>
+
+    <div class="container">
+      <div class="header">
+        <ul class="nav nav-pills pull-right">
+          <li class="active"><a href="#">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+        <h3 class="text-muted">GraphBench</h3>
+      </div>
+
+      <div class="jumbotron">
+        <h1>GraphBench</h1>
+        <p class="lead">Benchmarking graph analytics systems.</p>
+        <p><a class="btn btn-lg btn-success" href="#contact" role="button">Coming soon: join our mailing list</a></p>
+      </div>
+
+      <h3>What is GraphBench?</h3>
+      <p>Graph and irregular computation are of increasing importance to industry, the government, and the sciences.  The core computational component of many “big data”, machine-learning, and security applications is an irregular computation typically done on a graph data-structure.</p>
+
+      <p>GraphBench's goal is be a curation of:</p> 
+      <ul>
+        <li>Graph analysis kernels</li>
+        <li>Reference sequential implementations</li>
+        <li>Graph data-sets and data-set generators</li>
+        <li>Specifications for standardized performance results</li>
+      </ul>
+	
+	<p>GraphBench is very much in progress and is meant to be a community effort. So please <a href="mailto:info@graphbench.org?subject=[GraphBench]">email us</a> if you are willing to participate! </p>
+	
+      
+      <h3>Current Kernels</h3>
+
+	<table border="1">
+	  <tr>
+		  <th></th>
+		  <th title="Single-threaded, simple implementation">Plain Sequential</th>
+		  <th>Graphlab</th>
+		  <th>Spark</th>
+		  <th>Hadoop</th>
+	  </tr>
+	  <tr>
+		  <th title="Breadth-First Search">BFS</th>
+		  <td>X</td>
+		  <td></td>
+		  <td></td>
+		  <td></td>
+	  </tr>
+	  <tr>
+		  <th title="Single-Source Shortest Path">SSSP</th>
+		  <td>X</td>
+		  <td><a href="kernels/gl_sssp.html">X</a></td>
+		  <td></td>
+		  <td></td>
+	  </tr>
+	  <tr>
+		  <th title="Triangle Counting">TC</th>
+		  <td>X</td>
+		  <td><a href="kernels/gl_tc.html">X</a></td>
+		  <td></td>
+		  <td></td>
+	  </tr>
+	  <tr>
+		  <th title="PageRank">PR</th>
+		  <td></td>
+		  <td></td>
+		  <td></td>
+		  <td></td>
+	  </tr>
+	</table>
+
+Visit our <a href="https://github.com/uwsampa/graphbench">github repository</a> for our sequential kernel implementations. 
+
+      <h3>Coming soon</h3>
+      <p>We are currently working on:</p> 
+      <ul>
+        <li>Additional kernels (pagerank, connected components and betweenness centrality)</li>
+		<li>Curating more implementations in other frameworks</li>
+        <li>Result verifiers for kernels</li>
+        <li>Selection of distributable data-sets and data-set generators</li>
+      </ul>
+
+      <a name="About"></a>
+      <h4>About Us</h4>
+      <a name="about"></a>
+
+	<p>This work is generously support by <a href="http://labs.oracle.com/pls/apex/f?p=labs:50:0:::::">Oracle Corporation</a> and the <a href="http://www.nsf.gov">National Science Foundation</a>.
+
+      <h5>Graduate students</h5>
+      <div class="row">
+        <div class="col-sm-1" align="center">
+        </div>
+
+        <div class="col-sm-2" align="center">
+          <img src="images/nelson.jpg" height="100" />
+          <h5>Jacob Nelson</h5>
+        </div>
+        <div class="col-sm-2" align="center">
+          <img src="images/myers.jpg" height="100" />
+          <h5>Brandon Myers</h5>
+        </div>
+        <div class="col-sm-2" align="center">
+          <img src="images/holt.jpg" height="100" />
+          <h5>Brandon Holt</h5>
+        </div>
+      </div>
+
+      <h5>Faculty</h5>
+      <div class="row">
+        <div class="col-sm-1" align="center">
+        </div>
+
+        <div class="col-sm-2" align="center">
+          <img src="images/kahan.jpg" height="100" />
+          <h5>Simon Kahan</h5>
+        </div>
+                
+        <div class="col-sm-2" align="center">
+          <img src="images/ceze.jpg" height="100" />
+          <h5>Luis Ceze</h5>
+        </div>
+        
+        <div class="col-sm-2" align="center">
+          <img src="images/oskin.jpg" height="100" />
+          <h5>Mark Oskin</h5>
+        </div>
+      </div>
+
+
+      <a name="contact"></a>
+      <h4>Contact us</h4>
+<a href="mailto:info@graphbench.org?subject=[GraphBench]">Email us</a>
+      or join or mailing list to be informed about releases:
+
+	<!-- Begin MailChimp Signup Form -->
+	<link href="//cdn-images.mailchimp.com/embedcode/classic-081711.css" rel="stylesheet" type="text/css">
+	<style type="text/css">
+		#mc_embed_signup{background:#fff; clear:left; font:14px Helvetica,Arial,sans-serif; }
+		/* Add your own MailChimp form style overrides in your site stylesheet or in this style block.
+		   We recommend moving this block and the preceding CSS link to the HEAD of your HTML file. */
+	</style>
+	<div id="mc_embed_signup">
+	<form action="http://washington.us3.list-manage.com/subscribe/post?u=9d3f71af2addf5757d68648e0&amp;id=f1e9fb6d8b" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+
+	<div class="mc-field-group">
+		<label for="mce-EMAIL">Email Address </label>
+		<input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL">
+	</div>
+		<div id="mce-responses" class="clear">
+			<div class="response" id="mce-error-response" style="display:none"></div>
+			<div class="response" id="mce-success-response" style="display:none"></div>
+		</div>    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+	    <div style="position: absolute; left: -5000px;"><input type="text" name="b_9d3f71af2addf5757d68648e0_f1e9fb6d8b" value=""></div>
+		<div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
+	</form>
+	</div>
+	<script type="text/javascript">
+	var fnames = new Array();var ftypes = new Array();fnames[0]='EMAIL';ftypes[0]='email';fnames[1]='FNAME';ftypes[1]='text';fnames[2]='LNAME';ftypes[2]='text';
+	try {
+	    var jqueryLoaded=jQuery;
+	    jqueryLoaded=true;
+	} catch(err) {
+	    var jqueryLoaded=false;
+	}
+	var head= document.getElementsByTagName('head')[0];
+	if (!jqueryLoaded) {
+	    var script = document.createElement('script');
+	    script.type = 'text/javascript';
+	    script.src = '//ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js';
+	    head.appendChild(script);
+	    if (script.readyState && script.onload!==null){
+	        script.onreadystatechange= function () {
+	              if (this.readyState == 'complete') mce_preload_check();
+	        }    
+	    }
+	}
+
+	var err_style = '';
+	try{
+	    err_style = mc_custom_error_style;
+	} catch(e){
+	    err_style = '#mc_embed_signup input.mce_inline_error{border-color:#6B0505;} #mc_embed_signup div.mce_inline_error{margin: 0 0 1em 0; padding: 5px 10px; background-color:#6B0505; font-weight: bold; z-index: 1; color:#fff;}';
+	}
+	var head= document.getElementsByTagName('head')[0];
+	var style= document.createElement('style');
+	style.type= 'text/css';
+	if (style.styleSheet) {
+	  style.styleSheet.cssText = err_style;
+	} else {
+	  style.appendChild(document.createTextNode(err_style));
+	}
+	head.appendChild(style);
+	setTimeout('mce_preload_check();', 250);
+
+	var mce_preload_checks = 0;
+	function mce_preload_check(){
+	    if (mce_preload_checks>40) return;
+	    mce_preload_checks++;
+	    try {
+	        var jqueryLoaded=jQuery;
+	    } catch(err) {
+	        setTimeout('mce_preload_check();', 250);
+	        return;
+	    }
+	    var script = document.createElement('script');
+	    script.type = 'text/javascript';
+	    script.src = 'http://downloads.mailchimp.com/js/jquery.form-n-validate.js';
+	    head.appendChild(script);
+	    try {
+	        var validatorLoaded=jQuery("#fake-form").validate({});
+	    } catch(err) {
+	        setTimeout('mce_preload_check();', 250);
+	        return;
+	    }
+	    mce_init_form();
+	}
+	function mce_init_form(){
+	    jQuery(document).ready( function($) {
+	      var options = { errorClass: 'mce_inline_error', errorElement: 'div', onkeyup: function(){}, onfocusout:function(){}, onblur:function(){}  };
+	      var mce_validator = $("#mc-embedded-subscribe-form").validate(options);
+	      $("#mc-embedded-subscribe-form").unbind('submit');//remove the validator so we can get into beforeSubmit on the ajaxform, which then calls the validator
+	      options = { url: 'http://washington.us3.list-manage.com/subscribe/post-json?u=9d3f71af2addf5757d68648e0&id=f1e9fb6d8b&c=?', type: 'GET', dataType: 'json', contentType: "application/json; charset=utf-8",
+	                    beforeSubmit: function(){
+	                        $('#mce_tmp_error_msg').remove();
+	                        $('.datefield','#mc_embed_signup').each(
+	                            function(){
+	                                var txt = 'filled';
+	                                var fields = new Array();
+	                                var i = 0;
+	                                $(':text', this).each(
+	                                    function(){
+	                                        fields[i] = this;
+	                                        i++;
+	                                    });
+	                                $(':hidden', this).each(
+	                                    function(){
+	                                        var bday = false;
+	                                        if (fields.length == 2){
+	                                            bday = true;
+	                                            fields[2] = {'value':1970};//trick birthdays into having years
+	                                        }
+	                                    	if ( fields[0].value=='MM' && fields[1].value=='DD' && (fields[2].value=='YYYY' || (bday && fields[2].value==1970) ) ){
+	                                    		this.value = '';
+										    } else if ( fields[0].value=='' && fields[1].value=='' && (fields[2].value=='' || (bday && fields[2].value==1970) ) ){
+	                                    		this.value = '';
+										    } else {
+										        if (/\[day\]/.test(fields[0].name)){
+	    	                                        this.value = fields[1].value+'/'+fields[0].value+'/'+fields[2].value;									        
+										        } else {
+	    	                                        this.value = fields[0].value+'/'+fields[1].value+'/'+fields[2].value;
+		                                        }
+		                                    }
+	                                    });
+	                            });
+	                        $('.phonefield-us','#mc_embed_signup').each(
+	                            function(){
+	                                var fields = new Array();
+	                                var i = 0;
+	                                $(':text', this).each(
+	                                    function(){
+	                                        fields[i] = this;
+	                                        i++;
+	                                    });
+	                                $(':hidden', this).each(
+	                                    function(){
+	                                        if ( fields[0].value.length != 3 || fields[1].value.length!=3 || fields[2].value.length!=4 ){
+	                                    		this.value = '';
+										    } else {
+										        this.value = 'filled';
+		                                    }
+	                                    });
+	                            });
+	                        return mce_validator.form();
+	                    }, 
+	                    success: mce_success_cb
+	                };
+	      $('#mc-embedded-subscribe-form').ajaxForm(options);
+
+
+	    });
+	}
+	function mce_success_cb(resp){
+	    $('#mce-success-response').hide();
+	    $('#mce-error-response').hide();
+	    if (resp.result=="success"){
+	        $('#mce-'+resp.result+'-response').show();
+	        $('#mce-'+resp.result+'-response').html(resp.msg);
+	        $('#mc-embedded-subscribe-form').each(function(){
+	            this.reset();
+	    	});
+	    } else {
+	        var index = -1;
+	        var msg;
+	        try {
+	            var parts = resp.msg.split(' - ',2);
+	            if (parts[1]==undefined){
+	                msg = resp.msg;
+	            } else {
+	                i = parseInt(parts[0]);
+	                if (i.toString() == parts[0]){
+	                    index = parts[0];
+	                    msg = parts[1];
+	                } else {
+	                    index = -1;
+	                    msg = resp.msg;
+	                }
+	            }
+	        } catch(e){
+	            index = -1;
+	            msg = resp.msg;
+	        }
+	        try{
+	            if (index== -1){
+	                $('#mce-'+resp.result+'-response').show();
+	                $('#mce-'+resp.result+'-response').html(msg);            
+	            } else {
+	                err_id = 'mce_tmp_error_msg';
+	                html = '<div id="'+err_id+'" style="'+err_style+'"> '+msg+'</div>';
+
+	                var input_id = '#mc_embed_signup';
+	                var f = $(input_id);
+	                if (ftypes[index]=='address'){
+	                    input_id = '#mce-'+fnames[index]+'-addr1';
+	                    f = $(input_id).parent().parent().get(0);
+	                } else if (ftypes[index]=='date'){
+	                    input_id = '#mce-'+fnames[index]+'-month';
+	                    f = $(input_id).parent().parent().get(0);
+	                } else {
+	                    input_id = '#mce-'+fnames[index];
+	                    f = $().parent(input_id).get(0);
+	                }
+	                if (f){
+	                    $(f).append(html);
+	                    $(input_id).focus();
+	                } else {
+	                    $('#mce-'+resp.result+'-response').show();
+	                    $('#mce-'+resp.result+'-response').html(msg);
+	                }
+	            }
+	        } catch(e){
+	            $('#mce-'+resp.result+'-response').show();
+	            $('#mce-'+resp.result+'-response').html(msg);
+	        }
+	    }
+	}
+
+	</script>
+	<!--End mc_embed_signup-->
+
+
+  </body>
+</html>
