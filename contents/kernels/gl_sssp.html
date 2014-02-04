@@ -1,0 +1,41 @@
+<div>
+	<h4>
+		GraphLab Single-Source Shortest Path
+	</h4>
+
+	<h4>
+		Installation Instructions
+	</h4>
+
+	<p>
+		Compilation and use instructions on Graphlab's <a href="https://github.com/graphlab-code/graphlab">github</a>.
+	</p>
+
+	<h4>
+		Dataset
+	</h4>
+
+	<p>
+		Nodes: 3997962
+	</p>
+	<p>
+		Edges: 34681189
+	</p>
+	<p>
+		Compressed size: 119M
+	</p>
+	<p>
+		Example single-node runtime: 7.95s
+	</p>
+	<p>
+		Link: <a href="http://snap.stanford.edu/data/com-LiveJournal.html">SNAP (com-lj.ungraph.txt.gz)</a>
+	</p>
+
+	<h4>
+		Running
+	</h4>
+
+	<p>
+		From the directory containing the gunzip'd dataset, "<path to toolkit/sssp> --graph=com-lj.ungraph.txt --format=snap --saveprefix=output --source=0" will run Graphlab's single-source shortest path tool on the LiveJournal dataset, using vertex 0 as the source, and outputting the resulting path costs to each other node in one or more files beginning with the prefix 'output'.
+	</p>
+</div>
