@@ -59,13 +59,13 @@ class Graph {
             Add an edge to the graph with the given weight.
 			Returns <0 on error.
 		*/
-        int addEdge(const Node& from, const Node& to, const double& weight);
+        int addEdge(const Node& from, const Node& to, const double& weight = 1.0);
 
         /*
             Add an undirected edge to the graph with the given weight.
             Returns <0 on error.
         */
-        int addEdgeUndirected(const Node& a, const Node& b, const double& weight);
+        int addEdgeUndirected(const Node& a, const Node& b, const double& weigh = 1.0);
 		
 		/*
 			Remove an edge from the graph.

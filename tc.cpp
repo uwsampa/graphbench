@@ -1,6 +1,6 @@
 #include "tc.h"
 
-int triangleCount(const Graph &in, std::set<Triangle> &out) {
+int undirectedTriangleCount(const Graph &in, std::set<Triangle> &out) {
     std::map<Node,std::map<Node, double> >::const_iterator a_it;
     std::map<Node, double> a_edges;
     std::map<Node, double>::const_iterator a_edge_it;

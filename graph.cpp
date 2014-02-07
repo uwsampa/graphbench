@@ -14,6 +14,7 @@ int Graph::removeNode(const Node& n) {
 
 int Graph::addEdge(const Node& from, const Node& to, const double& weight) {
     adjList[from][to] = weight;
+    adjList[to]; // add the 'to' node, if necessary
 	
 	return 1;
 }
@@ -21,12 +22,10 @@ int Graph::addEdge(const Node& from, const Node& to, const double& weight) {
 int Graph::addEdgeUndirected(const Node& a, const Node& b, const double& weight) {
     int result;
 
-    if((result = addEdge(a, b, weight)) < 0) {
-        return result;
-    }
-
-    if((result = addEdge(b, a, weight)) < 0) {
-        removeEdge(a, b);
+    if(a < b) {
+        result = addEdge(a, b, weight);
+    } else {
+        result = addEdge(b, a, weight);
     }
 
     return result;

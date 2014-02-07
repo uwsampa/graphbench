@@ -14,8 +14,8 @@ So far we have:
 
 * 'sp': single-source shortest path. 
 
-* 'tc': triangle counting. Output the number of triangles found in the graph, as well as the triangles themselves.
+* 'tc': triangle counting. Output the number of triangles found in the graph, as well as the runtime.
 
 
 After running 'make', run './gb -b <benchmark> -g <graph file>' to run the benchmark.
-
+e.g. 'gb -g facebook_combined.txt -b tc'
