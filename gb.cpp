@@ -62,23 +62,17 @@ static void doTriangleCount (const char* graphFile) {
     std::set<Triangle> triangles;
     std::set<Triangle>::iterator it;
 
-    importTriangleTestGraph(graphFile, graph);
+    importTSVGraph(graphFile, graph, false);
 
     std::cout << "Running triangle count" << std::endl;
 
+    // run triangle count and time it
     clock_gettime(CLOCK_MONOTONIC, &before);
-    triangleCount(graph, triangles);
+    undirectedTriangleCount(graph, triangles);
     clock_gettime(CLOCK_MONOTONIC, &after);
 
-    std::cout << "Runtime: "
-              << after.tv_nsec - before.tv_nsec
-              << "ns"
-              << std::endl;
-
-    std::cout << "Triangle count: "
-              << triangles.size()
-              << std::endl;
-
+    // print triangles
+    /*
     for(it = triangles.begin(); it != triangles.end(); ++it) {
         std::cout << it->a.getLabel()
                   << " "
@@ -86,7 +80,24 @@ static void doTriangleCount (const char* graphFile) {
                   << " "
                   << it->c.getLabel()
                   << std::endl;
-    }
+    }*/
+
+    // construct the runtime
+    time_t sec = after.tv_sec - before.tv_sec;
+    long milli = (after.tv_nsec - before.tv_nsec) / 1000000;
+    if (milli < 0) milli += 1000; // if after's nsec < before's nsec
+
+    std::cout << "Runtime: "
+              << sec
+              << "."
+              << milli
+              << "s"
+              << std::endl;
+
+    std::cout << "Triangle count: "
+              << triangles.size()
+              << std::endl;
+
 }
 
 int main(int argc, const char **argv) {
