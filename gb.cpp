@@ -8,7 +8,7 @@
 #include "graph.h"
 #include "graph_io.h"
 #include "bfs.h"
-#include "sp.h"
+#include "sssp.h"
 #include "tc.h"
 #include "graph_util.h"
 
@@ -47,7 +47,7 @@ static void doShortestPath (const char* graphFile) {
     std::cout << "Running single-source shortest path" << std::endl;
 
     clock_gettime(CLOCK_MONOTONIC, &before);
-    shortestPath(node, graph, costs, prev);
+    singleSourceShortestPath(node, graph, costs, prev);
     clock_gettime(CLOCK_MONOTONIC, &after);
 
     std::cout << "Runtime: "
@@ -120,7 +120,7 @@ int main(int argc, const char **argv) {
 
     if (graph_file == NULL) {
         std::cout << "Must specify which graph to use."
-                  << "e.g. '-g graph.csv'" << std::endl;
+                  << "e.g. '-g graph.txt'" << std::endl;
         return EXIT_FAILURE;
     }
 

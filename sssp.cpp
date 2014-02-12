@@ -1,6 +1,6 @@
 #include <set>
 #include <cmath>
-#include "sp.h"
+#include "sssp.h"
 
 static void getLowestCost(std::set<Node> &toVisit,
                           std::map<Node, double>& costs,
@@ -18,7 +18,7 @@ static void getLowestCost(std::set<Node> &toVisit,
     }
 }
 
-int shortestPath(const Node& start,
+int singleSourceShortestPath(const Node& start,
                  const Graph& in,
                  std::map<Node, double>& costs_out,
                  std::map<Node, Node>& prev_out) {
