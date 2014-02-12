@@ -9,4 +9,10 @@
 */
 void printTree(Graph& graph, Node node, std::string tabbing);
 
+/*
+ * Parse the given string and return the node representation.
+ * Returns <0 on failure.
+ */
+int parseNode(const char* str, Node &node);
+
 #endif /* GRAPH_UTIL_H */

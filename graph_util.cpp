@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cstdlib>
 #include "graph_util.h"
 
 /*
@@ -17,3 +18,24 @@ void printTree(Graph& graph, Node node, std::string tabbing) {
         printTree(graph, it->first, nextTab);
     }
 }
+
+int parseNode(const char* str, Node &node) {
+    int i;
+    unsigned long ul;
+
+    for(i = 0; str[i] != '\0'; ++i) {
+        if(str[i] < '0' || str[i] > '9') {
+            // error, non-numeric character
+            return -1;
+        }
+    }
+
+    // parse the unsigned long
+    ul = strtoul (str, NULL, 0);
+
+    Node newNode(ul);
+    node = newNode;
+
+    return 0;
+}
+
