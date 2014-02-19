@@ -49,7 +49,7 @@ void importTriangleTestGraph(char const* filename, Graph& out) {
     out.addEdgeUndirected(4, 7, 1);
 }
 
-int getTwoInts(std::string str, int *firstInt, int *secondInt) {
+int readTwoNumsTSV(std::string str, unsigned long *firstNum, unsigned long *secondNum) {
     size_t i = 0;
     char *buf = new char[str.length() + 1];
     strcpy(buf, str.c_str());
@@ -67,7 +67,7 @@ int getTwoInts(std::string str, int *firstInt, int *secondInt) {
 
     char* num = buf + i;
 
-    *firstInt = atoi(num);
+    *firstNum = atoi(num);
 
     // skip over the first number
     while (i < str.length() && str[i] != ' ' && str[i] != '\t') {
@@ -86,7 +86,37 @@ int getTwoInts(std::string str, int *firstInt, int *secondInt) {
 
     num = buf + i;
 
-    *secondInt = atoi(num);
+    *secondNum = atoi(num);
+
+    delete[] buf;
+    return 0;
+}
+
+int readTwoNumsCSV(std::string str, unsigned long *firstNum, unsigned long *secondNum) {
+    size_t i = 0;
+    char *buf = new char[str.length() + 1];
+    strcpy(buf, str.c_str());
+
+    char* num = buf;
+
+    *firstNum = atoi(num);
+
+    // skip over the first number
+    while (i < str.length() && str[i] != ',') {
+        ++i;
+    }
+    // skip over the middle comma
+    ++i;
+
+    if (i >= str.length()) {
+        // no second number
+        delete[] buf;
+        return -1;
+    }
+
+    num = buf + i;
+
+    *secondNum = atoi(num);
 
     delete[] buf;
     return 0;
@@ -95,7 +125,8 @@ int getTwoInts(std::string str, int *firstInt, int *secondInt) {
 int importTSVGraph(char const* filename, Graph& out, bool directed) {
     std::string line;
     std::ifstream infile(filename);
-    int first, second, result;
+    unsigned long first, second;
+    int result;
 
     if (infile) {
         while (getline(infile, line)) {
@@ -103,7 +134,45 @@ int importTSVGraph(char const* filename, Graph& out, bool directed) {
                 // line is a comment
                 std::cout << line << std::endl;
             } else {
-                result = getTwoInts(line, &first, &second);
+                result = readTwoNumsTSV(line, &first, &second);
+                if (result != 0) {
+                    // read error
+                    return -1;
+                }
+
+                if (directed) {
+                    out.addEdge(first, second);
+                } else {
+                    out.addEdgeUndirected(first, second);
+                }
+
+            }
+
+            line.clear();
+        }
+    } else {
+        // file error
+        return -1;
+    }
+
+    infile.close();
+    return 0;
+}
+
+int importCSVGraph(char const* filename, Graph& out, bool directed) {
+    std::string line;
+    unsigned long first, second;
+    int result;
+    std::ifstream infile(filename);
+
+    if (infile) {
+        while (getline(infile, line)) {
+            if (line[0] == '#') {
+                // line is a comment
+                // print commented line to console
+                std::cout << line << std::endl;
+            } else {
+                result = readTwoNumsCSV(line, &first, &second);
                 if (result != 0) {
                     // read error
                     return -1;
