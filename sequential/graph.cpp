@@ -85,3 +85,7 @@ int Graph::getEdges(const Node& n, std::map<Node, double>* edgesOut) const{
 	
 	return 1;
 }
+
+uint32_t Graph::size() const {
+    return adjList.size();
+}

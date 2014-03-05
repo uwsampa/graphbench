@@ -18,7 +18,7 @@ static void doBFS (const char* graphFile, Node &start) {
     Graph graph, bfsResult;
     timespec before, after;
 
-    importTSVGraph(graphFile, graph);
+    importTSVGraph(graphFile, graph, true);
 
     cout << "original graph:" << endl;
     printTree(graph, start, string(""));

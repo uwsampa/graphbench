@@ -95,6 +95,11 @@ class Graph {
 			Returns <0 on error.
 		*/
         int getEdges(const Node& n, std::map<Node, double>* edgesOut) const;
+
+        /*
+            Returns the number of nodes in the graph.
+        */
+        uint32_t size() const;
 };
 
 class Triangle {
