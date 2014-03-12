@@ -23,16 +23,16 @@ single_source_shortest_path: sssp_main.o graph.o sssp.o graph_io.o graph_util.o
 pagerank: pr_main.o graph.o pr.o graph_io.o graph_util.o
 	$(CC) $^ -o $@
 
-bfs_main.o: bfs_main.cpp bfs.h graph_util.h graph_io.h graph.h
+bfs_main.o: bfs_main.cpp bfs.o graph_util.h graph_io.h graph.h
 	$(CC) $(CFLAGS) $<
 	
-tc_main.o: tc_main.cpp tc.h graph_util.h graph_io.h graph.h
+tc_main.o: tc_main.cpp tc.o graph_util.h graph_io.h graph.h
 	$(CC) $(CFLAGS) $<
 	
-sssp_main.o: sssp_main.cpp sssp.h graph_util.h graph_io.h graph.h
+sssp_main.o: sssp_main.cpp sssp.o graph_util.h graph_io.h graph.h
 	$(CC) $(CFLAGS) $<
 	
-pr_main.o: pr_main.cpp pr.h graph_util.h graph_io.h graph.h
+pr_main.o: pr_main.cpp pr.o graph_util.h graph_io.h graph.h
 	$(CC) $(CFLAGS) $<
 	
 gb.o: gb.cpp

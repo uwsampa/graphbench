@@ -12,12 +12,12 @@ using std::endl;
  * for each vertex and outputting the updated PageRanks to newPR
  */
 void step(const Graph &graph, const float dampingFactor,
-          std::map<Node, float> &PR, std::map<Node, float> &newPR) {
+          std::map<Node, double> &PR, std::map<Node, double> &newPR) {
     std::map<Node, double> edges;
-    std::map<Node, float>::iterator pr_it;
+    std::map<Node, double>::iterator pr_it;
     std::map<Node, double>::iterator edge_it;
     uint32_t numOutbound;
-    float randomSurferPR = 0.0; // the page rank contributed by random surfers
+    double randomSurferPR = 0.0; // the page rank contributed by random surfers
     uint32_t n = graph.size();
 
     // initialize the new PR values
@@ -52,15 +52,16 @@ void step(const Graph &graph, const float dampingFactor,
     for(pr_it = newPR.begin(); pr_it != newPR.end(); ++pr_it) {
         // set the new pageRank equal the weighted sum of incoming links, random surfers from dangling pages,
         // and teleporting surfers
-        pr_it->second = (dampingFactor * (pr_it->second + randomSurferPR)) + ((1.0 - dampingFactor) / n);
+        pr_it->second = (dampingFactor * (pr_it->second + randomSurferPR)) + ((1.0 - dampingFactor) / n); // for 1.0-sum PR
+//        pr_it->second = (dampingFactor * (pr_it->second + randomSurferPR)) + ((1.0 - dampingFactor)); // n-sum
     }
 }
 
 /*
  * Calculates the L1-norm of the old and new PR vectors
  */
-double getPRDiff (std::map<Node, float> oldPR, std::map<Node, float> newPR) {
-    std::map<Node, float>::const_iterator it;
+double getPRDiff (std::map<Node, double> oldPR, std::map<Node, double> newPR) {
+    std::map<Node, double>::const_iterator it;
     double diff = 0.0;
 
     for(it = oldPR.begin(); it != oldPR.end(); ++it) {
@@ -70,37 +71,40 @@ double getPRDiff (std::map<Node, float> oldPR, std::map<Node, float> newPR) {
     return diff;
 }
 
-int pageRank(const Graph &in, const float dampingFactor, std::map<Node, float> &out) {
+int pageRank(const Graph &in, const float dampingFactor, std::map<Node, double> &out) {
     double change;
-    float sum;
-    std::map<Node, float> newPR;
+    double sum;
+    double normalization;
+    std::map<Node, double> newPR;
     std::map<Node, std::map<Node, double> >::const_iterator web_it;
-    std::map<Node, float>::iterator pr_it;
+    std::map<Node, double>::iterator pr_it;
     uint32_t webSize = in.size();
 
     // initialize the PR of each node to 1 / n where n is the number of nodes
     for(web_it = in.begin(); web_it != in.end(); ++web_it) {
-        out[web_it->first] = 1.0 / webSize;
+        //out[web_it->first] = 1.0; // for N-sum PR
+        out[web_it->first] = 1.0 / webSize; //for 1.0-sum PR
     }
 
     do {
-
         // 1 step of iterative PR
         step(in, dampingFactor, out, newPR);
 
         // find the L1-norm of the two iterations
         change = getPRDiff(out, newPR);
 
-        //cout << "Diff: " << change << endl;
+        cout << "Diff: " << change << endl;
 
         sum = 0.0;
         for(pr_it = newPR.begin(); pr_it != newPR.end(); ++pr_it) {
             sum += pr_it->second;
         }
+        normalization = sum; // 1.0-sum PR
+        //normalization = sum / webSize; // N-sum PR
 
         // set the PR values for the next iteration, normalizing the sum of PRs to 1.0
         for(pr_it = out.begin(); pr_it != out.end(); ++pr_it) {
-            pr_it->second = newPR[pr_it->first] / sum;
+            pr_it->second = newPR[pr_it->first] / normalization;
         }
 
         // iterate until reasonably close to convergence
@@ -109,12 +113,16 @@ int pageRank(const Graph &in, const float dampingFactor, std::map<Node, float> &
     return 0;
 }
 
-void printPageRanks(const std::map<Node, float> &in) {
-    std::map<Node, float>::const_iterator it;
+void printPageRanks(const std::map<Node, double> &in) {
+    std::map<Node, double>::const_iterator it;
+    double sum = 0.0;
 
     cout << "Page ranks:" << endl;
 
     for(it = in.begin(); it != in.end(); ++it) {
+        sum += it->second;
         cout << it->first.getLabel() << " " << it->second << endl;
     }
+
+    cout << "PR sum: " << sum << endl;
 }

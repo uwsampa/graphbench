@@ -13,12 +13,9 @@
 using std::cout;
 using std::endl;
 
-static void doPageRank (const char* graphFile, const float &dampingFactor) {
-    Graph graph;
+static void doPageRank (const Graph& graph, const float &dampingFactor) {
     timespec before, after;
-    std::map<Node, float> pr;
-
-    importTSVGraph(graphFile, graph, false);
+    std::map<Node, double> pr;
 
     cout << "doing PageRank" << endl;
 
@@ -32,6 +29,10 @@ static void doPageRank (const char* graphFile, const float &dampingFactor) {
     long milli = (after.tv_nsec - before.tv_nsec) / 1000000;
     if (milli < 0) milli += 1000; // if after's nsec < before's nsec
 
+    // print the PR results
+    printPageRanks(pr);
+    //cout << "printing page ranks disabled" << endl;
+
     // print the runtime results
     cout << "Runtime: "
           << sec
@@ -39,52 +40,70 @@ static void doPageRank (const char* graphFile, const float &dampingFactor) {
           << milli
           << "s"
           << std::endl;
-
-
-
-    // print the PR results
-    //printPageRanks(pr);
-    cout << "printing page ranks disabled" << endl;
 }
 
 int main(int argc, const char **argv) {
+    Graph graph;
     const char* graph_file = NULL;
     const char* damping_factor = NULL;
+    const char* format = NULL;
     float d;
 
-    if (argc < 3) {
-        std::cout << "Must specify which graph file to use "
-                  << "(e.g. '-g graph.txt' or '--graph graph.txt')."
-                  << "Damping factor may optionally be specified with -d or --damping"
-                  << "(e.g. '-d 0.85')."
-                  << std::endl;
+    if (argc < 5) {
+        cout  << "Must specify which graph file to use "
+              << "(e.g. '-g graph.txt' or '--graph graph.txt')."
+              << endl
+              << "as well as the file's format "
+              << "(e.g. '-f tsv' or '--format csv')"
+              << endl
+              << "Damping factor may optionally be specified with -d or --damping "
+              << "(e.g. '-d 0.75'). Default value: 0.85"
+              << endl;
         return EXIT_FAILURE;
     }
 
     for (int i = 1; i < argc-1; ++i) {
         if (strcmp(argv[i],"-g") == 0 || strcmp(argv[i],"--graph") == 0) {
             graph_file = argv[i + 1];
-        }
-    }
-    for (int i = 1; i < argc-1; ++i) {
-        if (strcmp(argv[i],"-d") == 0 || strcmp(argv[i],"--damping") == 0) {
+        } else if (strcmp(argv[i],"-f") == 0 || strcmp(argv[i],"--format") == 0) {
+            format = argv[i + 1];
+        } else if (strcmp(argv[i],"-d") == 0 || strcmp(argv[i],"--damping") == 0) {
             damping_factor = argv[i + 1];
         }
     }
 
     if (graph_file == NULL) {
-        cout << "Must specify which graph to use."
+        cout << "Must specify which graph to use. "
              << "e.g. '-g graph.txt' or '--graph graph.txt'" << endl;
         return EXIT_FAILURE;
     }
 
+    if (format == NULL) {
+        cout << "Must specify the format of the graph input file. "
+             << "e.g. '-f tsv' or '--format csv'" << endl;
+        return EXIT_FAILURE;
+    }
+
+    // import the graph in the specified format
+    if (strcmp(format, "tsv") == 0) {
+        importTSVGraph(graph_file, graph, true);
+    } else if (strcmp(format, "csv") == 0) {
+        importCSVGraph(graph_file, graph, true);
+    } else {
+        // the specified format does not match any supported format
+        cout << "Unknown graph file format: " << format << endl;
+        return EXIT_FAILURE;
+    }
+
+    // use the user supplised damping factor,
+    // or default to 0.85
     if (damping_factor == NULL) {
         d = 0.85;
     } else {
         d = atof(damping_factor);
     }
 
-    doPageRank(graph_file, d);
+    doPageRank(graph, d);
 
     return EXIT_SUCCESS;
 }

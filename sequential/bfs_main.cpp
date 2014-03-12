@@ -14,36 +14,46 @@ using std::string;
 using std::cout;
 using std::endl;
 
-static void doBFS (const char* graphFile, Node &start) {
-    Graph graph, bfsResult;
+static void doBFS (const Graph& graph, Node &start) {
+    Graph bfsResult;
     timespec before, after;
 
-    importTSVGraph(graphFile, graph, true);
-
-    cout << "original graph:" << endl;
-    printTree(graph, start, string(""));
+//    cout << "original graph:" << endl;
+//    printTree(graph, start, string(""));
 
     clock_gettime(CLOCK_MONOTONIC, &before);
     bfs(start, graph, bfsResult);
     clock_gettime(CLOCK_MONOTONIC, &after);
 
-    cout << "Runtime: "
-              << after.tv_nsec - before.tv_nsec
-              << "ns"
-              << endl;
+    // construct the runtime
+    time_t sec = after.tv_sec - before.tv_sec;
+    long milli = (after.tv_nsec - before.tv_nsec) / 1000000;
+    if (milli < 0) milli += 1000; // if after's nsec < before's nsec
 
-    cout << "bfs result:" << endl;
-    printTree(bfsResult, start, string(""));
+    // print the runtime results
+    cout << "Runtime: "
+          << sec
+          << "."
+          << milli
+          << "s"
+          << std::endl;
+
+//    cout << "bfs result:" << endl;
+//    printTree(bfsResult, start, string(""));
 }
 
 int main(int argc, const char **argv) {
+    Graph graph;
     Node startNode;
     const char* graph_file = NULL;
     const char* start = NULL;
+    const char* format = NULL;
 
-    if (argc < 5) {
-        cout << "Must specify which graph file to use (e.g. '-g graph.txt' or '--graph graph.txt') "
-             << "and which node to start from (e.g. '-s 51' or '--start 51')." << endl;
+    if (argc < 7) {
+        cout << "Must specify which graph file to use (e.g. '-g graph.txt' or '--graph graph.txt'), " << endl
+             << "which format the graph is stored in (e.g. '-f tsv' or '--format tsv'), " << endl
+             << "and which node to start from (e.g. '-s 51' or '--start 51'), " << endl;
+
         return EXIT_FAILURE;
     }
 
@@ -52,12 +62,30 @@ int main(int argc, const char **argv) {
             graph_file = argv[i + 1];
         } else if (strcmp(argv[i],"-s") == 0 || strcmp(argv[i],"--start") == 0){
             start = argv[i + 1];
+        } else if (strcmp(argv[i],"-f") == 0 || strcmp(argv[i],"--format") == 0) {
+            format = argv[i + 1];
         }
     }
 
     if (graph_file == NULL) {
         cout << "Must specify which graph to use."
              << "e.g. '-g graph.txt' or '--graph graph.txt'" << endl;
+        return EXIT_FAILURE;
+    }
+
+    if (format == NULL) {
+        cout << "Must specify the format of the graph input file."
+             << "e.g. '-f tsv' or '--format csv'" << endl;
+        return EXIT_FAILURE;
+    }
+
+    if (strcmp(format, "tsv") == 0) {
+        importTSVGraph(graph_file, graph, true);
+    } else if (strcmp(format, "csv") == 0) {
+        importCSVGraph(graph_file, graph, true);
+    } else {
+        // the specified format does not match any supported format
+        cout << "Unknown graph file format: " << format << endl;
         return EXIT_FAILURE;
     }
 
@@ -74,7 +102,7 @@ int main(int argc, const char **argv) {
         return EXIT_FAILURE;
     }
 
-    doBFS(graph_file, startNode);
+    doBFS(graph, startNode);
 
     return EXIT_SUCCESS;
 }
