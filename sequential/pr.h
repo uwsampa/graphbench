@@ -7,6 +7,7 @@
 /*
     Calculates the page rank of all the verticies in the given graph, returning
     a map of Nodes to their PageRank value. Assumes that the graph is directed.
+    The sum of all page ranks is 1.0.
 
     Reutrns 0 on success, <0 on error.
 */
