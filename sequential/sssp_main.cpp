@@ -13,37 +13,45 @@
 using std::cout;
 using std::endl;
 
-static void doShortestPath (const char* graphFile, Node &start) {
-    Graph graph;
+static void doShortestPath (const Graph& graph, Node &start) {
     timespec before, after;
     std::map<Node, double> costs;
     std::map<Node, Node> prev;
 
-    // TODO use real graph & start
-    importTestGraph(graphFile, graph);
-
-    Node node(1);
-
     std::cout << "Running single-source shortest path" << std::endl;
 
     clock_gettime(CLOCK_MONOTONIC, &before);
-    singleSourceShortestPath(node, graph, costs, prev);
+    singleSourceShortestPath(start, graph, costs, prev);
     clock_gettime(CLOCK_MONOTONIC, &after);
 
-    std::cout << "Runtime: "
-              << after.tv_nsec - before.tv_nsec
-              << "ns"
-              << std::endl;
+    // construct the runtime
+    time_t sec = after.tv_sec - before.tv_sec;
+    long milli = (after.tv_nsec - before.tv_nsec) / 1000000;
+    if (milli < 0) milli += 1000; // if after's nsec < before's nsec
+
+    cout << "Runtime: "
+         << sec
+         << "."
+         << milli
+         << "s"
+         << std::endl;
 }
 
 int main(int argc, const char **argv) {
+    Graph graph;
     Node startNode;
     const char* graph_file = NULL;
     const char* start = NULL;
+    const char* format = NULL;
 
-    if (argc < 5) {
-        cout << "Must specify which graph file to use (e.g. '-g graph.txt' or '--graph graph.txt') "
-             << "and which node to start from (e.g. '-s 51' or '--start 51')." << endl;
+    if (argc < 7) {
+        cout << "Must specify which graph file to use (e.g. '-g graph.txt' or '--graph graph.txt'), "
+             << endl
+             << "which node to start from (e.g. '-s 51' or '--start 51'), "
+             << endl
+             << "as well as the file's format "
+             << "(e.g. '-f tsv' or '--format csv')"
+             << endl;
         return EXIT_FAILURE;
     }
 
@@ -52,6 +60,8 @@ int main(int argc, const char **argv) {
             graph_file = argv[i + 1];
         } else if (strcmp(argv[i],"-s") == 0 || strcmp(argv[i],"--start") == 0){
             start = argv[i + 1];
+        } else if (strcmp(argv[i],"-f") == 0 || strcmp(argv[i],"--format") == 0) {
+            format = argv[i + 1];
         }
     }
 
@@ -74,7 +84,24 @@ int main(int argc, const char **argv) {
         return EXIT_FAILURE;
     }
 
-    doShortestPath(graph_file, startNode);
+    if (format == NULL) {
+        cout << "Must specify the format of the graph input file. "
+             << "e.g. '-f tsv' or '--format csv'" << endl;
+        return EXIT_FAILURE;
+    }
+
+    // import the graph in the specified format
+    if (strcmp(format, "tsv") == 0) {
+        importTSVGraph(graph_file, graph, false);
+    } else if (strcmp(format, "csv") == 0) {
+        importCSVGraph(graph_file, graph, false);
+    } else {
+        // the specified format does not match any supported format
+        cout << "Unknown graph file format: " << format << endl;
+        return EXIT_FAILURE;
+    }
+
+    doShortestPath(graph, startNode);
 
     return EXIT_SUCCESS;
 }

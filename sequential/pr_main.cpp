@@ -35,11 +35,11 @@ static void doPageRank (const Graph& graph, const float &dampingFactor) {
 
     // print the runtime results
     cout << "Runtime: "
-          << sec
-          << "."
-          << milli
-          << "s"
-          << std::endl;
+         << sec
+         << "."
+         << milli
+         << "s"
+         << std::endl;
 }
 
 int main(int argc, const char **argv) {
