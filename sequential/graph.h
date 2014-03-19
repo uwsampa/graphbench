@@ -30,6 +30,11 @@ class Node {
         bool operator!= (const Node& rhs) const {
             return !operator==(rhs);
         }
+
+        Node& operator=(const Node& rhs) {
+          this->label = rhs.label;
+          return *this;
+        }
 };
 
 /*
