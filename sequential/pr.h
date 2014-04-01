@@ -6,8 +6,9 @@
 
 /*
     Calculates the page rank of all the verticies in the given graph, returning
-    a map of Nodes to their PageRank value. Assumes that the graph is directed.
-    The sum of all page ranks is 1.0.
+    a map of Nodes to their PageRank value. The current implementation accounts for dangling pages.
+    Assumes that the graph is directed.
+    The sum of all page ranks will be N, where N is the number of nodes in the graph.
 
     Reutrns 0 on success, <0 on error.
 */
