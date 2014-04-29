@@ -22,11 +22,22 @@ int Graph::addEdge(const Node& from, const Node& to, const double& weight) {
 int Graph::addEdgeUndirected(const Node& a, const Node& b, const double& weight) {
     int result;
 
+    result = addEdge(a, b, weight);
+    if (result != 1) {
+        return result;
+    }
+
+    result = addEdge(b, a, weight);
+    if(result != 1) {
+        // failed add, remove the first edge
+        removeEdge(a, b);
+    }
+    /*
     if(a < b) {
         result = addEdge(a, b, weight);
     } else {
         result = addEdge(b, a, weight);
-    }
+    }*/
 
     return result;
 }

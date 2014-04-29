@@ -7,7 +7,8 @@ BINS = undirected_triangle_count \
 		single_source_shortest_path \
 		breadth_first_search \
 		pagerank \
-		connected_components
+		connected_components \
+		betweenness_centrality
 
 all: $(BINS)
 
@@ -25,6 +26,9 @@ pagerank: pr_main.o graph.o pr.o graph_io.o graph_util.o
 
 connected_components: cc_main.o graph.o cc.o graph_io.o
 	$(CC) $^ -o $@
+	
+betweenness_centrality: bc_main.o graph.o bc.o graph_io.o
+	$(CC) $^ -o $@
 
 bfs_main.o: bfs_main.cpp bfs.o graph_util.h graph_io.h graph.h
 	$(CC) $(CFLAGS) $<
@@ -39,6 +43,9 @@ pr_main.o: pr_main.cpp pr.o graph_util.h graph_io.h graph.h
 	$(CC) $(CFLAGS) $<
 
 cc_main.o: cc_main.cpp cc.o graph_util.h graph_io.h graph.h
+	$(CC) $(CFLAGS) $<
+	
+bc_main.o: bc_main.cpp bc.o graph_util.h graph_io.h graph.h
 	$(CC) $(CFLAGS) $<
 	
 gb.o: gb.cpp
@@ -60,6 +67,9 @@ tc.o: tc.cpp tc.h graph.h
 	$(CC) $(CFLAGS) $<
 
 cc.o: cc.cpp cc.h graph.h
+	$(CC) $(CFLAGS) $<
+	
+bc.o: bc.cpp bc.h graph.h
 	$(CC) $(CFLAGS) $<
 	
 graph_io.o: graph_io.cpp graph_io.h graph.h
