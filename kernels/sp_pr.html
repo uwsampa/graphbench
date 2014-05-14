@@ -1,0 +1,41 @@
+<div>
+	<h4>
+		Spark PageRank
+	</h4>
+
+	<h4>
+		Installation Instructions
+	</h4>
+
+	<p>
+		Download and compilation instructions for Spark 0.9.0 via <a href="https://spark.apache.org/docs/0.9.0/">Spark</a>.
+	</p>
+
+	<h4>
+		Dataset
+	</h4>
+
+	<p>
+		Nodes: 81306
+	</p>
+	<p>
+		Edges: 1768149
+	</p>
+	<p>
+		Compressed size: 10.1M
+	</p>
+	<p>
+		Example single-node runtime: 51s
+	</p>
+	<p>
+		Link: <a href="http://snap.stanford.edu/data/egonets-Twitter.html">SNAP (twitter_combined.txt.gz)</a>
+	</p>
+
+	<h4>
+		Running
+	</h4>
+
+	<p>
+		From Spark's base directory, "./bin/run-example org.apache.spark.examples.JavaPageRank local <path to dataset> <num iterations>" (e.g. "./bin/run-example org.apache.spark.examples.JavaPageRank local ~/twitter_combined.txt 10") will run spark's example page rank code locally on the provided dataset for the specified number of iterations, outputting the results to stdout.
+	</p>
+</div>
