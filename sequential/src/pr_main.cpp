@@ -3,6 +3,7 @@
 #include <ctime>
 #include <string>
 #include <iostream>
+#include <iomanip>
 #include <set>
 #include <map>
 #include "graph.h"
@@ -27,19 +28,22 @@ static void doPageRank (const Graph& graph, const float &dampingFactor) {
     // construct the runtime
     time_t sec = after.tv_sec - before.tv_sec;
     long milli = (after.tv_nsec - before.tv_nsec) / 1000000;
-    if (milli < 0) milli += 1000; // if after's nsec < before's nsec
+    if (milli < 0) { // if after's nsec < before's nsec
+        milli += 1000;
+        --sec;
+    }
 
     // print the PR results
     printPageRanks(pr);
     //cout << "printing page ranks disabled" << endl;
 
-    // print the runtime results
+    //print the runtime results
     cout << "Runtime: "
          << sec
          << "."
-         << milli
+         << std::setw(3) << std::setfill('0') << milli
          << "s"
-         << std::endl;
+         << endl;
 }
 
 int main(int argc, const char **argv) {

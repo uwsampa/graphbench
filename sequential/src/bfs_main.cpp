@@ -3,6 +3,7 @@
 #include <ctime>
 #include <string>
 #include <iostream>
+#include <iomanip>
 #include <set>
 #include <map>
 #include "graph.h"
@@ -28,15 +29,18 @@ static void doBFS (const Graph& graph, Node &start) {
     // construct the runtime
     time_t sec = after.tv_sec - before.tv_sec;
     long milli = (after.tv_nsec - before.tv_nsec) / 1000000;
-    if (milli < 0) milli += 1000; // if after's nsec < before's nsec
+    if (milli < 0) { // if after's nsec < before's nsec
+        milli += 1000;
+        --sec;
+    }
 
-    // print the runtime results
+    //print the runtime results
     cout << "Runtime: "
-          << sec
-          << "."
-          << milli
-          << "s"
-          << std::endl;
+         << sec
+         << "."
+         << std::setw(3) << std::setfill('0') << milli
+         << "s"
+         << endl;
 
 //    cout << "bfs result:" << endl;
 //    printTree(bfsResult, start, string(""));
