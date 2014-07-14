@@ -22,7 +22,7 @@ public class TSVPreProcessor {
 				throws IOException, InterruptedException {
 			String line = value.toString();
 			String[] token = line.split("\\s+");
-                        if( ! token[0].startsWith("#") ) {
+                        if( token[0].length() > 0 && ! token[0].startsWith("#") ) {
                             Text k = new Text();
                             k.set(token[0]);
                             context.write(k, new IntWritable(Integer.parseInt(token[1])));
