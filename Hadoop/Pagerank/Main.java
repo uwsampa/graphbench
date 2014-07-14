@@ -25,7 +25,7 @@ public final class Main {
 
 	public static void main(String... args) throws Exception {
 		String intermediate = args[1] + "part-r-00000";
-		PreProcessor.main(args);
+		TSVPreProcessor.main(args);
 		iterate(intermediate, args[2], args[3]);
 	}
 

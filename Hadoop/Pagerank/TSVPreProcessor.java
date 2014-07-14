@@ -9,7 +9,7 @@ import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 
-public class PreProcessor {
+public class TSVPreProcessor {
 	public static class Map extends
 			Mapper<LongWritable, Text, Text, IntWritable> {
 
