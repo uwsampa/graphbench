@@ -16,10 +16,15 @@ import java.io.*;
 import java.util.*;
 
 /**
- * To run the Main class, you will need four arguments. first argument: the path
- * of the input file second argument: the intermediate folder name to save the
- * intermediate output third argument: the result folder name to save the result
- * fourth argument: the number of iteration wanted, greater than 0
+ * This calculates PageRank on a directed graph.
+ *
+ * The input should be a list of edges in tab-separated value (TSV) format.
+ *
+ * To run the Main class, you will need four arguments. 
+ * first argument: the path of the input file
+ * second argument: the intermediate folder name to save the intermediate output
+ * third argument: the result folder name to save the result
+ * fourth argument: the max number of iterations wanted; (if set to 0, iterate until convergence)
  */
 public final class Main {
 
@@ -29,10 +34,13 @@ public final class Main {
 		iterate(intermediate, args[2], args[3]);
 	}
 
-	public static void iterate(String input, String output, String numIteration)
+	public static void iterate(String input, String output, String maxIteration)
 			throws Exception {
-		int numIt = Integer.parseInt(numIteration);
-		assert (numIt > 0);
+                // what's the max number of iterations we should do?
+                int maxIt = Integer.parseInt(maxIteration);
+                if (maxIt == 0) { // just iterate to convergence.
+                    maxIt = Integer.MAX_VALUE;
+                }
 		Configuration conf = new Configuration();
 		Path outputPath = new Path(output);
 		outputPath.getFileSystem(conf).delete(outputPath, true);
@@ -42,8 +50,11 @@ public final class Main {
 
 		int numNodes = createInputFile(new Path(input), inputPath);
 
-		int iter = 1;
-		while (iter <= numIt) {
+		int iter = 0;
+                double convergence = 0.0;
+                double desiredConvergence = 0.01;
+
+		do {
 			Path jobOutputPath = new Path(outputPath, String.valueOf(iter));
 
 			System.out.println("======================================");
@@ -52,11 +63,11 @@ public final class Main {
 			System.out.println("=  Output path:  " + jobOutputPath);
 			System.out.println("======================================");
 
-			calcPageRank(inputPath, jobOutputPath, numNodes);
+			convergence = calcPageRank(inputPath, jobOutputPath, numNodes);
 			inputPath = jobOutputPath;
 			iter++;
-		}
-		System.out.println("Iteration " + numIt + " times. We are done.");
+		} while (iter < maxIt && convergence >= desiredConvergence);
+		System.out.println("Iterated " + iter + " times with final error " + convergence + ". We are done.");
 	}
 
 	public static int createInputFile(Path file, Path targetFile)
