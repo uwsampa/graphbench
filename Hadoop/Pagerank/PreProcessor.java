@@ -21,11 +21,13 @@ public class PreProcessor {
 		public void map(LongWritable key, Text value, Context context)
 				throws IOException, InterruptedException {
 			String line = value.toString();
-			String[] token = line.split(" ");
-			Text k = new Text();
-			k.set(token[0]);
-			context.write(k, new IntWritable(Integer.parseInt(token[1])));
-			context.write(new Text(token[1]), new IntWritable(-1));
+			String[] token = line.split("\\s+");
+                        if( ! token[0].startsWith("#") ) {
+                            Text k = new Text();
+                            k.set(token[0]);
+                            context.write(k, new IntWritable(Integer.parseInt(token[1])));
+                            context.write(new Text(token[1]), new IntWritable(-1));
+                        }
 		}
 	}
 
@@ -48,7 +50,7 @@ public class PreProcessor {
 	public static void main(String[] args) throws Exception {
 		Configuration conf = new Configuration();
 
-		Job job = Job.getInstance(conf, "facebook");
+		Job job = Job.getInstance(conf, "TSV converter");
 
 		job.setOutputKeyClass(Text.class);
 		job.setOutputValueClass(IntWritable.class);
