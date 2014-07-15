@@ -16,10 +16,12 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
  * 
  * The input should be a list of edges in tab-separated value (TSV) format.
  * 
- * To run the Main class, you will need four arguments. first argument: the path
- * of the input file second argument: the intermediate folder name to save the
- * intermediate output third argument: the result folder name to save the result
- * fourth argument: the max number of iterations wanted; (if set to 0, iterate
+ * To run the Main class, you will need five arguments. 
+ * first argument: the path of the input file 
+ * second argument: the intermediate folder name to save the intermediate output without pagerank
+ * third argument: the intermediate folder name to save the initial output with pagerank
+ * fourth argument: the result folder name to save the result 
+ * fifth argument: the max number of iterations wanted; (if set to 0, iterate
  * until convergence)
  */
 public final class Main {
