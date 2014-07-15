@@ -1,9 +1,8 @@
-package Pagerank;
-
 import java.io.IOException;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
@@ -59,6 +58,8 @@ public class InitPRPreProcessor {
 					}
 					k.set(token[0]);
 					context.write(k, new Text(s));
+				} else {
+					context.write(new Text(token[0]), new Text());
 				}
 			}
 		}
