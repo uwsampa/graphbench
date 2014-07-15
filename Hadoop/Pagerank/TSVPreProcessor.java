@@ -1,3 +1,5 @@
+package Pagerank;
+
 import java.io.IOException;
 
 import org.apache.hadoop.fs.Path;
@@ -10,6 +12,8 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 
 public class TSVPreProcessor {
+	public static int TOTAL = 0;
+
 	public static class Map extends
 			Mapper<LongWritable, Text, Text, IntWritable> {
 
@@ -22,12 +26,12 @@ public class TSVPreProcessor {
 				throws IOException, InterruptedException {
 			String line = value.toString();
 			String[] token = line.split("\\s+");
-                        if( token[0].length() > 0 && ! token[0].startsWith("#") ) {
-                            Text k = new Text();
-                            k.set(token[0]);
-                            context.write(k, new IntWritable(Integer.parseInt(token[1])));
-                            context.write(new Text(token[1]), new IntWritable(-1));
-                        }
+			if (token[0].length() > 0 && !token[0].startsWith("#")) {
+				Text k = new Text();
+				k.set(token[0]);
+				context.write(k, new IntWritable(Integer.parseInt(token[1])));
+				context.write(new Text(token[1]), new IntWritable(-1));
+			}
 		}
 	}
 
@@ -44,6 +48,7 @@ public class TSVPreProcessor {
 					s = s + " " + val.get();
 			}
 			context.write(key, new Text(s));
+			TOTAL++;
 		}
 	}
 
@@ -65,6 +70,10 @@ public class TSVPreProcessor {
 		FileOutputFormat.setOutputPath(job, new Path(args[1]));
 
 		job.waitForCompletion(true);
+	}
+
+	public static int getTotal() {
+		return TOTAL;
 	}
 
 }
