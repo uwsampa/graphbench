@@ -27,27 +27,24 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 public final class Main {
 
 	public static void main(String... args) throws Exception {
-		String intermediate = args[2] + "/part-r-00000";
-		iterate(args, intermediate, args[3], args[4]);
+		iterate(args);
 	}
 
-	public static void iterate(String[] args, String input, String output,
-			String maxIteration) throws Exception {
+	public static void iterate(String[] args) throws Exception {
 		// what's the max number of iterations we should do?
-		int maxIt = Integer.parseInt(maxIteration);
+		int maxIt = Integer.parseInt(args[4]);
+		System.out.println(maxIt);
 		if (maxIt == 0) { // just iterate to convergence.
 			maxIt = Integer.MAX_VALUE;
 		}
 		Configuration conf = new Configuration();
-		Path outputPath = new Path(output);
+		Path outputPath = new Path(args[3]);
 		outputPath.getFileSystem(conf).delete(outputPath, true);
 		outputPath.getFileSystem(conf).mkdirs(outputPath);
 
-		Path inputPath = new Path(input);
+		Path inputPath = new Path(args[2], "part-r-00000");
 
-		System.out.println(input);
-		System.out.println(output);
-		int numNodes = createInputFile(args, new Path(input), inputPath);
+		int numNodes = createInputFile(args, inputPath, inputPath);
 
 		int iter = 0;
 		double convergence = 0.0;
