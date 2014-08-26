@@ -1,4 +1,4 @@
-package Pagerank;
+package BFS;
 
 import java.io.IOException;
 
@@ -12,8 +12,6 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 
 public class TSVPreProcessor {
-	public static int TOTAL = 0;
-
 	public static class Map extends
 			Mapper<LongWritable, Text, Text, IntWritable> {
 
@@ -31,31 +29,36 @@ public class TSVPreProcessor {
 				k.set(token[0]);
 				context.write(k, new IntWritable(Integer.parseInt(token[1])));
 				context.write(new Text(token[1]), new IntWritable(-1));
-			}
+			}			
 		}
 	}
 
 	public static class Reduce extends Reducer<Text, IntWritable, Text, Text> {
-
-		// reduce the intermediate file to the form of
-		// a b c d e f
-		// if a points to b c d e f
 		public void reduce(Text key, Iterable<IntWritable> values,
 				Context context) throws IOException, InterruptedException {
 			String s = "";
 			for (IntWritable val : values) {
 				if (val.get() >= 0)
-					s = s + " " + val.get();
+					if (s.equals("")) {
+						s = "" + val.get();
+					} else {
+						s = s + "," + val.get();
+					}
+			}
+			if (!key.equals(new Text("0"))) {
+				s = s + "|Integer.MAX_VALUE|WHITE|null";
+			} else {
+				s = s + "|0|GRAY|source";
 			}
 			context.write(key, new Text(s));
-			TOTAL++;
+			
 		}
 	}
 
 	public static void main(String[] args) throws Exception {
 		Configuration conf = new Configuration();
 
-		Job job = Job.getInstance(conf, "TSV converter");
+		Job job = Job.getInstance(conf, "facebook");
 
 		job.setOutputKeyClass(Text.class);
 		job.setOutputValueClass(IntWritable.class);
@@ -70,10 +73,6 @@ public class TSVPreProcessor {
 		FileOutputFormat.setOutputPath(job, new Path(args[1]));
 
 		job.waitForCompletion(true);
-	}
-
-	public static int getTotal() {
-		return TOTAL;
 	}
 
 }
