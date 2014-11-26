@@ -13,7 +13,7 @@ public class TSVprocessor {
 			File file = new File("output.txt");
 			file.createNewFile();
 			FileWriter writer = new FileWriter(file);
-			FileInputStream fstream = new FileInputStream("facebook_combined.txt");
+			FileInputStream fstream = new FileInputStream(args[0]);
 			DataInputStream in = new DataInputStream(fstream);
 			BufferedReader br = new BufferedReader(new InputStreamReader(in));
 			String strLine = null;
