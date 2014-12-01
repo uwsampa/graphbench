@@ -5,6 +5,14 @@ import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.InputStreamReader;
 
+/*
+Convert the standard tab-separated file into the format:
+node1 node2 cost
+node2 node3 cost
+....
+[separated by space]
+notice: default cost is 1.0
+*/
 public class TSVprocessor {
 	public static void main(String args[]) {
 		try {
@@ -17,7 +25,7 @@ public class TSVprocessor {
 			String strLine = null;
 			while ((strLine = br.readLine()) != null) {
 				if (!strLine.startsWith("#")) {
-					String[] token = strLine.split(" ");
+					String[] token = strLine.split("	");
 					writer.write(token[0] + " " + token[1] + " 1.0" + "\n");
 				}
 			}
