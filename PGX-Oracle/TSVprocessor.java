@@ -17,6 +17,8 @@ eg: a	b (split by tab)
     e	f
     g	h
 It will ignore any line that starts with #
+
+pass the input file as the first argument
 */
 public class TSVprocessor {
 	public static void main(String args[]) {
