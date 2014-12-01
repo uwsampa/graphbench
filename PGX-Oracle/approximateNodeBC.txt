@@ -52,6 +52,6 @@ The test.edge.json file is :
 
 Notice: for the input file that is Tab-separated, there are two options:
 1. change the separator in json file
-2. use the convert.java to convert into white-space separated
+2. change line 30 and 31 in the convert.java to convert tab-separated into white-space separated
 
 
