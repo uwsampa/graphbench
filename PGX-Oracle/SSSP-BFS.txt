@@ -19,7 +19,7 @@ Returns: <code>true</code> if path exists, <code>false</code> otherwise
 Equivalent Java API: PgxFuture<Boolean> PathFinding#shortestPathDijkstra(String sessionId, String graphName, String costPropName, Object src, Object dst, String parentName, String parentEdgeName)
 ---------------------------------------
 
-Try the following example to understand the information.
+Try the following example.
 
 The input file (input.txt)is :
 0 1 1.0
