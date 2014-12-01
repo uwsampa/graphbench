@@ -12,11 +12,13 @@ node2 node3 cost
 ....
 [separated by space]
 notice: default cost is 1.0
+
+pass the input file as the first argument
 */
 public class TSVprocessor {
 	public static void main(String args[]) {
 		try {
-			File file = new File("input.txt");
+			File file = new File("output.txt");
 			file.createNewFile();
 			FileWriter writer = new FileWriter(file);
 			FileInputStream fstream = new FileInputStream(args[0]);
