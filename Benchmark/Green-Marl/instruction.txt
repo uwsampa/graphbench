@@ -1,5 +1,0 @@
-Follow the instruction:
-
-https://github.com/stanford-ppl/Green-Marl
-
-And change the three files above.
