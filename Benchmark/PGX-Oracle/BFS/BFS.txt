@@ -1,4 +1,0 @@
-Since the only difference between BFS and SSSP using Dijkstra algorithm is that:
-cost for each hop in BFS is 1.0 while cost for each hop in SSSP is different.
-
-We will use the SSSP.

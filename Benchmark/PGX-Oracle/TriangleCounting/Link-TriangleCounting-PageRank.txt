@@ -1,4 +1,0 @@
-Reference: 
-Oracle tutorial document
-
-http://docs.oracle.com/cd/E56133_01/pdf/tutorials-shell.pdf
