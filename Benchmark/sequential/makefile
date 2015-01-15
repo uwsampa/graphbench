@@ -1,6 +1,12 @@
 CC=g++
 CFLAGS=-c -Wall
-SRC_DIR = src
+SRC_DIR = BC \
+		BFS \
+		CC \
+		graph-set-up \
+		Pagerank \
+		SSSP \
+		TriangleCounting
 
 vpath %.cpp $(SRC_DIR)
 vpath %.h $(SRC_DIR)
