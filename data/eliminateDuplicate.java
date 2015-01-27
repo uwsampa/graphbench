@@ -18,30 +18,44 @@ public class eliminateDuplicate {
 	public static Map<String, Set<String>> memo;
 
 	public static void main(String[] args) throws IOException {
-		if (args.length != 2) {
+		if (args.length != 3) {
 			System.out
-					.println("usage: java eliminateDuplicate <input> <output>");
+					.println("usage: java eliminateDuplicate <input> <output> <0 for undirected, 1 for directed>");
 		} else {
 			inputFile = new File(args[0]);
 			outputFile = new File(args[1]);
+			int directed = Integer.parseInt(args[2]);
 			in = new FileInputStream(inputFile);
 			out = new FileOutputStream(outputFile);
 			memo = new HashMap<String, Set<String>>();
-			readFile();
+			readFile(directed);
 			writeFile();
 		}
 	}
 
-	// suppose it is directed
-	public static void readFile() {
+	// 0 for undirected, 1 for directed
+	public static void readFile(int directed) {
 		Scanner s = new Scanner(in);
-		while (s.hasNext()) {
-			String[] tokens = s.nextLine().split("\t");
-			//Integerint[] int_tokens = { Integer.parseInt(tokens[0]),
-					//Integer.parseInt(tokens[1]) };
-			if (!memo.containsKey(tokens[0]))
-				memo.put(tokens[0], new HashSet<String>());
-			memo.get(tokens[0]).add(tokens[1]);
+		if (directed == 1) {
+			while (s.hasNext()) {
+				String[] tokens = s.nextLine().split("\t");
+				// Integerint[] int_tokens = { Integer.parseInt(tokens[0]),
+				// Integer.parseInt(tokens[1]) };
+				if (!memo.containsKey(tokens[0]))
+					memo.put(tokens[0], new HashSet<String>());
+				memo.get(tokens[0]).add(tokens[1]);
+			}
+		} else {
+			// undirected
+			while (s.hasNext()) {
+				String[] tokens = s.nextLine().split("\t");
+				if (!memo.containsKey(tokens[0]))
+					memo.put(tokens[0], new HashSet<String>());
+				if (!memo.containsKey(tokens[1]))
+					memo.put(tokens[1], new HashSet<String>()); 
+				memo.get(tokens[0]).add(tokens[1]);
+				memo.get(tokens[1]).add(tokens[0]);
+			}
 		}
 	}
 
