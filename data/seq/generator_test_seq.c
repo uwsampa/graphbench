@@ -30,8 +30,8 @@ int main(int argc, char* argv[]) {
   FILE *fout;
 
   // Take the filenames from command line arguments
-  if (argc != 4) {
-    fprintf(stderr, "usage: <program> <# of vertices (log 2 base)> <# of edges per vertex> <outfile>\n");
+  if (argc != 3 && argc != 4) {
+    fprintf(stderr, "usage: <program> <# of vertices (log 2 base)> <average # of edges per vertex> [<outfile>]\n");
     exit(0);
   }
 
@@ -45,12 +45,16 @@ int main(int argc, char* argv[]) {
   log_numverts = atoi(argv[1]); // In base 2
   numEdges = atoi(argv[2]);
 
-  // Open the output file
-  fout = fopen(argv[3], "wb");
-  if (fout == NULL) {
-    fprintf(stderr, "%s -- ", argv[2]);
-    perror("fopen for write failed");
-    exit(0);
+  if (argc == 3) {
+    fout = stdout;
+  } else {
+    // Open the output file
+    fout = fopen(argv[3], "wb");
+    if (fout == NULL) {
+      fprintf(stderr, "%s -- ", argv[2]);
+      perror("fopen for write failed");
+      exit(0);
+    }
   }
 
   //Start of graph generation timing
