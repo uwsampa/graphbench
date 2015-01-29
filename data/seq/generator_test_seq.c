@@ -6,6 +6,7 @@
 /*                                                                         */
 /*  Authors: Jeremiah Willcock                                             */
 /*           Andrew Lumsdaine                                              */
+/*  Revised                                                                */
 
 #include <math.h>
 #include <stdlib.h>
@@ -17,6 +18,7 @@
 #include <stdio.h>
 #include <sys/time.h>
 #include <time.h>
+#include <unistd.h>
 
 #include "make_graph.h"
 
@@ -27,11 +29,17 @@ inline double get_time() {
 }
 
 int main(int argc, char* argv[]) {
+  struct timeval currentTime;
+  gettimeofday(&currentTime, NULL);
+  int seed = currentTime.tv_sec ^ currentTime.tv_usec;
+  seed ^= seed >> 12;
+  seed ^= seed << 25;
+  seed ^= seed >> 27;
+
   FILE *fout;
 
-  // Take the filenames from command line arguments
-  if (argc != 3 && argc != 4) {
-    fprintf(stderr, "usage: <program> <# of vertices (log 2 base)> <average # of edges per vertex> [<outfile>]\n");
+  if (argc < 3 || argc > 8) {
+    fprintf(stderr, "usage: <program> <# of vertices (log 2 base)> <average # of edges per vertex [optional: -e intNumber]> <output file [optional: -o outputName]> <seed [optional: -s intNumber]>\n");
     exit(0);
   }
 
@@ -43,30 +51,46 @@ int main(int argc, char* argv[]) {
   packed_edge* result;
 
   log_numverts = atoi(argv[1]); // In base 2
-  numEdges = atoi(argv[2]);
+  numEdges = 16;  // default 16
+  fout = stdout;  // default the stdout
 
-  if (argc == 3) {
-    fout = stdout;
-  } else {
-    // Open the output file
-    fout = fopen(argv[3], "wb");
-    if (fout == NULL) {
-      fprintf(stderr, "%s -- ", argv[2]);
-      perror("fopen for write failed");
-      exit(0);
+  int opt;
+  int position = 3;
+    while ((opt = getopt(argc, argv, "eos:")) != -1) {
+        switch (opt) {
+        case 'e':
+            numEdges = atoi(argv[position]);
+            position += 2;
+            break;
+        case 'o':
+            fout = fopen(argv[position], "wb");
+            if (fout == NULL) {
+              fprintf(stderr, "%s -- ", argv[position]);
+              perror("fopen for write failed");
+              exit(0);
+            }
+            position += 2;
+            break;
+        case 's':
+            seed = atoi(argv[position]);
+            position += 2;
+            break;
+        default: 
+            fprintf(stderr, "usage: <program> <# of vertices (log 2 base)> <average # of edges per vertex [optional: -e intNumber]> <output file [optional: -o outputName]> <seed [optional: -s intNumber]>\n");
+            exit(0);
+        }
     }
-  }
 
   //Start of graph generation timing
   start = get_time();
-  make_graph(log_numverts, numEdges << log_numverts, 1, 2, &nedges, &result);
+  make_graph(log_numverts, numEdges << log_numverts, seed, seed, &nedges, &result);
   time_taken = get_time() - start;
 
   // print to the file
   for (int i = 0; i < (numEdges << log_numverts); i++)
     fprintf(fout, "%lu\t%lu\n", get_v0_from_edge(result + i), get_v1_from_edge(result + i));
   fclose(fout);
-  
+
   /* End of graph generation timing */
   fprintf(stderr, "%" PRIu64 " edge%s generated in %fs (%f Medges/s)\n", nedges, (nedges == 1 ? "" : "s"), time_taken, 1. * nedges / time_taken * 1.e-6);
   free(result);
