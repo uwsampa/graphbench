@@ -28,6 +28,11 @@ inline double get_time() {
   return tv.tv_sec + tv.tv_usec * 1.e-6;
 }
 
+void printError() {
+  fprintf(stderr, "usage: <program> <# of vertices (log 2 base)> <average # of edges per vertex [optional: -e intNumber]> <output file [optional: -o outputName]> <seed [optional: -s intNumber]> <tsv type: 0-tsv; 1-binary tsv [optional: -f 0 / -f 1]>\n");
+  exit(0);
+}
+
 int main(int argc, char* argv[]) {
   struct timeval currentTime;
   gettimeofday(&currentTime, NULL);
@@ -38,9 +43,8 @@ int main(int argc, char* argv[]) {
 
   FILE *fout;
 
-  if (argc < 3 || argc > 8) {
-    fprintf(stderr, "usage: <program> <# of vertices (log 2 base)> <average # of edges per vertex [optional: -e intNumber]> <output file [optional: -o outputName]> <seed [optional: -s intNumber]>\n");
-    exit(0);
+  if (argc < 3 || argc > 10) {
+      printError();
   }
 
   // define all the variables
@@ -49,6 +53,7 @@ int main(int argc, char* argv[]) {
   double start, time_taken;
   int64_t nedges;
   packed_edge* result;
+  int binary = 0; // set default to be not binary, normal tsv
 
   log_numverts = atoi(argv[1]); // In base 2
   numEdges = 16;  // default 16
@@ -56,7 +61,7 @@ int main(int argc, char* argv[]) {
 
   int opt;
   int position = 3;
-    while ((opt = getopt(argc, argv, "eos:")) != -1) {
+    while ((opt = getopt(argc, argv, "eosf:")) != -1) {
         switch (opt) {
         case 'e':
             numEdges = atoi(argv[position]);
@@ -75,9 +80,15 @@ int main(int argc, char* argv[]) {
             seed = atoi(argv[position]);
             position += 2;
             break;
+        case 'f':
+            binary = atoi(argv[position]);
+            if (binary != 0 && binary != 1) {
+                printError();
+            }
+            position += 2;
+            break;
         default: 
-            fprintf(stderr, "usage: <program> <# of vertices (log 2 base)> <average # of edges per vertex [optional: -e intNumber]> <output file [optional: -o outputName]> <seed [optional: -s intNumber]>\n");
-            exit(0);
+            printError();
         }
     }
 
@@ -86,9 +97,25 @@ int main(int argc, char* argv[]) {
   make_graph(log_numverts, numEdges << log_numverts, seed, seed, &nedges, &result);
   time_taken = get_time() - start;
 
+  if (binary == 0) {
   // print to the file
-  for (int i = 0; i < (numEdges << log_numverts); i++)
-    fprintf(fout, "%lu\t%lu\n", get_v0_from_edge(result + i), get_v1_from_edge(result + i));
+    for (int i = 0; i < (numEdges << log_numverts); i++) {
+      fprintf(fout, "%lu\t%lu\n", get_v0_from_edge(result + i), get_v1_from_edge(result + i));
+    }
+  } else {
+    // need to print binary
+    //char tab = '\t';
+    //char newLine = '\n';
+    for (int i = 0; i < (numEdges << log_numverts); i++) {
+      uint32_t from = get_v0_from_edge(result + i);
+      uint32_t to = get_v1_from_edge(result + i);
+      // add the check for not exceed the uint32_t max
+      fwrite((const void*) & from,sizeof(uint32_t),1,fout);
+      //fwrite((const void*) & tab, sizeof(char), 1, fout);
+      fwrite((const void*) & to,sizeof(uint32_t),1,fout);
+      //fwrite((const void*) & newLine, sizeof(char), 1, fout);
+    }
+  }
   fclose(fout);
 
   /* End of graph generation timing */
