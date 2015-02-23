@@ -6,7 +6,6 @@
 /*                                                                         */
 /*  Authors: Jeremiah Willcock                                             */
 /*           Andrew Lumsdaine                                              */
-/*  Revised                                                                */
 
 #include <math.h>
 #include <stdlib.h>
@@ -16,22 +15,20 @@
 #endif
 #include <inttypes.h>
 #include <stdio.h>
+#include <omp.h>
 #include <sys/time.h>
 #include <time.h>
 #include <unistd.h>
 
 #include "make_graph.h"
 
-inline double get_time() {
-  struct timeval tv;
-  gettimeofday(&tv, NULL);
-  return tv.tv_sec + tv.tv_usec * 1.e-6;
-}
+
 
 void printError() {
   fprintf(stderr, "usage: <program> <# of vertices (log 2 base)> <average # of edges per vertex [optional: -e intNumber]> <output file [optional: -o outputName]> <seed [optional: -s intNumber]> <tsv type: 0-tsv; 1-binary tsv [optional: -f 0 / -f 1]>\n");
   exit(0);
 }
+
 
 int main(int argc, char* argv[]) {
   struct timeval currentTime;
@@ -92,10 +89,13 @@ int main(int argc, char* argv[]) {
         }
     }
 
-  //Start of graph generation timing
-  start = get_time();
+  /* Start of graph generation timing */
+  start = omp_get_wtime();
+
   make_graph(log_numverts, numEdges << log_numverts, seed, seed, &nedges, &result);
-  time_taken = get_time() - start;
+
+  time_taken = omp_get_wtime() - start;
+  /* End of graph generation timing */
 
   if (binary == 0) {
   // print to the file
@@ -104,16 +104,12 @@ int main(int argc, char* argv[]) {
     }
   } else {
     // need to print binary
-    //char tab = '\t';
-    //char newLine = '\n';
     for (int i = 0; i < (numEdges << log_numverts); i++) {
       uint32_t from = get_v0_from_edge(result + i);
       uint32_t to = get_v1_from_edge(result + i);
       // add the check for not exceed the uint32_t max
       fwrite((const void*) & from,sizeof(uint32_t),1,fout);
-      //fwrite((const void*) & tab, sizeof(char), 1, fout);
       fwrite((const void*) & to,sizeof(uint32_t),1,fout);
-      //fwrite((const void*) & newLine, sizeof(char), 1, fout);
     }
   }
   fclose(fout);
@@ -121,6 +117,9 @@ int main(int argc, char* argv[]) {
   /* End of graph generation timing */
   fprintf(stderr, "%" PRIu64 " edge%s generated in %fs (%f Medges/s)\n", nedges, (nedges == 1 ? "" : "s"), time_taken, 1. * nedges / time_taken * 1.e-6);
   // printf("%d\t%f seconds\n", log_numverts, time_taken);
-  free(result);
   return 0;
 }
+
+
+
+
