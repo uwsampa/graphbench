@@ -43,7 +43,7 @@ int main(int argc, char* argv[]) {
 
   FILE *fout;
 
-  if (argc < 3 || argc > 10) {
+  if (argc < 2 || argc > 10) {
       printError();
   }
 
