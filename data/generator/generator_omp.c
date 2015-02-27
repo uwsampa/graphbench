@@ -97,6 +97,8 @@ int main(int argc, char* argv[]) {
   time_taken = omp_get_wtime() - start;
   /* End of graph generation timing */
 
+  fprintf(stderr, "finish generating the edges and start to write to the file\n");
+
   if (binary == 0) {
   // print to the file
     for (int i = 0; i < (numEdges << log_numverts); i++) {
@@ -115,8 +117,8 @@ int main(int argc, char* argv[]) {
   fclose(fout);
 
   /* End of graph generation timing */
-  fprintf(stderr, "%" PRIu64 " edge%s generated in %fs (%f Medges/s)\n", nedges, (nedges == 1 ? "" : "s"), time_taken, 1. * nedges / time_taken * 1.e-6);
-  // printf("%d\t%f seconds\n", log_numverts, time_taken);
+  // fprintf(stderr, "%" PRIu64 " edge%s generated in %fs (%f Medges/s)\n", nedges, (nedges == 1 ? "" : "s"), time_taken, 1. * nedges / time_taken * 1.e-6);
+  printf("%d\t%f seconds\n", log_numverts, time_taken);
   return 0;
 }
 
