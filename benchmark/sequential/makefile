@@ -1,12 +1,12 @@
 CC=g++
-CFLAGS=-c -Wall
-SRC_DIR = BC \
-		BFS \
-		CC \
+CFLAGS=-c -Wall -Igraph-set-up
+SRC_DIR = bc \
+		bfs \
+		cc \
 		graph-set-up \
-		Pagerank \
-		SSSP \
-		TriangleCounting
+		pagerank \
+		sssp \
+		triangleCounting
 
 vpath %.cpp $(SRC_DIR)
 vpath %.h $(SRC_DIR)
@@ -14,7 +14,7 @@ vpath %.h $(SRC_DIR)
 BINS = undirected_triangle_count \
 		single_source_shortest_path \
 		breadth_first_search \
-		pagerank \
+		page_rank \
 		connected_components \
 		betweenness_centrality
 
@@ -29,7 +29,7 @@ breadth_first_search: bfs_main.o graph.o bfs.o graph_io.o graph_util.o
 single_source_shortest_path: sssp_main.o graph.o sssp.o graph_io.o graph_util.o
 	$(CC) $^ -o $@
 	
-pagerank: pr_main.o graph.o pr.o graph_io.o graph_util.o
+page_rank: pr_main.o graph.o pr.o graph_io.o graph_util.o
 	$(CC) $^ -o $@
 
 connected_components: cc_main.o graph.o cc.o graph_io.o
@@ -88,3 +88,4 @@ graph_util.o: graph_util.cpp graph_util.h graph.h
 	
 clean:
 	rm -rf $(BINS) *.o
+	

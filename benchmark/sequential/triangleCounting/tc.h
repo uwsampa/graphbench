@@ -1,5 +1,5 @@
 #include <set>
-#include "graph.h"
+#include <graph.h>
 
 #ifndef TC_H
 #define TC_H
