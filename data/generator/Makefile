@@ -11,7 +11,7 @@ generator_omp: generator_omp.c $(GENERATOR_SOURCES) $(GENERATOR_HEADERS)
 	gcc -fopenmp $(CFLAGS) -DGRAPH_GENERATOR_OMP $(LDFLAGS) -o generator_omp generator_omp.c $(GENERATOR_SOURCES) -lm
 
 generator_seq: generator_seq.c $(GENERATOR_SOURCES) $(GENERATOR_HEADERS)
-	cc -g $(CFLAGS) -DGRAPH_GENERATOR_SEQ -g -o generator_seq generator_seq.c $(GENERATOR_SOURCES) -lm
+	gcc -g $(CFLAGS) -DGRAPH_GENERATOR_SEQ -g -o generator_seq generator_seq.c $(GENERATOR_SOURCES) -lm
 
 clean:
 	-rm -f generator_seq

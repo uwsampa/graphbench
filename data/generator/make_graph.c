@@ -39,6 +39,7 @@ static void compute_edge_range(int rank, int size, int64_t M, int64_t* start_idx
 #endif
 
 #ifndef GRAPH_GENERATOR_MPI
+#include <omp.h>
 void make_graph(int log_numverts, int64_t M, uint64_t userseed1, uint64_t userseed2, int64_t* nedges_ptr_in, packed_edge** result_ptr_in) {
   /* Add restrict to input pointers. */
   int64_t* restrict nedges_ptr = nedges_ptr_in;
@@ -57,6 +58,22 @@ void make_graph(int log_numverts, int64_t M, uint64_t userseed1, uint64_t userse
    * parallel.  */
   generate_kronecker_range(seed, log_numverts, 0, M, edges);
 }
+
+void produce_graph(int64_t M, packed_edge** result_ptr_in, FILE *fout) {
+  uint32_t buffer_size = M * 2 * sizeof(uint32_t);
+  uint32_t buff[buffer_size];
+  omp_set_num_threads(4);
+  #pragma omp parallel for 
+  for (int i = 0; i < M; i++) {
+    uint32_t from = get_v0_from_edge(*result_ptr_in + i);
+    buff[2 * i] = from;
+    uint32_t to = get_v1_from_edge(*result_ptr_in + i);
+    buff[2 * i + 1] = to;
+  }
+  #pragma omp ordered
+  fwrite(buff,buffer_size,1,fout);
+}
+
 #endif /* !GRAPH_GENERATOR_MPI */
 
 #ifdef GRAPH_GENERATOR_MPI
