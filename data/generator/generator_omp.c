@@ -92,43 +92,33 @@ int main(int argc, char* argv[]) {
 
   /* Start of graph generation timing */
   start = omp_get_wtime();
-
   make_graph(log_numverts, numEdges << log_numverts, seed, seed, &nedges, &result);
-
   time_taken = omp_get_wtime() - start;
   /* End of graph generation timing */
+  printf("%d\t%f seconds for make graph\n", log_numverts, time_taken);
 
-  // fprintf(stderr, "finish generating the edges and start to write to the file\n");
   if (binary == 0) {
   // print to the file
     for (int i = 0; i < (numEdges << log_numverts); i++) {
       fprintf(fout, "%lu\t%lu\n", get_v0_from_edge(result + i), get_v1_from_edge(result + i));
     }
-    // produce_graph(numEdges << log_numverts, &result, fout);
   } else {
     // need to print binary
-
     start_write = omp_get_wtime();
-
-  	produce_graph(numEdges << log_numverts, &result, fout);
-
+  	// produce_graph(numEdges << log_numverts, &result, fout);
+  	for (int i = 0; i < (numEdges << log_numverts); i++) {
+      uint32_t from = get_v0_from_edge(result + i);
+      uint32_t to = get_v1_from_edge(result + i);
+      fwrite((const void*) & from,sizeof(uint32_t),1,fout);
+      fwrite((const void*) & to,sizeof(uint32_t),1,fout);
+  	}
   	time_taken_write = omp_get_wtime() - start_write;
-  	//--------------------------------------------------------------------
-  //   for (int i = 0; i < (numEdges << log_numverts); i++) {
-  //     uint32_t from = get_v0_from_edge(result + i);
-  //     uint32_t to = get_v1_from_edge(result + i);
-  //     // add the check for not exceed the uint32_t max
-  //     fwrite((const void*) & from,sizeof(uint32_t),1,fout);
-  //     fwrite((const void*) & to,sizeof(uint32_t),1,fout);
-  // }
-
-    }
+  	printf("\t%f seconds for write_binary\n", time_taken_write);
+  }
   fclose(fout);
 
   /* End of graph generation timing */
   // fprintf(stderr, "%" PRIu64 " edge%s generated in %fs (%f Medges/s)\n", nedges, (nedges == 1 ? "" : "s"), time_taken, 1. * nedges / time_taken * 1.e-6);
-  printf("%d\t%f seconds for make graph\n", log_numverts, time_taken);
-  printf("\t%f seconds for write_binary\n", time_taken_write);
   return 0;
 }
 
