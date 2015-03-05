@@ -1,10 +1,8 @@
-for (( i = 15; i < 30; i++ ))
+for (( i = 20; i < 30; i++ ))
 do  
     for (( j = 0; j < 2; j++ ))
     do
-    	echo iteration on i = $i and j = $j
-		./generator_omp	$i -e 16 -o /dev/null | tee -a output.txt
-		echo finish the iteration
+	./generator_omp	$i -e 16 -o /dev/null | tee -a output.txt
     done		  
 done
 
