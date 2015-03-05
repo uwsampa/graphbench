@@ -105,13 +105,13 @@ int main(int argc, char* argv[]) {
   } else {
     // need to print binary
     start_write = omp_get_wtime();
-  	// produce_graph(numEdges << log_numverts, &result, fout);
-  	for (int i = 0; i < (numEdges << log_numverts); i++) {
-      uint32_t from = get_v0_from_edge(result + i);
-      uint32_t to = get_v1_from_edge(result + i);
-      fwrite((const void*) & from,sizeof(uint32_t),1,fout);
-      fwrite((const void*) & to,sizeof(uint32_t),1,fout);
-  	}
+  	produce_graph(numEdges << log_numverts, &result, fout);
+  	// for (int i = 0; i < (numEdges << log_numverts); i++) {
+   //    uint32_t from = get_v0_from_edge(result + i);
+   //    uint32_t to = get_v1_from_edge(result + i);
+   //    fwrite((const void*) & from,sizeof(uint32_t),1,fout);
+   //    fwrite((const void*) & to,sizeof(uint32_t),1,fout);
+  	// }
   	time_taken_write = omp_get_wtime() - start_write;
   	printf("\t%f seconds for write_binary\n", time_taken_write);
   }
