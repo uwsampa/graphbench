@@ -98,7 +98,7 @@ int main(int argc, char* argv[]) {
   time_taken = omp_get_wtime() - start;
   /* End of graph generation timing */
 
-  fprintf(stderr, "finish generating the edges and start to write to the file\n");
+  // fprintf(stderr, "finish generating the edges and start to write to the file\n");
   if (binary == 0) {
   // print to the file
     for (int i = 0; i < (numEdges << log_numverts); i++) {
