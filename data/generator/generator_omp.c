@@ -127,8 +127,8 @@ int main(int argc, char* argv[]) {
 
   /* End of graph generation timing */
   // fprintf(stderr, "%" PRIu64 " edge%s generated in %fs (%f Medges/s)\n", nedges, (nedges == 1 ? "" : "s"), time_taken, 1. * nedges / time_taken * 1.e-6);
-  printf("%d\t%f seconds\n", log_numverts, time_taken);
-  printf("\t\t%f seconds for write_binary\n", time_taken_write);
+  printf("%d\t%f seconds for make graph\n", log_numverts, time_taken);
+  printf("\t%f seconds for write_binary\n", time_taken_write);
   return 0;
 }
 
