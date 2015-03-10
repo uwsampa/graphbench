@@ -59,10 +59,12 @@ void make_graph(int log_numverts, int64_t M, uint64_t userseed1, uint64_t userse
   generate_kronecker_range(seed, log_numverts, 0, M, edges);
 }
 
+// TODO: need to test correctness
 void produce_graph(int64_t M, packed_edge** result_ptr_in, FILE *fout) {
+  uint32_t element_count = M * 2;
   uint32_t buffer_size = M * 2 * sizeof(uint32_t);
   //uint32_t buff[buffer_size];
-  uint32_t* buff = (uint32_t*)xmalloc(M * 2 * sizeof(uint32_t));
+  uint32_t* buff = (uint32_t*)xmalloc(buffer_size);
   //omp_set_num_threads(2);
   #pragma omp parallel for 
   for (int i = 0; i < M; i++) {
@@ -71,7 +73,8 @@ void produce_graph(int64_t M, packed_edge** result_ptr_in, FILE *fout) {
     uint32_t to = get_v1_from_edge(*result_ptr_in + i);
     buff[2 * i + 1] = to;
   }
-  fwrite(buff,buffer_size,4,fout);
+  //fwrite(buff,buffer_size,4,fout);
+  fwrite(buff, sizeof(uint32_t), element_count, fout);
 }
 
 #endif /* !GRAPH_GENERATOR_MPI */
