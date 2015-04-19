@@ -44,7 +44,7 @@ void make_random_numbers(
        /* out */ double* result    /* Returned array of values */
 );
 
-void produce_graph(int64_t desired_nedges, packed_edge** result, FILE *fout);
+void produce_graph(int64_t desired_nedges, packed_edge** result, FILE *fout, int64_t binary);
 
 #ifdef __cplusplus
 }

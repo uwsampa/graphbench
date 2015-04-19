@@ -98,14 +98,24 @@ int main(int argc, char* argv[]) {
   printf("%d\t%f seconds for make graph\n", log_numverts, time_taken);
 
   if (binary == 0) {
-  // print to the file
-    for (int i = 0; i < (numEdges << log_numverts); i++) {
-      fprintf(fout, "%lu\t%lu\n", get_v0_from_edge(result + i), get_v1_from_edge(result + i));
-    }
+    // start_write = omp_get_wtime();
+    // for (int i = 0; i < (numEdges << log_numverts); i++) {
+    //   fprintf(fout, "%lu\t%lu\n", get_v0_from_edge(result + i), get_v1_from_edge(result + i));
+    // }
+    // time_taken_write = omp_get_wtime() - start_write;
+    // printf("\t%f seconds for normal\n", time_taken_write);
+  
+
+    start_write = omp_get_wtime();
+    produce_graph(numEdges << log_numverts, &result, fout, binary);
+    time_taken_write = omp_get_wtime() - start_write;
+    // printf("%ld\t%ld\t%d\n", numEdges << log_numverts, numEdges, log_numverts);
+    printf("\t%f seconds for write_normal\n", time_taken_write);
+
   } else {
     // need to print binary
     start_write = omp_get_wtime();
-  	produce_graph(numEdges << log_numverts, &result, fout);
+  	produce_graph(numEdges << log_numverts, &result, fout, binary);
   	// for (int i = 0; i < (numEdges << log_numverts); i++) {
    //    uint32_t from = get_v0_from_edge(result + i);
    //    uint32_t to = get_v1_from_edge(result + i);

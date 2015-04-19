@@ -60,21 +60,57 @@ void make_graph(int log_numverts, int64_t M, uint64_t userseed1, uint64_t userse
 }
 
 // TODO: need to test correctness
-void produce_graph(int64_t M, packed_edge** result_ptr_in, FILE *fout) {
+void produce_graph(int64_t M, packed_edge** result_ptr_in, FILE *fout, int64_t binary) {
   uint32_t element_count = M * 2;
   uint32_t buffer_size = M * 2 * sizeof(uint32_t);
-  //uint32_t buff[buffer_size];
-  uint32_t* buff = (uint32_t*)xmalloc(buffer_size);
-  //omp_set_num_threads(2);
-  #pragma omp parallel for 
-  for (int i = 0; i < M; i++) {
-    uint32_t from = get_v0_from_edge(*result_ptr_in + i);
-    buff[2 * i] = from;
-    uint32_t to = get_v1_from_edge(*result_ptr_in + i);
-    buff[2 * i + 1] = to;
-  }
-  //fwrite(buff,buffer_size,4,fout);
-  fwrite(buff, sizeof(uint32_t), element_count, fout);
+
+  if (binary == 0 ) {
+  	char* buff = (char*)xmalloc(buffer_size);
+  	int cx;
+  	int total = 0;
+  	char temp[30];
+  	#pragma omp parallel for shared(total, buff) private(temp)
+	  for (int i = 0; i < M; i++) {
+	  	
+	    uint32_t from = get_v0_from_edge(*result_ptr_in + i);
+	    uint32_t to = get_v1_from_edge(*result_ptr_in + i);
+			sprintf(temp, "%u\t%u\n", from, to);
+			#pragma omp critical 
+				fprintf(fout, "%s", temp);
+				/*
+			{
+				//strcat(buff, temp);
+				memcpy(&buff[total + strlen(temp)], temp, strlen(temp));
+			//#pragma omp critical
+				total += strlen(temp);
+	    //cx = snprintf(&(buff[i*12]), buffer_size + 2 * M - i * 12, "%u\t%u\n", from, to);
+	  	fprintf(fout, "total is %d\n",total);
+	  	fprintf(fout, "buffer ---- %s\n", buff);
+	  }*/
+	  }
+	  //fprintf(fout, "buffer is %s", buff);
+ 
+	  // uint32_t* buff = (uint32_t*)xmalloc(buffer_size);
+	  // #pragma omp parallel for 
+	  // for (int i = 0; i < M; i++) {
+	  //   uint32_t from = get_v0_from_edge(*result_ptr_in + i);
+	  //   // buff[2 * i] = from;
+	  //   uint32_t to = get_v1_from_edge(*result_ptr_in + i);
+	  //   // buff[2 * i + 1] = to;
+	  //   #pragma omp critical
+	  //   fprintf(fout, "%u\t%u\n", from, to);
+	  // }
+  } else {
+	  uint32_t* buff = (uint32_t*)xmalloc(buffer_size);
+	  #pragma omp parallel for 
+	  for (int i = 0; i < M; i++) {
+	    uint32_t from = get_v0_from_edge(*result_ptr_in + i);
+	    buff[2 * i] = from;
+	    uint32_t to = get_v1_from_edge(*result_ptr_in + i);
+	    buff[2 * i + 1] = to;
+	  }
+	  fwrite(buff, sizeof(uint32_t), element_count, fout);
+	}
 }
 
 #endif /* !GRAPH_GENERATOR_MPI */

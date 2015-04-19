@@ -1,9 +1,9 @@
-for (( i = 2; i < 5; i++ ))
+for (( i = 22; i < 24; i++ ))
 do  
-    for (( j = 0; j < 2; j++ ))
+    for (( j = 1; j < 2; j++ ))
     do
     echo i = $i and j = $j
-	./generator_omp	$i -e 2 -o out$i.txt -f 1 | tee -a output.txt
+	./generator_omp	$i -e 2 -o out$i.txt -f 0 | tee -a outputnormal.txt
     done		  
 done
 
