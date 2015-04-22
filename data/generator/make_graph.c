@@ -64,42 +64,38 @@ void produce_graph(int64_t M, packed_edge** result_ptr_in, FILE *fout, int64_t b
   uint32_t element_count = M * 2;
   uint32_t buffer_size = M * 2 * sizeof(uint32_t);
 
-  if (binary == 0 ) {
-  	char* buff = (char*)xmalloc(buffer_size);
-  	int cx;
-  	int total = 0;
-  	char temp[30];
-  	#pragma omp parallel for shared(total, buff) private(temp)
-	  for (int i = 0; i < M; i++) {
-	  	
-	    uint32_t from = get_v0_from_edge(*result_ptr_in + i);
-	    uint32_t to = get_v1_from_edge(*result_ptr_in + i);
-			sprintf(temp, "%u\t%u\n", from, to);
-			#pragma omp critical 
-				fprintf(fout, "%s", temp);
-				/*
-			{
-				//strcat(buff, temp);
-				memcpy(&buff[total + strlen(temp)], temp, strlen(temp));
-			//#pragma omp critical
-				total += strlen(temp);
-	    //cx = snprintf(&(buff[i*12]), buffer_size + 2 * M - i * 12, "%u\t%u\n", from, to);
-	  	fprintf(fout, "total is %d\n",total);
-	  	fprintf(fout, "buffer ---- %s\n", buff);
-	  }*/
-	  }
-	  //fprintf(fout, "buffer is %s", buff);
- 
-	  // uint32_t* buff = (uint32_t*)xmalloc(buffer_size);
-	  // #pragma omp parallel for 
-	  // for (int i = 0; i < M; i++) {
-	  //   uint32_t from = get_v0_from_edge(*result_ptr_in + i);
-	  //   // buff[2 * i] = from;
-	  //   uint32_t to = get_v1_from_edge(*result_ptr_in + i);
-	  //   // buff[2 * i + 1] = to;
-	  //   #pragma omp critical
-	  //   fprintf(fout, "%u\t%u\n", from, to);
-	  // }
+  if (binary == 0) {
+  	int tid;
+  	#pragma omp parallel private(tid)
+  	{
+  		tid = omp_get_thread_num();
+  		char* buff = (char*)xmalloc(150);
+  		#pragma omp for 
+			for (int i = 0; i < M; i++) {
+				char temp[50];
+				uint32_t from = get_v0_from_edge(*result_ptr_in + i);
+    		uint32_t to = get_v1_from_edge(*result_ptr_in + i);
+    		sprintf(temp, "%u\t%u\n", from, to);
+    		int index = strlen(buff);
+    		if (150 - index > strlen(temp)) {
+    			// still enough room available
+    			snprintf(&(buff[index]), buffer_size - index, "%s", temp);
+    		} else {
+    			// the buffer is run out of memory
+    			#pragma omp critical 
+    			{
+						fprintf(fout, "%s", buff);
+    			}
+    			buff[0] = '\0';
+    		}
+			}
+
+  			
+  		#pragma omp critical 
+  		{
+				fprintf(fout, "%s", buff);
+			}	
+  	}
   } else {
 	  uint32_t* buff = (uint32_t*)xmalloc(buffer_size);
 	  #pragma omp parallel for 
