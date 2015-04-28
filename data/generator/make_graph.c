@@ -73,11 +73,12 @@ void produce_graph(int64_t M, packed_edge** result_ptr_in, FILE *fout, int64_t b
   		#pragma omp for 
 			for (int i = 0; i < M; i++) {
 				char temp[50];
+				int temp_length;
 				uint32_t from = get_v0_from_edge(*result_ptr_in + i);
     		uint32_t to = get_v1_from_edge(*result_ptr_in + i);
-    		sprintf(temp, "%u\t%u\n", from, to);
+    		temp_length = sprintf(temp, "%u\t%u\n", from, to);
     		int index = strlen(buff);
-    		if (150 - index > strlen(temp)) {
+    		if (150 - index > temp_length) {
     			// still enough room available
     			snprintf(&(buff[index]), buffer_size - index, "%s", temp);
     		} else {
