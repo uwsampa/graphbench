@@ -66,18 +66,28 @@ void produce_graph(int64_t M, packed_edge** result_ptr_in, FILE *fout, int64_t b
   uint32_t buffer_constant = 1 << 20;
 
   if (binary == 0) {
+  	#ifdef GRAPH_GENERATOR_OMP
   	#pragma omp parallel
+  	#endif
+
   	{
   		char* buff = (char*)xmalloc(buffer_constant);
   		int total_length = 0;
+  		#ifdef GRAPH_GENERATOR_OMP
   		#pragma omp for 
-			for (int i = 0; i < M; i++) {
+  		#endif
+			for (int64_t i = 0; i < M; i++) {
 				char temp[50];
 				int temp_length;
 				int check_correctness;
 				uint32_t from = get_v0_from_edge(*result_ptr_in + i);
     		uint32_t to = get_v1_from_edge(*result_ptr_in + i);
-    		temp_length = sprintf(temp, "%u\t%u\n", from, to);
+    		temp_length = snprintf(temp, 50, "%u\t%u\n", from, to);
+    		if (temp_length < 0) {
+    			fprintf(stderr, "snprintf error\n");
+    			exit(1);
+    		}
+    		// temp_length = sprintf(temp, "%u\t%u\n", from, to);
     		if (total_length + temp_length < buffer_constant) {
     			// still enough room available
     			check_correctness = snprintf(&(buff[total_length]), buffer_constant - total_length, "%s", temp);
@@ -88,7 +98,9 @@ void produce_graph(int64_t M, packed_edge** result_ptr_in, FILE *fout, int64_t b
     			total_length += temp_length;
     		} else {
     			// the buffer is run out of memory
+    			#ifdef GRAPH_GENERATOR_OMP
     			#pragma omp critical 
+    			#endif
     			{
 						check_correctness = fprintf(fout, "%s", buff);
 						if (check_correctness < 0) {
@@ -105,8 +117,9 @@ void produce_graph(int64_t M, packed_edge** result_ptr_in, FILE *fout, int64_t b
     			total_length = temp_length;
     		}
 			}
-			
+			#ifdef GRAPH_GENERATOR_OMP
   		#pragma omp critical 
+  		#endif
   		{
   			int check_correctness;
 				check_correctness = fprintf(fout, "%s", buff);
@@ -118,8 +131,10 @@ void produce_graph(int64_t M, packed_edge** result_ptr_in, FILE *fout, int64_t b
   	}
   } else {
 	  uint32_t* buff = (uint32_t*)xmalloc(buffer_size);
+	  #ifdef GRAPH_GENERATOR_OMP
 	  #pragma omp parallel for 
-	  for (int i = 0; i < M; i++) {
+	  #endif
+	  for (int64_t i = 0; i < M; i++) {
 	    uint32_t from = get_v0_from_edge(*result_ptr_in + i);
 	    buff[2 * i] = from;
 	    uint32_t to = get_v1_from_edge(*result_ptr_in + i);
