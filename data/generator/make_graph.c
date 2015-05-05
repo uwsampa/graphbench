@@ -65,11 +65,14 @@ void produce_graph(int64_t M, packed_edge** result_ptr_in, FILE *fout, int64_t b
   uint32_t buffer_size = M * 2 * sizeof(uint32_t);
 
   if (binary == 0) {
-  	int tid;
-  	#pragma omp parallel private(tid)
+  	#pragma omp parallel
   	{
-  		tid = omp_get_thread_num();
-  		char* buff = (char*)xmalloc(150);
+  		// just in case length of temp is greater than M
+  		if (M < 50) {
+  			M = 50;
+  		}
+  		char* buff = (char*)xmalloc(M);
+  		int total_length = 0;
   		#pragma omp for 
 			for (int i = 0; i < M; i++) {
 				char temp[50];
@@ -77,10 +80,10 @@ void produce_graph(int64_t M, packed_edge** result_ptr_in, FILE *fout, int64_t b
 				uint32_t from = get_v0_from_edge(*result_ptr_in + i);
     		uint32_t to = get_v1_from_edge(*result_ptr_in + i);
     		temp_length = sprintf(temp, "%u\t%u\n", from, to);
-    		int index = strlen(buff);
-    		if (150 - index > temp_length) {
+    		if (total_length + temp_length < M) {
     			// still enough room available
-    			snprintf(&(buff[index]), buffer_size - index, "%s", temp);
+    			snprintf(&(buff[total_length]), M - total_length, "%s", temp);
+    			total_length += temp_length;
     		} else {
     			// the buffer is run out of memory
     			#pragma omp critical 
@@ -88,10 +91,11 @@ void produce_graph(int64_t M, packed_edge** result_ptr_in, FILE *fout, int64_t b
 						fprintf(fout, "%s", buff);
     			}
     			buff[0] = '\0';
+    			snprintf(&(buff[0]), M, "%s", temp);
+    			total_length = temp_length;
     		}
 			}
-
-  			
+			
   		#pragma omp critical 
   		{
 				fprintf(fout, "%s", buff);
