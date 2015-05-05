@@ -7,6 +7,8 @@
 /*  Authors: Jeremiah Willcock                                             */
 /*           Andrew Lumsdaine                                              */
 
+/* Modified by Xin Yi                                                      */
+
 #include <stdlib.h>
 #include <stdint.h>
 #include <stdio.h>
@@ -25,7 +27,6 @@
 #endif
 
 /* Simplified interface to build graphs with scrambled vertices. */
-
 #include "graph_generator.h"
 #include "utils.h"
 
@@ -59,13 +60,14 @@ void make_graph(int log_numverts, int64_t M, uint64_t userseed1, uint64_t userse
   generate_kronecker_range(seed, log_numverts, 0, M, edges);
 }
 
-// TODO: need to test correctness
+// Modified part
 void produce_graph(int64_t M, packed_edge** result_ptr_in, FILE *fout, int64_t binary) {
   uint32_t element_count = M * 2;
   uint32_t buffer_size = M * 2 * sizeof(uint32_t);
   uint32_t buffer_constant = 1 << 20;
 
   if (binary == 0) {
+
   	#ifdef GRAPH_GENERATOR_OMP
   	#pragma omp parallel
   	#endif
@@ -73,21 +75,25 @@ void produce_graph(int64_t M, packed_edge** result_ptr_in, FILE *fout, int64_t b
   	{
   		char* buff = (char*)xmalloc(buffer_constant);
   		int total_length = 0;
+
   		#ifdef GRAPH_GENERATOR_OMP
   		#pragma omp for 
   		#endif
+
 			for (int64_t i = 0; i < M; i++) {
 				char temp[50];
 				int temp_length;
 				int check_correctness;
+
 				uint32_t from = get_v0_from_edge(*result_ptr_in + i);
     		uint32_t to = get_v1_from_edge(*result_ptr_in + i);
     		temp_length = snprintf(temp, 50, "%u\t%u\n", from, to);
+
     		if (temp_length < 0) {
     			fprintf(stderr, "snprintf error\n");
     			exit(1);
     		}
-    		// temp_length = sprintf(temp, "%u\t%u\n", from, to);
+
     		if (total_length + temp_length < buffer_constant) {
     			// still enough room available
     			check_correctness = snprintf(&(buff[total_length]), buffer_constant - total_length, "%s", temp);
@@ -131,6 +137,7 @@ void produce_graph(int64_t M, packed_edge** result_ptr_in, FILE *fout, int64_t b
   	}
   } else {
 	  uint32_t* buff = (uint32_t*)xmalloc(buffer_size);
+
 	  #ifdef GRAPH_GENERATOR_OMP
 	  #pragma omp parallel for 
 	  #endif
@@ -140,9 +147,10 @@ void produce_graph(int64_t M, packed_edge** result_ptr_in, FILE *fout, int64_t b
 	    uint32_t to = get_v1_from_edge(*result_ptr_in + i);
 	    buff[2 * i + 1] = to;
 	  }
+	  
 	  size_t check_correctness;
 	  check_correctness = fwrite(buff, sizeof(uint32_t), element_count, fout);
-		if (check_correctness != sizeof(uint32_t) * element_count) {
+		if (check_correctness != element_count) {
 			fprintf(stderr, "fwrite error;\n");
 			exit(1);
 		}

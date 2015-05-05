@@ -7,6 +7,8 @@
 /*  Authors: Jeremiah Willcock                                             */
 /*           Andrew Lumsdaine                                              */
 
+/* Modified by Xin Yi                                                      */
+
 #include <math.h>
 #include <stdlib.h>
 #include <stdint.h>
@@ -19,10 +21,7 @@
 #include <sys/time.h>
 #include <time.h>
 #include <unistd.h>
-
 #include "make_graph.h"
-
-
 
 void printError() {
   fprintf(stderr, "usage: <program> <# of vertices (log 2 base)> <average # of edges per vertex [optional: -e intNumber]> <output file [optional: -o outputName]> <seed [optional: -s intNumber]> <tsv type: 0-tsv; 1-binary tsv [optional: -f 0 / -f 1]>\n");
@@ -94,37 +93,22 @@ int main(int argc, char* argv[]) {
   start = omp_get_wtime();
   make_graph(log_numverts, numEdges << log_numverts, seed, seed, &nedges, &result);
   time_taken = omp_get_wtime() - start;
+
   /* End of graph generation timing */
-  printf("%d\t%f seconds for make graph\n", log_numverts, time_taken);
+  printf("For 2^%d\n", log_numverts);
+  printf("\t%f seconds for making graph\n", time_taken);
+
+  start_write = omp_get_wtime();
+  produce_graph(numEdges << log_numverts, &result, fout, binary);
+  time_taken_write = omp_get_wtime() - start_write;
 
   if (binary == 0) {
-    // start_write = omp_get_wtime();
-    // for (int i = 0; i < (numEdges << log_numverts); i++) {
-    //   fprintf(fout, "%lu\t%lu\n", get_v0_from_edge(result + i), get_v1_from_edge(result + i));
-    // }
-    // time_taken_write = omp_get_wtime() - start_write;
-    // printf("\t%f seconds for normal\n", time_taken_write);
-  
-
-    start_write = omp_get_wtime();
-    produce_graph(numEdges << log_numverts, &result, fout, binary);
-    time_taken_write = omp_get_wtime() - start_write;
-    // printf("%ld\t%ld\t%d\n", numEdges << log_numverts, numEdges, log_numverts);
-    printf("\t%f seconds for write_normal\n", time_taken_write);
-
+    printf("\t%f seconds for writing ascii version\n", time_taken_write);
   } else {
-    // need to print binary
-    start_write = omp_get_wtime();
-  	produce_graph(numEdges << log_numverts, &result, fout, binary);
-  	// for (int i = 0; i < (numEdges << log_numverts); i++) {
-   //    uint32_t from = get_v0_from_edge(result + i);
-   //    uint32_t to = get_v1_from_edge(result + i);
-   //    fwrite((const void*) & from,sizeof(uint32_t),1,fout);
-   //    fwrite((const void*) & to,sizeof(uint32_t),1,fout);
-  	// }
-  	time_taken_write = omp_get_wtime() - start_write;
-  	printf("\t%f seconds for write_binary\n", time_taken_write);
+  	printf("\t%f seconds for writing binary version\n", time_taken_write);
   }
+
+  // used to check if fclose works well
   int check_correctness;
   check_correctness = fclose(fout);
   if (check_correctness == EOF) {
@@ -133,11 +117,5 @@ int main(int argc, char* argv[]) {
     exit(1);
   }
 
-  /* End of graph generation timing */
-  // fprintf(stderr, "%" PRIu64 " edge%s generated in %fs (%f Medges/s)\n", nedges, (nedges == 1 ? "" : "s"), time_taken, 1. * nedges / time_taken * 1.e-6);
   return 0;
 }
-
-
-
-
