@@ -70,7 +70,7 @@ int main(int argc, char* argv[]) {
             if (fout == NULL) {
               fprintf(stderr, "%s -- ", argv[position]);
               perror("fopen for write failed");
-              exit(0);
+              exit(1);
             }
             position += 2;
             break;
@@ -125,7 +125,13 @@ int main(int argc, char* argv[]) {
   	time_taken_write = omp_get_wtime() - start_write;
   	printf("\t%f seconds for write_binary\n", time_taken_write);
   }
-  fclose(fout);
+  int check_correctness;
+  check_correctness = fclose(fout);
+  if (check_correctness == EOF) {
+    fprintf(stderr, "%s -- ", argv[position]);
+    perror("fclose for failed");
+    exit(1);
+  }
 
   /* End of graph generation timing */
   // fprintf(stderr, "%" PRIu64 " edge%s generated in %fs (%f Medges/s)\n", nedges, (nedges == 1 ? "" : "s"), time_taken, 1. * nedges / time_taken * 1.e-6);

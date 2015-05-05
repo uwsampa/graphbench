@@ -63,38 +63,57 @@ void make_graph(int log_numverts, int64_t M, uint64_t userseed1, uint64_t userse
 void produce_graph(int64_t M, packed_edge** result_ptr_in, FILE *fout, int64_t binary) {
   uint32_t element_count = M * 2;
   uint32_t buffer_size = M * 2 * sizeof(uint32_t);
+  uint32_t buffer_constant = 1 << 20;
 
   if (binary == 0) {
   	#pragma omp parallel
   	{
-  		char* buff = (char*)xmalloc(1<<20);
+  		char* buff = (char*)xmalloc(buffer_constant);
   		int total_length = 0;
   		#pragma omp for 
 			for (int i = 0; i < M; i++) {
 				char temp[50];
 				int temp_length;
+				int check_correctness;
 				uint32_t from = get_v0_from_edge(*result_ptr_in + i);
     		uint32_t to = get_v1_from_edge(*result_ptr_in + i);
     		temp_length = sprintf(temp, "%u\t%u\n", from, to);
-    		if (total_length + temp_length < 1<<20) {
+    		if (total_length + temp_length < buffer_constant) {
     			// still enough room available
-    			snprintf(&(buff[total_length]), 1<<20 - total_length, "%s", temp);
+    			check_correctness = snprintf(&(buff[total_length]), buffer_constant - total_length, "%s", temp);
+    			if (check_correctness < 0) {
+    				fprintf(stderr, "snprintf error\n");
+    				exit(1);
+    			}
     			total_length += temp_length;
     		} else {
     			// the buffer is run out of memory
     			#pragma omp critical 
     			{
-						fprintf(fout, "%s", buff);
+						check_correctness = fprintf(fout, "%s", buff);
+						if (check_correctness < 0) {
+							fprintf(stderr, "fprintf error;\n");
+							exit(1);
+						}
     			}
     			buff[0] = '\0';
-    			snprintf(&(buff[0]), 1<<20, "%s", temp);
+    			check_correctness = snprintf(&(buff[0]), buffer_constant, "%s", temp);
+    			if (check_correctness < 0) {
+						fprintf(stderr, "snprintf error;\n");
+						exit(1);
+					}
     			total_length = temp_length;
     		}
 			}
 			
   		#pragma omp critical 
   		{
-				fprintf(fout, "%s", buff);
+  			int check_correctness;
+				check_correctness = fprintf(fout, "%s", buff);
+				if (check_correctness < 0) {
+					fprintf(stderr, "fprintf error;\n");
+					exit(1);
+				}
 			}	
   	}
   } else {
@@ -106,7 +125,12 @@ void produce_graph(int64_t M, packed_edge** result_ptr_in, FILE *fout, int64_t b
 	    uint32_t to = get_v1_from_edge(*result_ptr_in + i);
 	    buff[2 * i + 1] = to;
 	  }
-	  fwrite(buff, sizeof(uint32_t), element_count, fout);
+	  size_t check_correctness;
+	  check_correctness = fwrite(buff, sizeof(uint32_t), element_count, fout);
+		if (check_correctness != sizeof(uint32_t) * element_count) {
+			fprintf(stderr, "fwrite error;\n");
+			exit(1);
+		}
 	}
 }
 
