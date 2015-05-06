@@ -10,7 +10,7 @@ if len(sys.argv) != 2:
   exit(1)
 
 with open(sys.argv[1]) as f:
-  v = NP.loadtxt(f, dtype='int', usecols=[1])
+  v = NP.loadtxt(f, dtype='int', comments='#', usecols=[1])
 
 v_hist = NP.ravel(v)   # 'flatten' v
 
