@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 from matplotlib import pyplot as PLT
+from matplotlib.backends.backend_pdf import PdfPages
 import numpy as NP
 import collections
 import sys
@@ -17,12 +18,14 @@ v_hist = NP.ravel(v)   # 'flatten' v
 vertex_degrees = collections.Counter(v_hist)
 degrees = collections.Counter(vertex_degrees.values())
 
-fig = PLT.figure()
-ax1 = fig.add_subplot(111)
+with PdfPages('figure.pdf') as pdf:
+	fig = PLT.figure()
+	ax1 = fig.add_subplot(111)
 
-ax1.scatter(degrees.keys(), degrees.values())
+	ax1.scatter(degrees.keys(), degrees.values())
 
-ax1.set_xscale('log')
-ax1.set_yscale('log')
+	ax1.set_xscale('log')
+	ax1.set_yscale('log')
 
-PLT.show()
+	PLT.plot()
+	pdf.savefig()
