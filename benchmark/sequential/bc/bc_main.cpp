@@ -34,7 +34,8 @@ static void doBetweennessCentrality (const Graph &graph) {
               << " "
               << it->c.getLabel()
               << std::endl;
-    }*/
+    }
+    */
 
     // construct the runtime
     time_t sec = after.tv_sec - before.tv_sec;

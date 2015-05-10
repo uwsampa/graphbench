@@ -87,8 +87,3 @@ else
     echo "no name or scale given"
     usage
 fi
-
-# echo "s = ${s}"
-# echo "n = ${n}"
-
-#  screen on n73

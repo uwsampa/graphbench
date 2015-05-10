@@ -62,7 +62,7 @@ int main(int argc, const char **argv) {
     const char* graph_file = NULL;
     const char* format = NULL;
 
-    if (argc < 7) {
+    if (argc < 5) {
         cout << "Must specify which graph file to use "
              << "(e.g. '-g graph.txt' or '--graph graph.txt') "
              << endl
