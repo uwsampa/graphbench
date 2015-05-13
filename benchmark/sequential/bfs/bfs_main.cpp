@@ -10,17 +10,15 @@
 #include "graph_io.h"
 #include "bfs.h"
 #include "graph_util.h"
+#include <getopt.h>
 
 using std::string;
 using std::cout;
 using std::endl;
 
-static void doBFS (const Graph& graph, Node &start) {
+static void doBFS (const Graph& graph, Node &start, char print_output) {
     Graph bfsResult;
     timespec before, after;
-
-//    cout << "original graph:" << endl;
-//    printTree(graph, start, string(""));
 
     clock_gettime(CLOCK_MONOTONIC, &before);
     bfs(start, graph, bfsResult);
@@ -42,8 +40,10 @@ static void doBFS (const Graph& graph, Node &start) {
          << "s"
          << endl;
 
-//    cout << "bfs result:" << endl;
-//    printTree(bfsResult, start, string(""));
+    if (print_output == 'y') {
+       cout << "bfs result:" << endl;
+       printTree(bfsResult, start, string(""));
+    }
 }
 
 int main(int argc, const char **argv) {
@@ -52,34 +52,46 @@ int main(int argc, const char **argv) {
     const char* graph_file = NULL;
     const char* start = NULL;
     const char* format = NULL;
+    const char* print_output = NULL;
 
-    if (argc < 7) {
-        cout << "Must specify which graph file to use (e.g. '-g graph.txt' or '--graph graph.txt'), " << endl
-             << "which format the graph is stored in (e.g. '-f tsv' or '--format tsv'), " << endl
-             << "and which node to start from (e.g. '-s 51' or '--start 51'), " << endl;
-
-        return EXIT_FAILURE;
-    }
-
-    for (int i = 1; i < argc-1; ++i) {
-        if (strcmp(argv[i],"-g") == 0 || strcmp(argv[i],"--graph") == 0) {
-            graph_file = argv[i + 1];
-        } else if (strcmp(argv[i],"-s") == 0 || strcmp(argv[i],"--start") == 0){
-            start = argv[i + 1];
-        } else if (strcmp(argv[i],"-f") == 0 || strcmp(argv[i],"--format") == 0) {
-            format = argv[i + 1];
+    int opt;
+    int position = 2;
+    while ((opt = getopt(argc, (char* const*)argv, ":g:s:f:o")) != -1) {
+      switch (opt) {
+          case 'g':
+              graph_file = argv[position];
+              position += 2;
+              break;
+          case 's':
+              start = argv[position];
+              position += 2;
+              break;
+          case 'f':
+              format = argv[position];
+              position += 2;
+              break;
+          case 'o':
+              print_output = argv[position];
+              position += 2;
+              break;
         }
     }
 
     if (graph_file == NULL) {
         cout << "Must specify which graph to use."
-             << "e.g. '-g graph.txt' or '--graph graph.txt'" << endl;
+             << "e.g. '-g graph.txt'" << endl;
         return EXIT_FAILURE;
     }
 
     if (format == NULL) {
         cout << "Must specify the format of the graph input file."
-             << "e.g. '-f tsv' or '--format csv'" << endl;
+             << "e.g. '-f tsv' or '-f csv'" << endl;
+        return EXIT_FAILURE;
+    }
+
+    if (print_output == NULL) {
+      cout << "Must specify whether to print output."
+             << "e.g. '-o y' or '-o n'" << endl;
         return EXIT_FAILURE;
     }
 
@@ -95,7 +107,7 @@ int main(int argc, const char **argv) {
 
     if (start == NULL) {
         cout << "Must specify which node to start from."
-             << "e.g. '-s 51' or '--start 51'" << endl;
+             << "e.g. '-s 51'" << endl;
         return EXIT_FAILURE;
     }
 
@@ -106,7 +118,7 @@ int main(int argc, const char **argv) {
         return EXIT_FAILURE;
     }
 
-    doBFS(graph, startNode);
+    doBFS(graph, startNode, *print_output);
 
     return EXIT_SUCCESS;
 }

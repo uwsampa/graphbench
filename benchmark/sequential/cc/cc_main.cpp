@@ -10,6 +10,7 @@
 #include "graph.h"
 #include "graph_io.h"
 #include "cc.h"
+#include <getopt.h>
 
 using std::string;
 using std::cout;
@@ -28,7 +29,7 @@ void printComponents(const vector<set<Node> > &components) {
     }
 }
 
-static void doConnectedComponents (const Graph &graph) {
+static void doConnectedComponents (const Graph &graph, char print_output) {
     vector<set<Node> > components;
     timespec before, after;
 
@@ -54,40 +55,52 @@ static void doConnectedComponents (const Graph &graph) {
          << "s"
          << endl;
 
-    cout << "Printing components disabled" << endl;
-    //cout << "Number of components: " << components.size() << endl;
-    //printComponents(components);
+    if (print_output == 'y') {
+        cout << "Number of components: " << components.size() << endl;
+        printComponents(components);
+    }
 }
 
 int main(int argc, const char **argv) {
     Graph graph;
     const char* graph_file = NULL;
     const char* format = NULL;
+    const char* print_output = NULL;
 
-    if (argc < 5) {
-        cout << "Must specify which graph file to use (e.g. '-g graph.txt' or '--graph graph.txt'), " << endl
-             << "and which format the graph is stored in (e.g. '-f tsv' or '--format tsv'), " << endl;
-
-        return EXIT_FAILURE;
-    }
-
-    for (int i = 1; i < argc-1; ++i) {
-        if (strcmp(argv[i],"-g") == 0 || strcmp(argv[i],"--graph") == 0) {
-            graph_file = argv[i + 1];
-        } else if (strcmp(argv[i],"-f") == 0 || strcmp(argv[i],"--format") == 0) {
-            format = argv[i + 1];
+    int opt;
+    int position = 2;
+    while ((opt = getopt(argc, (char* const*)argv, ":g:f:o")) != -1) {
+      switch (opt) {
+          case 'g':
+              graph_file = argv[position];
+              position += 2;
+              break;
+          case 'f':
+              format = argv[position];
+              position += 2;
+              break;
+          case 'o':
+              print_output = argv[position];
+              position += 2;
+              break;
         }
     }
 
     if (graph_file == NULL) {
         cout << "Must specify which graph to use."
-             << "e.g. '-g graph.txt' or '--graph graph.txt'" << endl;
+             << "e.g. '-g graph.txt'" << endl;
         return EXIT_FAILURE;
     }
 
     if (format == NULL) {
         cout << "Must specify the format of the graph input file."
-             << "e.g. '-f tsv' or '--format csv'" << endl;
+             << "e.g. '-f tsv' or '-f csv'" << endl;
+        return EXIT_FAILURE;
+    }
+
+    if (print_output == NULL) {
+      cout << "Must specify whether to print output."
+             << "e.g. '-o y' or '-o n'" << endl;
         return EXIT_FAILURE;
     }
 
@@ -102,7 +115,7 @@ int main(int argc, const char **argv) {
         return EXIT_FAILURE;
     }
 
-    doConnectedComponents(graph);
+    doConnectedComponents(graph, *print_output);
 
     return EXIT_SUCCESS;
 }

@@ -10,14 +10,15 @@
 #include "graph_io.h"
 #include "tc.h"
 #include "graph_util.h"
+#include <getopt.h>
 
 using std::cout;
 using std::endl;
 
-static void doTriangleCount (const Graph &graph) {
+static void doTriangleCount (const Graph &graph, char print_output) {
     timespec before, after;
     std::set<Triangle> triangles;
-    //std::set<Triangle>::iterator it;
+    std::set<Triangle>::iterator it;
 
     cout << "Running undirected triangle count" << endl;
 
@@ -27,15 +28,17 @@ static void doTriangleCount (const Graph &graph) {
     clock_gettime(CLOCK_MONOTONIC, &after);
 
     // print triangles
-    /*
-    for(it = triangles.begin(); it != triangles.end(); ++it) {
-        cout << it->a.getLabel()
-              << " "
-              << it->b.getLabel()
-              << " "
-              << it->c.getLabel()
-              << std::endl;
-    }*/
+    
+    if (print_output == 'y') {
+      for(it = triangles.begin(); it != triangles.end(); ++it) {
+          cout << it->a.getLabel()
+                << " "
+                << it->b.getLabel()
+                << " "
+                << it->c.getLabel()
+                << std::endl;
+      }
+    }
 
     // construct the runtime
     time_t sec = after.tv_sec - before.tv_sec;
@@ -61,22 +64,24 @@ int main(int argc, const char **argv) {
     Graph graph;
     const char* graph_file = NULL;
     const char* format = NULL;
+    const char* print_output = NULL; 
 
-    if (argc < 5) {
-        cout << "Must specify which graph file to use "
-             << "(e.g. '-g graph.txt' or '--graph graph.txt') "
-             << endl
-             << "as well as the file's format "
-             << "(e.g. '-f tsv' or '--format csv')"
-             << endl;
-        return EXIT_FAILURE;
-    }
-
-    for (int i = 1; i < argc-1; ++i) {
-        if (strcmp(argv[i],"-g") == 0 || strcmp(argv[i],"--graph") == 0) {
-            graph_file = argv[i + 1];
-        } else if (strcmp(argv[i],"-f") == 0 || strcmp(argv[i],"--format") == 0) {
-            format = argv[i + 1];
+    int opt;
+    int position = 2;
+    while ((opt = getopt(argc, (char* const*)argv, ":g:f:o")) != -1) {
+      switch (opt) {
+          case 'g':
+              graph_file = argv[position];
+              position += 2;
+              break;
+          case 'f':
+              format = argv[position];
+              position += 2;
+              break;
+          case 'o':
+              print_output = argv[position];
+              position += 2;
+              break;
         }
     }
 
@@ -92,6 +97,12 @@ int main(int argc, const char **argv) {
         return EXIT_FAILURE;
     }
 
+    if (print_output == NULL) {
+      cout << "Must specify whether to print output."
+             << "e.g. '-o y' or '-o n'" << endl;
+        return EXIT_FAILURE;
+    }
+
     // import the graph in the specified format
     if (strcmp(format, "tsv") == 0) {
         importTSVGraph(graph_file, graph, false);
@@ -103,7 +114,7 @@ int main(int argc, const char **argv) {
         return EXIT_FAILURE;
     }
 
-    doTriangleCount(graph);
+    doTriangleCount(graph, *print_output);
 
     return EXIT_SUCCESS;
 }

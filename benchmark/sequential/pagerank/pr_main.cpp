@@ -10,11 +10,12 @@
 #include "graph_io.h"
 #include "pr.h"
 #include "graph_util.h"
+#include <getopt.h>
 
 using std::cout;
 using std::endl;
 
-static void doPageRank (const Graph& graph, const float &dampingFactor) {
+static void doPageRank (const Graph& graph, const float &dampingFactor, char print_output) {
     timespec before, after;
     std::map<Node, double> pr;
 
@@ -33,8 +34,11 @@ static void doPageRank (const Graph& graph, const float &dampingFactor) {
         --sec;
     }
 
+    if (print_output == 'y') {
+        printPageRanks(pr);
+    }
     // print the PR results
-    printPageRanks(pr);
+    
     //cout << "printing page ranks disabled" << endl;
 
     //print the runtime results
@@ -51,40 +55,48 @@ int main(int argc, const char **argv) {
     const char* graph_file = NULL;
     const char* damping_factor = NULL;
     const char* format = NULL;
+    const char* print_output = NULL;
+
     float d;
 
-    if (argc < 5) {
-        cout  << "Must specify which graph file to use "
-              << "(e.g. '-g graph.txt' or '--graph graph.txt')."
-              << endl
-              << "as well as the file's format "
-              << "(e.g. '-f tsv' or '--format csv')"
-              << endl
-              << "Damping factor may optionally be specified with -d or --damping "
-              << "(e.g. '-d 0.75'). Default value: 0.85"
-              << endl;
-        return EXIT_FAILURE;
-    }
-
-    for (int i = 1; i < argc-1; ++i) {
-        if (strcmp(argv[i],"-g") == 0 || strcmp(argv[i],"--graph") == 0) {
-            graph_file = argv[i + 1];
-        } else if (strcmp(argv[i],"-f") == 0 || strcmp(argv[i],"--format") == 0) {
-            format = argv[i + 1];
-        } else if (strcmp(argv[i],"-d") == 0 || strcmp(argv[i],"--damping") == 0) {
-            damping_factor = argv[i + 1];
+    int opt;
+    int position = 2;
+    while ((opt = getopt(argc, (char* const*)argv, ":g:f:d:o")) != -1) {
+      switch (opt) {
+          case 'g':
+              graph_file = argv[position];
+              position += 2;
+              break;
+          case 'f':
+              format = argv[position];
+              position += 2;
+              break;
+          case 'd':
+              damping_factor = argv[position];
+              position += 2;
+              break;
+          case 'o':
+              print_output = argv[position];
+              position += 2;
+              break;              
         }
     }
 
     if (graph_file == NULL) {
         cout << "Must specify which graph to use. "
-             << "e.g. '-g graph.txt' or '--graph graph.txt'" << endl;
+             << "e.g. '-g graph.txt'" << endl;
         return EXIT_FAILURE;
     }
 
     if (format == NULL) {
         cout << "Must specify the format of the graph input file. "
-             << "e.g. '-f tsv' or '--format csv'" << endl;
+             << "e.g. '-f tsv' or '-f csv'" << endl;
+        return EXIT_FAILURE;
+    }
+
+    if (print_output == NULL) {
+      cout << "Must specify whether to print output."
+             << "e.g. '-o y' or '-o n'" << endl;
         return EXIT_FAILURE;
     }
 
@@ -107,7 +119,7 @@ int main(int argc, const char **argv) {
         d = atof(damping_factor);
     }
 
-    doPageRank(graph, d);
+    doPageRank(graph, d, *print_output);
 
     return EXIT_SUCCESS;
 }

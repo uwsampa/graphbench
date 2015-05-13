@@ -1,6 +1,0 @@
-for (( i = 10; i < 12; i++ ))
-do
-    echo start counting i = $i
-    ./undirected_triangle_count -g ../../../data/$i.txt -f tsv | tee -a seq-tc-output.txt
-    echo finish counting
-done                  
