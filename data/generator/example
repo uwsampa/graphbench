@@ -1,0 +1,2 @@
+# with vertice number 16, average # of edges per vertex 4, with tsv output
+./generator_omp	16 -e 4 -o output16.txt -f 0
