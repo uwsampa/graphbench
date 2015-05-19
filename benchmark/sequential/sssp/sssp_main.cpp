@@ -16,34 +16,40 @@ using std::cout;
 using std::endl;
 
 void usage() {
-    cout << "usage: ./single_source_shortest_path -g graph.txt -f <tsv|csv> -o <y|n> -s startNode" << endl;
+    cout << "usage: ./single_source_shortest_path -g graph.txt -s startNode <-f csv [optional, default to tsv]>  <-o [optional, default to not print the result>" << endl;
     exit(1);
 }
 
-static void doShortestPath (const Graph& graph, Node &start, char print_output) {
-    timespec before, after;
+static void doShortestPath (const Graph& graph, Node &start, bool print_output) {
+    double before, after;
+    // timespec before, after;
     std::map<Node, double> costs;
     std::map<Node, Node> prev;
     std::cout << "Running single-source shortest path" << std::endl;
-    clock_gettime(CLOCK_MONOTONIC, &before);
+
+    before = getRealTime();
+    // clock_gettime(CLOCK_MONOTONIC, &before);
     singleSourceShortestPath(start, graph, costs, prev);
-    clock_gettime(CLOCK_MONOTONIC, &after);
+    after = getRealTime();
+    // clock_gettime(CLOCK_MONOTONIC, &after);
+
     // construct the runtime
-    time_t sec = after.tv_sec - before.tv_sec;
-    long milli = (after.tv_nsec - before.tv_nsec) / 1000000;
-    if (milli < 0) { // if after's nsec < before's nsec
-        milli += 1000;
-        --sec;
-    }
+    double sec = after - before;
+    // time_t sec = after.tv_sec - before.tv_sec;
+    // long milli = (after.tv_nsec - before.tv_nsec) / 1000000;
+    // if (milli < 0) { // if after's nsec < before's nsec
+    //     milli += 1000;
+    //     --sec;
+    // }
 
     cout << "Runtime: "
     << sec
-    << "."
-    << std::setw(3) << std::setfill('0') << milli
+    // << "."
+    // << std::setw(3) << std::setfill('0') << milli
     << "s"
     << endl;
 
-    if (print_output == 'y') {
+    if (print_output) {
         // need to print the output
         // print the output
         typedef std::map<Node, double>::iterator it_type;
@@ -59,13 +65,13 @@ int main(int argc, const char **argv) {
     Node startNode;
     const char* graph_file = NULL;
     const char* start = NULL;
-    const char* format = NULL;
-    const char* print_output = NULL;
+    const char* format = "tsv";
+    const bool print_output = false;
     
     int opt;
     int position = 2;
     
-    while ((opt = getopt(argc, (char* const*)argv, ":g:s:f:o")) != -1) {
+    while ((opt = getopt(argc, (char* const*)argv, "g:s:f:o")) != -1) {
         switch (opt) {
             case 'g':
             graph_file = argv[position];
@@ -123,7 +129,7 @@ int main(int argc, const char **argv) {
         usage();
     }
     
-    doShortestPath(graph, startNode, *print_output);
+    doShortestPath(graph, startNode, print_output);
     
     return EXIT_SUCCESS;
 }
