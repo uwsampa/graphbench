@@ -53,40 +53,40 @@ if [ -n "${s}" ] && [ -z "${n}" ]; then
     # if no scale is given 
     # echo "scale is given and name is not given"
     if [ "${s}" == 12 ]; then
-        wget -b -P ./data-downloaded $FB
+        wget --no-clobber --directory-prefix ./data-downloaded $FB
     elif [ "${s}" == 16 ]; then
-        wget -b -P ./data-downloaded $TW
-        wget -b -P ./data-downloaded $S8
-        wget -b -P ./data-downloaded $S9
+        wget --no-clobber --directory-prefix ./data-downloaded $TW
+        wget --no-clobber --directory-prefix ./data-downloaded $S8
+        wget --no-clobber --directory-prefix ./data-downloaded $S9
     elif [ "${s}" == 22 ]; then
-        wget -b -P ./data-downloaded $LJ
+        wget --no-clobber --directory-prefix ./data-downloaded $LJ
     elif [ "${s}" == 21 ]; then
-        wget -b -P ./data-downloaded $PC
+        wget --no-clobber --directory-prefix ./data-downloaded $PC
     elif [ "${s}" == 25 ]; then
-        wget -b -P ./data-downloaded $TWL
+        wget --no-clobber --directory-prefix ./data-downloaded $TWL
     elif [ "${s}" == 26 ]; then
-        wget -b -P ./data-downloaded $FS
+        wget --no-clobber --directory-prefix ./data-downloaded $FS
     else
         echo "no dataset size ${s} available"
         usage
     fi
 elif [ -z "${s}" ] && [ -n "${n}" ]; then
     if [ "${n}" == "facebook" ]; then
-      wget -b -P ./data-downloaded $FB
+      wget --no-clobber --directory-prefix ./data-downloaded $FB
     elif [ "${n}" == "twitter" ]; then
-      wget -b -P ./data-downloaded $TW
+      wget --no-clobber --directory-prefix ./data-downloaded $TW
     elif [ "${n}" == "livejournal" ]; then
-      wget -b -P ./data-downloaded $LJ
+      wget --no-clobber --directory-prefix ./data-downloaded $LJ
     elif [ "${n}" == "pokec" ]; then
-      wget -b -P ./data-downloaded $PC
+      wget --no-clobber --directory-prefix ./data-downloaded $PC
     elif [ "${n}" == "slashdot08" ]; then
-      wget -b -P ./data-downloaded $S8
+      wget --no-clobber --directory-prefix ./data-downloaded $S8
     elif [ "${n}" == "slashdot09" ]; then
-      wget -b -P ./data-downloaded $S9
+      wget --no-clobber --directory-prefix ./data-downloaded $S9
     elif [ "${n}" == "friendster" ]; then
-      wget -b -P ./data-downloaded $FS
+      wget --no-clobber --directory-prefix ./data-downloaded $FS
     elif [ "${n}" == "twitter-large" ]; then
-      wget -b -P ./data-downloaded $TWL
+      wget --no-clobber --directory-prefix ./data-downloaded $TWL
     else
         echo "no dataset called ${n} available"
         usage
@@ -94,21 +94,21 @@ elif [ -z "${s}" ] && [ -n "${n}" ]; then
 elif [ -n "${s}" ] && [ -n "${n}" ]; then
     # need to double check both
     if [ "${n}" == "facebook" ] && [ "${s}" == 12 ]; then
-      wget -b -P ./data-downloaded $FB
+      wget --no-clobber --directory-prefix ./data-downloaded $FB
     elif [ "${n}" == "twitter" ] && [ "${s}" == 16 ]; then
-      wget -b -P ./data-downloaded $TW
+      wget --no-clobber --directory-prefix ./data-downloaded $TW
     elif [ "${n}" == "livejournal" ] && [ "${s}" == 22 ]; then
-      wget -b -P ./data-downloaded $LJ
+      wget --no-clobber --directory-prefix ./data-downloaded $LJ
     elif [ "${n}" == "pokec" ] && [ "${s}" == 21 ]; then
-      wget -b -P ./data-downloaded $PC
+      wget --no-clobber --directory-prefix ./data-downloaded $PC
     elif [ "${n}" == "slashdot08" ] && [ "${s}" == 16 ]; then
-      wget -b -P ./data-downloaded $S8
+      wget --no-clobber --directory-prefix ./data-downloaded $S8
     elif [ "${n}" == "slashdot09" ] && [ "${s}" == 16 ]; then
-      wget -b -P ./data-downloaded $S9
+      wget --no-clobber --directory-prefix ./data-downloaded $S9
     elif [ "${n}" == "friendster" ] && [ "${s}" == 26 ]; then
-      wget -b -P ./data-downloaded $FS
+      wget --no-clobber --directory-prefix ./data-downloaded $FS
     elif [ "${n}" == "twitter-large" ] && [ "${s}" == 25 ]; then
-      wget -b -P ./data-downloaded $TWL
+      wget --no-clobber --directory-prefix ./data-downloaded $TWL
     else
         echo "no dataset called ${n} with scale ${s} available"
         usage
