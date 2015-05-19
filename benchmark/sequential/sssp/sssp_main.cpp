@@ -22,30 +22,20 @@ void usage() {
 
 static void doShortestPath (const Graph& graph, Node &start, bool print_output) {
     double before, after;
-    // timespec before, after;
+
     std::map<Node, double> costs;
     std::map<Node, Node> prev;
     std::cout << "Running single-source shortest path" << std::endl;
 
     before = getRealTime();
-    // clock_gettime(CLOCK_MONOTONIC, &before);
     singleSourceShortestPath(start, graph, costs, prev);
     after = getRealTime();
-    // clock_gettime(CLOCK_MONOTONIC, &after);
 
     // construct the runtime
     double sec = after - before;
-    // time_t sec = after.tv_sec - before.tv_sec;
-    // long milli = (after.tv_nsec - before.tv_nsec) / 1000000;
-    // if (milli < 0) { // if after's nsec < before's nsec
-    //     milli += 1000;
-    //     --sec;
-    // }
 
     cout << "Runtime: "
     << sec
-    // << "."
-    // << std::setw(3) << std::setfill('0') << milli
     << "s"
     << endl;
 
@@ -66,7 +56,7 @@ int main(int argc, const char **argv) {
     const char* graph_file = NULL;
     const char* start = NULL;
     const char* format = "tsv";
-    const bool print_output = false;
+    bool print_output = false;
     
     int opt;
     int position = 2;
@@ -86,8 +76,8 @@ int main(int argc, const char **argv) {
             position += 2;
             break;
             case 'o':
-            print_output = argv[position];
-            position += 2;
+            print_output = true;
+            position += 1;
             break;
         }
     }
@@ -102,22 +92,14 @@ int main(int argc, const char **argv) {
         << "e.g. '-s 51'" << endl;
         usage();
     }
-    if (print_output == NULL) {
-        cout << "Must specify whether to print output."
-        << "e.g. '-o y' or '-o n'" << endl;
-        usage();
-    }
+
     if(parseNode(start, startNode) < 0) {
         cout << "Error parsing start node: "
         << start
         << endl;
         usage();
     }
-    if (format == NULL) {
-        cout << "Must specify the format of the graph input file. "
-        << "e.g. '-f tsv' or '-f csv'" << endl;
-        usage();
-    }
+
     // import the graph in the specified format
     if (strcmp(format, "tsv") == 0) {
         importTSVGraph(graph_file, graph, false);

@@ -16,37 +16,30 @@ using std::cout;
 using std::endl;
 
 void usage() {
-    cout << "usage: ./page_rank -g graph.txt -f <tsv|csv> -o <y|n> -d damping_factor" << endl;
+    cout << "usage: ./page_rank -g graph.txt -g graph.txt <-d damping_factor [optional, default to 0.85]> <-f csv [optional, default to tsv]>  <-o [optional, default to not print the result>" << endl;
     exit(1);
 }
 
-static void doPageRank (const Graph& graph, const float &dampingFactor, char print_output) {
-    timespec before, after;
+static void doPageRank (const Graph& graph, const float &dampingFactor, bool print_output) {
+    double before, after;
     std::map<Node, double> pr;
     cout << "doing PageRank" << endl;
 
     // run triangle count and time it
-    clock_gettime(CLOCK_MONOTONIC, &before);
+    before = getRealTime();
     pageRank(graph, dampingFactor, pr);
-    clock_gettime(CLOCK_MONOTONIC, &after);
+    after = getRealTime();
 
     // construct the runtime
-    time_t sec = after.tv_sec - before.tv_sec;
-    long milli = (after.tv_nsec - before.tv_nsec) / 1000000;
-    if (milli < 0) { // if after's nsec < before's nsec
-        milli += 1000;
-        --sec;
-    }
+    double sec = after - before;
 
-    if (print_output == 'y') {
+    if (print_output) {
         printPageRanks(pr);
     }
 
     //print the runtime results
     cout << "Runtime: "
     << sec
-    << "."
-    << std::setw(3) << std::setfill('0') << milli
     << "s"
     << endl;
 }
@@ -54,15 +47,14 @@ static void doPageRank (const Graph& graph, const float &dampingFactor, char pri
 int main(int argc, const char **argv) {
     Graph graph;
     const char* graph_file = NULL;
-    const char* damping_factor = NULL;
-    const char* format = NULL;
-    const char* print_output = NULL;
+    const char* format = "tsv";
+    bool print_output = false;
     
-    float d;
+    float d = 0.85;
     int opt;
     int position = 2;
 
-    while ((opt = getopt(argc, (char* const*)argv, ":g:f:d:o")) != -1) {
+    while ((opt = getopt(argc, (char* const*)argv, "g:f:d:o")) != -1) {
         switch (opt) {
             case 'g':
             graph_file = argv[position];
@@ -73,12 +65,12 @@ int main(int argc, const char **argv) {
             position += 2;
             break;
             case 'd':
-            damping_factor = argv[position];
+            d = atof(argv[position]);
             position += 2;
             break;
             case 'o':
-            print_output = argv[position];
-            position += 2;
+            print_output = true;
+            position += 1;
             break;
         }
     }
@@ -86,16 +78,6 @@ int main(int argc, const char **argv) {
     if (graph_file == NULL) {
         cout << "Must specify which graph to use. "
         << "e.g. '-g graph.txt'" << endl;
-        usage();
-    }
-    if (format == NULL) {
-        cout << "Must specify the format of the graph input file. "
-        << "e.g. '-f tsv' or '-f csv'" << endl;
-        usage();
-    }
-    if (print_output == NULL) {
-        cout << "Must specify whether to print output."
-        << "e.g. '-o y' or '-o n'" << endl;
         usage();
     }
     // import the graph in the specified format
@@ -108,15 +90,8 @@ int main(int argc, const char **argv) {
         cout << "Unknown graph file format: " << format << endl;
         usage();
     }
-    // use the user supplised damping factor,
-    // or default to 0.85
-    if (damping_factor == NULL) {
-        d = 0.85;
-        } else {
-        d = atof(damping_factor);
-    }
 
-    doPageRank(graph, d, *print_output);
+    doPageRank(graph, d, print_output);
     
     return EXIT_SUCCESS;
 }

@@ -16,7 +16,7 @@ using std::cout;
 using std::endl;
 
 void usage() {
-    cout << "usage: ./undirected_triangle_count -g path_to_graph.txt <-f csv [optional, default to tsv]>  <-o [optional, default to not print the result>" << endl;
+    cout << "usage: ./undirected_triangle_count -g graph.txt <-f csv [optional, default to tsv]>  <-o [optional, default to not print the result>" << endl;
     exit(1);
 }
 
@@ -59,7 +59,7 @@ int main(int argc, const char **argv) {
     Graph graph;
     const char* graph_file = NULL;
     const char* format = "tsv";
-    const bool print_output = false;
+    bool print_output = false;
 
     int opt;
     int position = 2;
@@ -76,7 +76,6 @@ int main(int argc, const char **argv) {
             break;
         case 'o':
             print_output = true;
-            // print_output = argv[position];
             position += 1;
             break;
         default:
@@ -85,21 +84,12 @@ int main(int argc, const char **argv) {
         }
     }
 
-    // if (format == NULL) {
-    //     cout << "Must specify the format of the graph input file. "
-    //     << "e.g. '-f tsv' or '-f csv'" << endl;
-    //     usage();
-    // }
     if (graph_file == NULL) {
         cout << "Must specify which graph to use."
         << "e.g. '-g graph.txt'" << endl;
         usage();
     }
-    // if (print_output == NULL) {
-    //     cout << "Must specify whether to print output."
-    //     << "e.g. '-o y' or '-o n'" << endl;
-    //     usage();
-    // }
+
     // import the graph in the specified format
     if (strcmp(format, "tsv") == 0) {
         importTSVGraph(graph_file, graph, false);

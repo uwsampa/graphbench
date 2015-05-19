@@ -54,9 +54,7 @@ void step(const Graph &graph, const float dampingFactor,
     for(pr_it = newPR.begin(); pr_it != newPR.end(); ++pr_it) {
         // set the new pageRank equal the weighted sum of incoming links, random surfers from dangling pages,
         // and teleporting surfers
-//        pr_it->second = (dampingFactor * (pr_it->second + randomSurferPR)) + ((1.0 - dampingFactor) / n); // for 1.0-sum PR
         pr_it->second = (dampingFactor * (pr_it->second + randomSurferPR)) + (1.0 - dampingFactor); // n-sum
-        //pr_it->second = (dampingFactor * (pr_it->second)) + (1.0 - dampingFactor); // n-sum
     }
 }
 
@@ -76,17 +74,13 @@ double getPRDiff (std::map<Node, double> oldPR, std::map<Node, double> newPR) {
 
 int pageRank(const Graph &in, const float dampingFactor, std::map<Node, double> &out) {
     double change;
-//    double sum;
-//    double normalization;
     std::map<Node, double> newPR;
     std::map<Node, std::map<Node, double> >::const_iterator web_it;
     std::map<Node, double>::iterator pr_it;
-//    uint32_t webSize = in.size();
 
     // initialize the PR of each node to 1 / n where n is the number of nodes
     for(web_it = in.begin(); web_it != in.end(); ++web_it) {
         out[web_it->first] = 1.0; // for N-sum PR
-        //out[web_it->first] = 1.0 / webSize; //for 1.0-sum PR
     }
 
     do {
@@ -96,19 +90,11 @@ int pageRank(const Graph &in, const float dampingFactor, std::map<Node, double> 
         // find the L1-norm of the two iterations
         change = getPRDiff(out, newPR);
 
-        cout << "Diff: " << change << endl;
-
-        /*
-        sum = 0.0;
-        for(pr_it = newPR.begin(); pr_it != newPR.end(); ++pr_it) {
-            sum += pr_it->second;
-        }
-        //normalization = sum; // 1.0-sum PR
-        normalization = sum / webSize; // N-sum PR*/
+        // can uncomment to see the change!!!
+        // cout << "Diff: " << change << endl;
 
         // set the PR values for the next iteration, normalizing the sum of PRs
         for(pr_it = out.begin(); pr_it != out.end(); ++pr_it) {
-            //pr_it->second = newPR[pr_it->first] / normalization;
             pr_it->second = newPR[pr_it->first];
         }
 

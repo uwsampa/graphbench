@@ -17,35 +17,28 @@ using std::cout;
 using std::endl;
 
 void usage() {
-    cout << "usage: ./breadth_first_search -g graph.txt -f <tsv|csv> -o <y|n> -s startnode" << endl;
+    cout << "usage: ./breadth_first_search -g graph.txt -s startnode <-f csv [optional, default to tsv]>  <-o [optional, default to not print the result>" << endl;
     exit(1);
 }
 
 static void doBFS (const Graph& graph, Node &start, char print_output) {
     Graph bfsResult;
-    timespec before, after;
+    double before, after;
 
-    clock_gettime(CLOCK_MONOTONIC, &before);
+    before = getRealTime();
     bfs(start, graph, bfsResult);
-    clock_gettime(CLOCK_MONOTONIC, &after);
+    after = getRealTime();
 
     // construct the runtime
-    time_t sec = after.tv_sec - before.tv_sec;
-    long milli = (after.tv_nsec - before.tv_nsec) / 1000000;
-    if (milli < 0) { // if after's nsec < before's nsec
-        milli += 1000;
-        --sec;
-    }
+    double sec = after - before;
 
     //print the runtime results
     cout << "Runtime: "
     << sec
-    << "."
-    << std::setw(3) << std::setfill('0') << milli
     << "s"
     << endl;
 
-    if (print_output == 'y') {
+    if (print_output) {
         cout << "bfs result:" << endl;
         printTree(bfsResult, start, string(""));
     }
@@ -57,13 +50,13 @@ int main(int argc, const char **argv) {
 
     const char* graph_file = NULL;
     const char* start = NULL;
-    const char* format = NULL;
-    const char* print_output = NULL;
+    const char* format = "tsv";
+    double print_output = false;
 
     int opt;
     int position = 2;
 
-    while ((opt = getopt(argc, (char* const*)argv, ":g:s:f:o")) != -1) {
+    while ((opt = getopt(argc, (char* const*)argv, "g:s:f:o")) != -1) {
         switch (opt) {
             case 'g':
             graph_file = argv[position];
@@ -78,8 +71,8 @@ int main(int argc, const char **argv) {
             position += 2;
             break;
             case 'o':
-            print_output = argv[position];
-            position += 2;
+            print_output = true;
+            position += 1;
             break;
         }
     }
@@ -87,16 +80,6 @@ int main(int argc, const char **argv) {
     if (graph_file == NULL) {
         cout << "Must specify which graph to use."
         << "e.g. '-g graph.txt'" << endl;
-        usage();
-    }
-    if (format == NULL) {
-        cout << "Must specify the format of the graph input file."
-        << "e.g. '-f tsv' or '-f csv'" << endl;
-        usage();
-    }
-    if (print_output == NULL) {
-        cout << "Must specify whether to print output."
-        << "e.g. '-o y' or '-o n'" << endl;
         usage();
     }
     if (strcmp(format, "tsv") == 0) {
@@ -120,7 +103,7 @@ int main(int argc, const char **argv) {
         return EXIT_FAILURE;
     }
 
-    doBFS(graph, startNode, *print_output);
+    doBFS(graph, startNode, print_output);
 
     return EXIT_SUCCESS;
 }
