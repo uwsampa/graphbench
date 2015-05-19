@@ -25,16 +25,16 @@ BINS = undirected_triangle_count \
 
 all: $(BINS)
 
-undirected_triangle_count: tc_main.o graph.o tc.o graph_io.o graph_util.o
+undirected_triangle_count: tc_main.o graph.o tc.o graph_io.o graph_util.o getRealTime.o
 	$(CXX) $^ -o $@
 
-breadth_first_search: bfs_main.o graph.o bfs.o graph_io.o graph_util.o
+breadth_first_search: bfs_main.o graph.o bfs.o graph_io.o graph_util.o getRealTime.o
 	$(CXX) $^ -o $@
 
-single_source_shortest_path: sssp_main.o graph.o sssp.o graph_io.o graph_util.o
+single_source_shortest_path: sssp_main.o graph.o sssp.o graph_io.o graph_util.o getRealTime.o
 	$(CXX) $^ -o $@
 
-page_rank: pr_main.o graph.o pr.o graph_io.o graph_util.o
+page_rank: pr_main.o graph.o pr.o graph_io.o graph_util.o getRealTime.o
 	$(CXX) $^ -o $@
 
 connected_components: cc_main.o graph.o cc.o graph_io.o
@@ -43,16 +43,16 @@ connected_components: cc_main.o graph.o cc.o graph_io.o
 betweenness_centrality: bc_main.o graph.o bc.o graph_io.o
 	$(CXX) $^ -o $@
 
-bfs_main.o: bfs_main.cpp bfs.o graph_util.o graph_io.o graph.o
+bfs_main.o: bfs_main.cpp bfs.o graph_util.o graph_io.o graph.o getRealTime.o
 	$(CXX) $(CXXFLAGS) $<
 
-tc_main.o: tc_main.cpp tc.o graph_util.o graph_io.o graph.o
+tc_main.o: tc_main.cpp tc.o graph_util.o graph_io.o graph.o getRealTime.o
 	$(CXX) $(CXXFLAGS) $<
 
-sssp_main.o: sssp_main.cpp sssp.o graph_util.o graph_io.o graph.o
+sssp_main.o: sssp_main.cpp sssp.o graph_util.o graph_io.o graph.o getRealTime.o
 	$(CXX) $(CXXFLAGS) $<
 
-pr_main.o: pr_main.cpp pr.o graph_util.o graph_io.o graph.o
+pr_main.o: pr_main.cpp pr.o graph_util.o graph_io.o graph.o getRealTime.o
 	$(CXX) $(CXXFLAGS) $<
 
 cc_main.o: cc_main.cpp cc.o graph_util.o graph_io.o graph.o
@@ -89,6 +89,9 @@ graph_io.o: graph_io.cpp graph_io.h graph.h
 	$(CXX) $(CXXFLAGS) $<
 
 graph_util.o: graph_util.cpp graph_util.h graph.h
+	$(CXX) $(CXXFLAGS) $<
+
+getRealTime.o: getRealTime.cpp getRealTime.h
 	$(CXX) $(CXXFLAGS) $<
 
 clean:

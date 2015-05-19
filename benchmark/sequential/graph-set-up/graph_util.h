@@ -1,7 +1,8 @@
-#include "graph.h"
-
 #ifndef GRAPH_UTIL_H
 #define GRAPH_UTIL_H
+
+#include "graph.h"
+#include "getRealTime.h"
 
 /*
     Print the structure of the graph to the console, starting at the given node.

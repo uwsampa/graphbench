@@ -21,15 +21,15 @@ void usage() {
 }
 
 static void doTriangleCount (const Graph &graph, char print_output) {
-    timespec before, after;
+    double before, after;
     std::set<Triangle> triangles;
     std::set<Triangle>::iterator it;
     cout << "Running undirected triangle count" << endl;
 
     // run triangle count and time it
-    clock_gettime(CLOCK_MONOTONIC, &before);
+    before = getRealTime();
     undirectedTriangleCount(graph, triangles);
-    clock_gettime(CLOCK_MONOTONIC, &after);
+    after = getRealTime();
 
     // print triangles
     if (print_output == 'y') {
@@ -44,17 +44,10 @@ static void doTriangleCount (const Graph &graph, char print_output) {
     }
 
     // construct the runtime
-    time_t sec = after.tv_sec - before.tv_sec;
-    long milli = (after.tv_nsec - before.tv_nsec) / 1000000;
-    if (milli < 0) { // if after's nsec < before's nsec
-        milli += 1000;
-        --sec;
-    }
+    double sec = after - before;
 
     cout << "Runtime: "
     << sec
-    << "."
-    << std::setw(3) << std::setfill('0') << milli
     << "s"
     << endl;
     cout << "Triangle count: "
