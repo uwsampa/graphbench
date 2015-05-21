@@ -70,17 +70,20 @@ int main(int argc, const char **argv) {
 
     while ((opt = getopt(argc, (char* const*)argv, "g:f:o")) != -1) {
         switch (opt) {
-            case 'g':
+        case 'g':
             graph_file = argv[position];
             position += 2;
             break;
-            case 'f':
+        case 'f':
             format = argv[position];
             position += 2;
             break;
-            case 'o':
+        case 'o':
             print_output = true;
             position += 1;
+            break;
+        default:
+            usage();
             break;
         }
     }
