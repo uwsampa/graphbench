@@ -16,21 +16,21 @@ using std::cout;
 using std::endl;
 
 void usage() {
-    cout << "usage: ./betweenness_centrality -g graph.txt -f <tsv|csv> -o <y|n>" << endl;
+    cout << "usage: ./betweenness_centrality -g graph.txt <-f csv [optional, default to tsv]>  <-o [optional, default to not print the result>" << endl;
     exit(1);
 }
 
-static void doBetweennessCentrality (const Graph &graph, char print_output) {
-    timespec before, after;
+static void doBetweennessCentrality (const Graph &graph, bool print_output) {
+    double before, after;
     std::map<Node, double> centrality;
     cout << "Running unweighted betweenness centrality" << endl;
 
-    clock_gettime(CLOCK_MONOTONIC, &before);
+    before = getRealTime();
     unweightedBetweennessCentrality(graph, centrality);
-    clock_gettime(CLOCK_MONOTONIC, &after);
+    after = getRealTime();
 
     // print the output
-    if (print_output == 'y') {
+    if (print_output) {
         typedef std::map<Node, double>::iterator it_type;
         for (it_type iterator = centrality.begin(); iterator != centrality.end(); ++iterator) {
             cout << iterator->first.getLabel()
@@ -39,17 +39,10 @@ static void doBetweennessCentrality (const Graph &graph, char print_output) {
     }
 
     // construct the runtime
-    time_t sec = after.tv_sec - before.tv_sec;
-    long milli = (after.tv_nsec - before.tv_nsec) / 1000000;
-    if (milli < 0) { // if after's nsec < before's nsec
-        milli += 1000;
-        --sec;
-    }
+    double sec = after - before;
 
     cout << "Runtime: "
     << sec
-    << "."
-    << std::setw(3) << std::setfill('0') << milli
     << "s"
     << endl;
 }
@@ -57,13 +50,13 @@ static void doBetweennessCentrality (const Graph &graph, char print_output) {
 int main(int argc, const char **argv) {
     Graph graph;
     const char* graph_file = NULL;
-    const char* format = NULL;
-    const char* print_output = NULL;
+    const char* format = "tsv";
+    bool print_output = false;
 
     int opt;
     int position = 2;
 
-    while ((opt = getopt(argc, (char* const*)argv, ":g:f:o")) != -1) {
+    while ((opt = getopt(argc, (char* const*)argv, "g:f:o")) != -1) {
         switch (opt) {
             case 'g':
             graph_file = argv[position];
@@ -74,27 +67,18 @@ int main(int argc, const char **argv) {
             position += 2;
             break;
             case 'o':
-            print_output = argv[position];
-            position += 2;
+            print_output = true;
+            position += 1;
             break;
         }
     }
 
-    if (format == NULL) {
-        cout << "Must specify the format of the graph input file. "
-        << "e.g. '-f tsv' or '-f csv'" << endl;
-        usage();
-    }
     if (graph_file == NULL) {
         cout << "Must specify which graph to use."
         << "e.g. '-g graph.txt'" << endl;
         usage();
     }
-    if (print_output == NULL) {
-        cout << "Must specify whether to print output."
-        << "e.g. '-o y' or '-o n'" << endl;
-        usage();
-    }
+
     // import the graph in the specified format
     if (strcmp(format, "tsv") == 0) {
         importTSVGraph(graph_file, graph, false);
@@ -106,7 +90,7 @@ int main(int argc, const char **argv) {
         usage();
     }
 
-    doBetweennessCentrality(graph, *print_output);
+    doBetweennessCentrality(graph, print_output);
     
     return EXIT_SUCCESS;
 }

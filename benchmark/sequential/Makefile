@@ -37,10 +37,10 @@ single_source_shortest_path: sssp_main.o graph.o sssp.o graph_io.o graph_util.o 
 page_rank: pr_main.o graph.o pr.o graph_io.o graph_util.o getRealTime.o
 	$(CXX) $^ -o $@
 
-connected_components: cc_main.o graph.o cc.o graph_io.o
+connected_components: cc_main.o graph.o cc.o graph_io.o graph_util.o getRealTime.o
 	$(CXX) $^ -o $@
 
-betweenness_centrality: bc_main.o graph.o bc.o graph_io.o
+betweenness_centrality: bc_main.o graph.o bc.o graph_io.o graph_util.o getRealTime.o
 	$(CXX) $^ -o $@
 
 bfs_main.o: bfs_main.cpp bfs.o graph_util.o graph_io.o graph.o getRealTime.o

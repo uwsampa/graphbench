@@ -10,6 +10,7 @@
 #include "graph.h"
 #include "graph_io.h"
 #include "cc.h"
+#include "graph_util.h"
 #include <getopt.h>
 
 using std::string;
@@ -17,7 +18,7 @@ using std::cout;
 using std::endl;
 
 void usage() {
-    cout << "usage: ./connected_components -g graph.txt -f <tsv|csv> -o <y|n>" << endl;
+    cout << "usage: ./connected_components -g graph.txt <-f csv [optional, default to tsv]>  <-o [optional, default to not print the result>" << endl;
     exit(1);
 }
 
@@ -33,32 +34,26 @@ void printComponents(const vector<set<Node> > &components) {
     }
 }
 
-static void doConnectedComponents (const Graph &graph, char print_output) {
+static void doConnectedComponents (const Graph &graph, bool print_output) {
     vector<set<Node> > components;
-    timespec before, after;
+
+    double before, after;
     cout << "Running connected components" << endl;
 
-    clock_gettime(CLOCK_MONOTONIC, &before);
+    before = getRealTime();
     connectedComponents(graph, components);
-    clock_gettime(CLOCK_MONOTONIC, &after);
+    after = getRealTime();
 
     // construct the runtime
-    time_t sec = after.tv_sec - before.tv_sec;
-    long milli = (after.tv_nsec - before.tv_nsec) / 1000000;
-    if (milli < 0) { // if after's nsec < before's nsec
-        milli += 1000;
-        --sec;
-    }
+    double sec = after - before;
 
     //print the runtime results
     cout << "Runtime: "
     << sec
-    << "."
-    << std::setw(3) << std::setfill('0') << milli
     << "s"
     << endl;
 
-    if (print_output == 'y') {
+    if (print_output) {
         cout << "Number of components: " << components.size() << endl;
         printComponents(components);
     }
@@ -67,13 +62,13 @@ static void doConnectedComponents (const Graph &graph, char print_output) {
 int main(int argc, const char **argv) {
     Graph graph;
     const char* graph_file = NULL;
-    const char* format = NULL;
-    const char* print_output = NULL;
+    const char* format = "tsv";
+    bool print_output = false;
 
     int opt;
     int position = 2;
 
-    while ((opt = getopt(argc, (char* const*)argv, ":g:f:o")) != -1) {
+    while ((opt = getopt(argc, (char* const*)argv, "g:f:o")) != -1) {
         switch (opt) {
             case 'g':
             graph_file = argv[position];
@@ -84,8 +79,8 @@ int main(int argc, const char **argv) {
             position += 2;
             break;
             case 'o':
-            print_output = argv[position];
-            position += 2;
+            print_output = true;
+            position += 1;
             break;
         }
     }
@@ -95,16 +90,7 @@ int main(int argc, const char **argv) {
         << "e.g. '-g graph.txt'" << endl;
         usage();
     }
-    if (format == NULL) {
-        cout << "Must specify the format of the graph input file."
-        << "e.g. '-f tsv' or '-f csv'" << endl;
-        usage();
-    }
-    if (print_output == NULL) {
-        cout << "Must specify whether to print output."
-        << "e.g. '-o y' or '-o n'" << endl;
-        usage();
-    }
+    
     // import the graph in the specified format
     if (strcmp(format, "tsv") == 0) {
         importTSVGraph(graph_file, graph, false);
@@ -116,7 +102,7 @@ int main(int argc, const char **argv) {
         usage();
     }
 
-    doConnectedComponents(graph, *print_output);
+    doConnectedComponents(graph, print_output);
 
     return EXIT_SUCCESS;
 }
