@@ -58,7 +58,7 @@ int main(int argc, char* argv[]) {
 
   int opt;
   int position = 3;
-    while ((opt = getopt(argc, argv, "eosf:")) != -1) {
+    while ((opt = getopt(argc, argv, "e:o:s:f")) != -1) {
         switch (opt) {
         case 'e':
             numEdges = atoi(argv[position]);
@@ -78,11 +78,8 @@ int main(int argc, char* argv[]) {
             position += 2;
             break;
         case 'f':
-            binary = atoi(argv[position]);
-            if (binary != 0 && binary != 1) {
-                printError();
-            }
-            position += 2;
+            binary = 1;
+            position += 1;
             break;
         default: 
             printError();
