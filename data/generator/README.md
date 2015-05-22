@@ -1,12 +1,14 @@
-This directory contains:
+# This directory contains:
 
 a synthetic graph generator derived from the Graph500 Kronecker generator
 
-Instruction:
+----------------------------------------------------------------------------------------------
+
+# Instruction:
 
 Run: make all
 
-To run the program:
+# To run the program:
 
 -- generator_seq
 
@@ -17,7 +19,7 @@ To run the program:
 
 ./generator_omp <# of vertices (log 2 base)> <-e intNumber [optional: average # of edges per vertex, defualt to be 16> <-o outputFileName [optional: default to stdout]> <-s intName [optional: default to use the current time]> <-b [optional: default is ascii version, -b for binary version]>
 
-Example:
+# Example:
 
 To produce the data with vertice number 2^16, average # of edges per vertex 4, with tsv output
 
