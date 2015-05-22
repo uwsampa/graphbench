@@ -9,11 +9,11 @@ Run: make all
 To run the program:
 1. generator_seq
 
-./generator_seq <# of vertices (log 2 base)> <average # of edges per vertex [optional: -e intNumber]> <output file [optional: -o outputName]> <seed [optional: -s intNumber]> <tsv type: 0-tsv; 1-binary tsv [optional: -f 0 / -f 1]>
+./generator_seq <# of vertices (log 2 base)> <-e intNumber [optional: average # of edges per vertex, defualt to be 16> <-o outputFileName [optional: default to stdout]> <-s intName [optional: default to use the current time]> <-b [optional: default is ascii version, -b for binary version]>
 
 2. generator_omp
 
-./generator_omp <# of vertices (log 2 base)> <average # of edges per vertex [optional: -e intNumber]> <output file [optional: -o outputName]> <seed [optional: -s intNumber]> <tsv type: 0-tsv; 1-binary tsv [optional: -f 0 / -f 1]>
+./generator_omp <# of vertices (log 2 base)> <-e intNumber [optional: average # of edges per vertex, defualt to be 16> <-o outputFileName [optional: default to stdout]> <-s intName [optional: default to use the current time]> <-b [optional: default is ascii version, -b for binary version]>
 
 Example:
 

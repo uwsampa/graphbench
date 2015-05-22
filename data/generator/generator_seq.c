@@ -29,7 +29,7 @@ inline double get_time() {
 }
 
 void printError() {
-  fprintf(stderr, "usage: <program> <# of vertices (log 2 base)> <average # of edges per vertex [optional: -e intNumber]> <output file [optional: -o outputName]> <seed [optional: -s intNumber]> <tsv type: 0-tsv; 1-binary tsv [optional: -f 0 / -f 1]>\n");
+  fprintf(stderr, "usage: ./generator_seq <# of vertices (log 2 base)> <-e intNumber [optional: average # of edges per vertex, defualt to be 16> <-o outputFileName [optional: default to stdout]> <-s intName [optional: default to use the current time]> <-b [optional: default is ascii version, -b for binary version]>\n");
   exit(0);
 }
 
@@ -61,7 +61,7 @@ int main(int argc, char* argv[]) {
 
   int opt;
   int position = 3;
-    while ((opt = getopt(argc, argv, "e:o:s:f")) != -1) {
+    while ((opt = getopt(argc, argv, "e:o:s:b")) != -1) {
         switch (opt) {
         case 'e':
             numEdges = atoi(argv[position]);
@@ -72,7 +72,7 @@ int main(int argc, char* argv[]) {
             if (fout == NULL) {
               fprintf(stderr, "%s -- ", argv[position]);
               perror("fopen for write failed");
-              exit(0);
+              exit(1);
             }
             position += 2;
             break;
@@ -80,12 +80,13 @@ int main(int argc, char* argv[]) {
             seed = atoi(argv[position]);
             position += 2;
             break;
-        case 'f':
+        case 'b':
             binary = 1;
             position += 1;
             break;
         default: 
             printError();
+            break;
         }
     }
 
@@ -118,8 +119,14 @@ int main(int argc, char* argv[]) {
     time_taken_write = get_time() - start_write;
     printf("\t%f seconds for writing binary version\n", time_taken_write);
   }
-  fclose(fout);
 
-  free(result);
+  int check_correctness;
+  check_correctness = fclose(fout);
+  if (check_correctness == EOF) {
+    fprintf(stderr, "%s -- ", argv[position]);
+    perror("fclose for failed");
+    exit(1);
+  }
+
   return 0;
 }
