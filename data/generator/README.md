@@ -7,6 +7,7 @@ Instruction:
 Run: make all
 
 To run the program:
+
 1. generator_seq
 
 ./generator_seq <# of vertices (log 2 base)> <-e intNumber [optional: average # of edges per vertex, defualt to be 16> <-o outputFileName [optional: default to stdout]> <-s intName [optional: default to use the current time]> <-b [optional: default is ascii version, -b for binary version]>
