@@ -14,11 +14,17 @@ The ```download.sh``` contains all the code to download the datasets we found us
 
 The datasets chosen include:
 2^12 - facebook; 
+
 2^16 - twitter, slashdot0811, slashdot0902;
+
 2^21 - pokec;
+
 2^22 - livejournal;
+
 2^25 - twitter-large;
+
 2^26 - friendster
+
 
 ### How to run download.sh
 
