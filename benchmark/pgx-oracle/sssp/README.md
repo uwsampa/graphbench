@@ -76,7 +76,9 @@ The test.edge.json file is :
 5. :dijkstra test cost 0 2 node edge
 [find if there is a path between 0 and 2(will return true)]
 
-PS: for our sample input, we have the format of:
+### Notice
+
+for our sample input, we have the format of:
 
 node1 node2
 
