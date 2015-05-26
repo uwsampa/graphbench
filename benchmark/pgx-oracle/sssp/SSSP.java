@@ -6,16 +6,13 @@ import static oracle.pgx.api.algorithms.Argument.createGraphArg;
 import java.util.List;
 import java.util.Map;
 
-import oracle.pgx.api.Core;
-import oracle.pgx.api.InvocationResult;
-import oracle.pgx.api.LoadingResult;
-import oracle.pgx.api.admin.Control;
-import oracle.pgx.api.admin.Pgx;
+import java.io.File;
+import oracle.pgx.api.*;
+import oracle.pgx.api.algorithms.*;
+import oracle.pgx.config.*;
+import oracle.pgx.common.types.PropertyType;
 import oracle.pgx.api.algorithms.Argument;
-import oracle.pgx.api.algorithms.BuiltinAlgorithms;
-import oracle.pgx.api.analyst.PropertyProxy;
-import oracle.pgx.api.config.GraphConfig;
-import oracle.pgx.common.Types.PropertyType;
+import oracle.pgx.api.admin.*;
 
 public class SSSP {
 
@@ -27,8 +24,8 @@ public class SSSP {
                           + "<dest node name>");
       System.exit(-1);
     }
-    GraphConfig cfg = GraphConfig.fromPath(argv[0]);
-
+    // GraphConfig cfg = GraphConfig.fromPath(argv[0]);
+    GraphConfig cfg = GraphConfigFactory.forAnyFormat().fromPath(argv[0]);
     String sessionId = null;
     Core core = null;
     try {
@@ -44,8 +41,8 @@ public class SSSP {
         Argument[] args = new Argument[] {
           Argument.createGraphArg(graphName), 
           Argument.createEdgePropertyArg(argv[1]),
-          Argument.createNodeKeyArg(Integer.parseInt(argv[2])),
-          Argument.createNodeKeyArg(Integer.parseInt(argv[3])),
+          Argument.createNodeIdInArg(Integer.parseInt(argv[2])),
+          Argument.createNodeIdInArg(Integer.parseInt(argv[3])),
           Argument.createNodePropertyArg(parentName),
           Argument.createNodePropertyArg(parentEdgeName)
         };
