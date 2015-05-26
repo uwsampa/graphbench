@@ -29,35 +29,28 @@ Try the following example.
 
 The input file (input.txt)is :
 
+```
 0 1 1.0
-
 0 2 2.0
-
 3
-
 1 2 1.0
+```
 
 (there are four nodes: 0, 1, 2, 3 and three edges: 0->1 (1.0), 0->2 (2.0), 1->2 (1.0))
 
 The test.edge.json file is :
 
+```json
 {
-
   "uri": "input.txt", 
-
   "type": "adj_list",
-
   "edge_props": [{ 
-
     "name": "cost", 
-
     "type": "double" 
-
   }],
-
   "separator": " "
-
 }
+```
 
 ## Steps
 
