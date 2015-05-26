@@ -1,6 +1,7 @@
 # How to run SSSP
 
 Use the build-in Dijkstra Algorithm to solve SSSP and BFS.
+
 The only difference between SSSP and BFS is that the cost for SSSP might not always be 1.0.
 
 You can adjust the input file accordingly.
@@ -8,7 +9,7 @@ You can adjust the input file accordingly.
 --------------------------------------
 When you type: 'help dijkstra' in the console of pgx, you will see:
 
-usage: dijkstra <String graphName> <String costPropName> <Object src> <Object dst> <String parentName> <String parentEdgeName> 
+usage: dijkstra [String graphName] [String costPropName] [Object src] [Object dst] [String parentName] [String parentEdgeName] 
 
 Compute shortest path using Dijkstra's algorithm. Time complexity: O(N log N) with N = number of nodes
 Arguments:
@@ -19,7 +20,9 @@ dst - (input) destination node (has to be of type 'nodekey' as specified in load
 parentName - (output) the node property name (of type NodeProperty.class) to store parent node information
 parentEdgeName - (output) the node property name (of type EdgeProperty.class) to store parent edge information
 Returns: <code>true</code> if path exists, <code>false</code> otherwise
+
 Equivalent Java API: PgxFuture<Boolean> PathFinding#shortestPathDijkstra(String sessionId, String graphName, String costPropName, Object src, Objecft dst, String parentName, String parentEdgeName)
+
 ---------------------------------------
 
 Try the following example.
