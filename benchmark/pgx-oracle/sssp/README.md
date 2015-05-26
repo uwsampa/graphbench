@@ -88,6 +88,6 @@ node1 node3
 
 [it is separated by tab instead of space, also, it does not have the 'cost']
 
-Use the convert.java to convert the sample input into the application format.
+Use the convert.java in the parent directory to convert the sample input into the application format.
 
 We assume the cost is 1.0 for any edge.
