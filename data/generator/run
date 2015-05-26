@@ -3,6 +3,6 @@ do
     for (( j = 1; j < 2; j++ ))
     do
     echo i = $i and j = $j
-	./generator_omp	$i -e 2 -o out$i.txt -f 0 | tee -a outputnormal.txt
+	./generator_omp	$i -e 2 -o out$i.txt | tee -a outputnormal.txt
     done		  
 done

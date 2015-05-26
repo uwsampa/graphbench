@@ -1,0 +1,9 @@
+{
+  "uri": "../output.txt", 
+  "format": "adj_list",
+  "edge_props": [{ 
+    "name": "cost", 
+    "type": "double" 
+  }],
+  "separator": " "
+}

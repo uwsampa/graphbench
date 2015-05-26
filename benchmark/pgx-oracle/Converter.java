@@ -15,7 +15,7 @@ notice: default cost is 1.0
 
 pass the input file as the first argument
 */
-public class TSVprocessor {
+public class Converter {
 	public static void main(String args[]) {
 		try {
 			File file = new File("output.txt");
