@@ -1,5 +1,6 @@
 /*
 This class is written following the format in the Oracle PGX core demo
+From Version 1.0.0
 */
 import static oracle.pgx.api.algorithms.Argument.createGraphArg;
 
