@@ -61,19 +61,19 @@ The test.edge.json file is :
 
 ## Steps
 
-1. loadGraph test.edge.json test
+1. :loadGraph test.edge.json test
 [the .json file config the graph and 'test' is the name of the graph]
 
-2. createNodeProperty test NODE node
+2. :createNodeProperty test NODE node
 [create NodeProperty for parentName]
 
-3. createNodeProperty test EDGE edge
+3. :createNodeProperty test EDGE edge
 [create NodeProperty for parentEdgeName]
 
-4. dijkstra test cost 0 3 node edge
+4. :dijkstra test cost 0 3 node edge
 [find if there is a path between 0 and 3(will return false)]
 
-5. dijkstra test cost 0 2 node edge
+5. :dijkstra test cost 0 2 node edge
 [find if there is a path between 0 and 2(will return true)]
 
 6. nodePropValue test edge 3 / nodeProValue test node 3
