@@ -1,7 +1,10 @@
-Use the build-in Dijkstra Algorithm to solve SSSP and BFS.
+# How to run SSSP
 
+Use the build-in Dijkstra Algorithm to solve SSSP and BFS.
 The only difference between SSSP and BFS is that the cost for SSSP might not always be 1.0.
+
 You can adjust the input file accordingly.
+
 --------------------------------------
 When you type: 'help dijkstra' in the console of pgx, you will see:
 
