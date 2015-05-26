@@ -27,13 +27,19 @@ The datasets chosen include:
 2^26 - friendster
 
 ### How to run download.sh
-Usage: ./download.sh [-s 12|16|21|22|25|26] [-n facebook|twitter|livejournal|pokec|slashdot08|slashdot09|friendster|twitter-large]
+Usage:
+
+```
+./download.sh [-s 12|16|21|22|25|26] [-n facebook|twitter|livejournal|pokec|slashdot08|slashdot09|friendster|twitter-large]
+```
 
 Specify which to download by scale, name or both.
 
 For example, to download the dataset with scale 2^12
 
+```
 ./download.sh -s 12
+```
 
 
 ## data-verify
