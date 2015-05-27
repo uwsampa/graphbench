@@ -129,6 +129,8 @@ https://docs.oracle.com/cd/E56133_01/tutorials/index.html
 
 
 # Notice
+All the code are written according to Oracle PGX version 1.0.0.
+
 Keep all the .java and .sh file in the same directory. 
 
 Converter.java is used to convert the standard data format(TSV) into the data applicable for PGX.
