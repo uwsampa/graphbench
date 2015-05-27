@@ -43,7 +43,7 @@ The test.edge.json file is :
 ```json
 {
   "uri": "input.txt", 
-  "type": "adj_list",
+  "format": "adj_list",
   "edge_props": [{ 
     "name": "cost", 
     "type": "double" 
