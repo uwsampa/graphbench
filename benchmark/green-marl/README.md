@@ -21,8 +21,28 @@ cd ../inc
 
 compile
 
-	1) cd to the top directory where you put your source package
-	2) make apps
+	Task : cd to the top directory where you put your source package
+```
+make apps
+```
+
+generate graph
+
+```
+cd $(top)/apps/output_cpp
+```
+	for undirected graph:
+
+```
+bin/graph_gen data/outputName.bin pathToInputFile/inputName.txt 0
+```
+	
+	for directed graph:
+	
+```
+bin/graph_gen data/outputName.bin pathToInputFile/inputName.txt 1
+```
+	
 
 ## Notice 
 Flex might not be installed if 
@@ -35,15 +55,4 @@ Run below in ubuntu:
 ```
 sudo apt-get install flex
 ```
-
-generate graph
-
-	1) cd $(top)/apps/output_cpp
-	2) for undirected graph:
-	bin/graph_gen data/outputName.bin pathToInputFile/inputName.txt 0
-
-	for directed graph:
-	bin/graph_gen data/outputName.bin pathToInputFile/inputName.txt 1
-
-
 
