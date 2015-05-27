@@ -10,7 +10,7 @@ http://www.oracle.com/technetwork/oracle-labs/parallel-graph-analytics/downloads
 
 Unzip the files and set PGX_HOME to the correct directory. 
 
-More instruction for how to use it, check the README.md in each sub-directory.
+More instruction for how to use, check the README.md in each sub-directory.
 
 ## Installation for using pgx console
 Download Oracle PGX and Groovy (2.4.0 is a hard require)
@@ -19,7 +19,7 @@ Download Oracle PGX and Groovy (2.4.0 is a hard require)
 http://www.oracle.com/technetwork/oracle-labs/parallel-graph-analytics/downloads/index.html
 http://dl.bintray.com/groovy/maven/groovy-binary-2.4.0.zip 
 ```
-Notice: the newest version for grooxy is 2.4.3 right now and it is not going to work
+Notice: the newest version for grooxy is 2.4.3 right now and it is not going to work.
 
 Unzip the files and set PGX_HOME and GROOVY_HOME to the correct directory. 
 
@@ -116,65 +116,6 @@ node1 node3
 Use the convert.java in the parent directory to convert the sample input into the application format.
 
 We assume the cost is 1.0 for any edge.
-
-### BC example using pgx console
-Use the build-in approximateNodeBetweennessCentrality.
-
--------------------------------------------------------------
-When you type: 'help approximateNodeBetweennessCentrality' in the console of pgx, you will see:
-
-usage: approximateNodeBetweennessCentrality <String graphName> <int k> <String bcName> 
-
-approximate node betweenness centrality (without considering edge length). The algorithm performs a BFS only from randomly selected k seed nodes instead of every node. time complexity: O(K * E) with E = number of edges, K is a given constant (# of seed nodes)
-Arguments:
-graphName - graph name
-k - how many random selected seed nodes to use
-bcName - (output) name of double node property to store result
-Equivalent Java API: PgxFuture<Void> Ranking#approximateNodeBetweennessCentrality(String sessionId, String graphName, int k, String bcName)
--------------------------------------------------------------
-
-Try the following example.
-
-The input file (input.txt)is the facebook_combined.txt file from :
-http://snap.stanford.edu/data/egonets-Facebook.html
-
-It has the format:
-node1 node2
-node1 node3
-node2 node4
-...
-[separated by white space]
-
-
-The test.edge.json file is :
-{
-    "type": "EDGE_LIST",
-    "uri": "facebook_combined.txt",
-    "separator": " "
-}
-
-
-1. loadGraph test.edge.json test
--- the .json file config the graph and 'test' is the name of the graph
-
-2. createNodeProperty test DOUBLE bc
--- create node property to store the result
-
-3. approximateNodeBetweennessCentrality test 100 bc
--- calculate the BC for 100 random selected seeds and save to bc
-
-4. nodePropValue test bc 2
--- see the output for node 2
-
-5. (optional) printTopK test bc 20
--- you can see the top 20 nodes with this command
-
-
-Notice: for the input file that is Tab-separated, there are two options:
-1. change the separator in json file
-2. change line 30 and 31 in the convert.java to convert tab-separated into white-space separated
-
-
 
 
 ## More Details
