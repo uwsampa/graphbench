@@ -13,7 +13,7 @@ So far we have:
 
 * 'cc': connected components.
 
-* 'cc': betweenness centrality.
+* 'bc': betweenness centrality.
 
 Except for triangle counting and breadth-first search, input graph are synthetic and for testing only. 
 
