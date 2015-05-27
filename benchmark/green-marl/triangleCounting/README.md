@@ -1,10 +1,10 @@
-# run:
+# run
 
 ```
 bin/triangle_counting data/graphName.bin 8
 ```
 
-# explain:
+# explain
 
 ```
 <program name> <graph name> <# of threads>
