@@ -1,18 +1,33 @@
 
 # Instruction
+
+## Installation without pgx console
+Download Oracle PGX
+
+```
+http://www.oracle.com/technetwork/oracle-labs/parallel-graph-analytics/downloads/index.html
+```
+
+Unzip the files and set PGX_HOME to the correct directory. 
+
+More instruction for how to use, check the README.md in each sub-directory.
+
 ## Installation for using pgx console
 Download Oracle PGX and Groovy (2.4.0 is a hard require)
 
+```
 http://www.oracle.com/technetwork/oracle-labs/parallel-graph-analytics/downloads/index.html
-
 http://dl.bintray.com/groovy/maven/groovy-binary-2.4.0.zip [the newest version is 2.4.3 right now]
+```
 
 Unzip the files and set PGX_HOME and GROOVY_HOME to the correct directory. 
 
 ## Test
-cd $PGX_HOME
 
+```
+cd $PGX_HOME
 ./bin/pgx
+```
 
 ### SSSP example using pgx console
 
