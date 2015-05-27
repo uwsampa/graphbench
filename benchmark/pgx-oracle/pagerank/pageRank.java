@@ -6,16 +6,13 @@ import static oracle.pgx.api.algorithms.Argument.createGraphArg;
 import java.util.List;
 import java.util.Map;
 
-import oracle.pgx.api.Core;
-import oracle.pgx.api.InvocationResult;
-import oracle.pgx.api.LoadingResult;
-import oracle.pgx.api.admin.Control;
-import oracle.pgx.api.admin.Pgx;
+import java.io.File;
+import oracle.pgx.api.*;
+import oracle.pgx.api.algorithms.*;
+import oracle.pgx.config.*;
+import oracle.pgx.common.types.PropertyType;
 import oracle.pgx.api.algorithms.Argument;
-import oracle.pgx.api.algorithms.BuiltinAlgorithms;
-import oracle.pgx.api.analyst.PropertyProxy;
-import oracle.pgx.api.config.GraphConfig;
-import oracle.pgx.common.Types.PropertyType;
+import oracle.pgx.api.admin.*;
 
 public class pageRank {
 
@@ -27,7 +24,7 @@ public class pageRank {
                           + "<max number of iterations: eg 100>");
       System.exit(-1);
     }
-    GraphConfig cfg = GraphConfig.fromPath(argv[0]);
+    GraphConfig cfg = GraphConfigFactory.forAnyFormat().fromPath(argv[0]);
 
     String sessionId = null;
     Core core = null;
@@ -43,9 +40,9 @@ public class pageRank {
         Argument[] args = new Argument[] {
             //
             Argument.createGraphArg(graphName), //
-            Argument.createDoubleArg(Double.parseDouble(argv[1])), // max error value
-            Argument.createDoubleArg(Double.parseDouble(argv[2])), // damping factor
-            Argument.createIntArg(Integer.parseInt(argv[3])), // max no. of iterations
+            Argument.createDoubleInArg(Double.parseDouble(argv[1])), // max error value
+            Argument.createDoubleInArg(Double.parseDouble(argv[2])), // damping factor
+            Argument.createIntInArg(Integer.parseInt(argv[3])), // max no. of iterations
             Argument.createNodePropertyArg(rankName) //
         };
         InvocationResult<Void> ir = core.runAnalysis(sessionId, pagerank, args, Void.class).get();

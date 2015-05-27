@@ -84,3 +84,11 @@ node1 node3
 Use the convert.java in the parent directory to convert the sample input into the application format.
 
 We assume the cost is 1.0 for any edge.
+
+
+
+# Example without GROOVY console
+
+```
+./SSSP.sh ../example-data/test.edge.json cost 1 2
+```
