@@ -113,7 +113,7 @@ node1 node3
 
 [it is separated by tab instead of space, also, it does not have the 'cost']
 
-Use the convert.java in the parent directory to convert the sample input into the application format.
+Use the Converter.java in the parent directory to convert the tab-separated input into the application format.
 
 We assume the cost is 1.0 for any edge.
 
@@ -130,6 +130,8 @@ https://docs.oracle.com/cd/E56133_01/tutorials/index.html
 
 # Notice
 Keep all the .java and .sh file in the same directory. 
+
+Converter.java is used to convert the standard data format(TSV) into the data applicable for PGX.
 
 Run the .sh file, pass in the correct parameters and the output will measure the processing time for the particular algorithm.   
 
