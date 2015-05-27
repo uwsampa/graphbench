@@ -1,3 +1,5 @@
+# Setup
+
 1. Get the repo
 	git clone git://github.com/stanford-ppl/Green-Marl.git
 2. Change the file to allow create graph using your own input file
