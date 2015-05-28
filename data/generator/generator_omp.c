@@ -46,6 +46,7 @@ int main(int argc, char* argv[]) {
 
   // define all the variables
   int log_numverts = -1;
+  char * filename = "";
   long int numEdges;
   double start, time_taken;
   double start_write, time_taken_write;
@@ -57,43 +58,43 @@ int main(int argc, char* argv[]) {
   fout = stdout;  // default the stdout
 
   int opt;
-  int position = 3;
   while(optind < argc) {
-    if ((opt = getopt(argc, argv, "e:o:s:b")) != -1) {
+    if ((opt = getopt(argc, argv, "+e:o:s:b")) != -1) {
       switch (opt) {
         case 'e':
-            numEdges = atoi(argv[position]);
-            position += 2;
+            numEdges = atoi(optarg);
             break;
         case 'o':
-            fout = fopen(argv[position], "wb");
+            filename = optarg;
+            fout = fopen(optarg, "wb");
             if (fout == NULL) {
-              fprintf(stderr, "%s -- ", argv[position]);
+              fprintf(stderr, "%s -- ", optarg);
               perror("fopen for write failed");
               exit(1);
             }
-            position += 2;
             break;
         case 's':
-            seed = atoi(argv[position]);
-            position += 2;
+            seed = atoi(optarg);
             break;
         case 'b':
             binary = 1;
-            position += 1;
             break;
         default: 
             printError();
             break;
         }
     } else {
-      if(argv[1] == NULL) {
+      if(argv[optind] == NULL) {
         printError();
       } else {
-        log_numverts = atoi(argv[1]); // In base 2
+        log_numverts = atoi(argv[optind]); // In base 2
         optind++;
       }
     }
+  }
+
+  if( log_numverts < 0 ) {
+    printError();
   }
 
   /* Start of graph generation timing */
@@ -119,7 +120,7 @@ int main(int argc, char* argv[]) {
   int check_correctness;
   check_correctness = fclose(fout);
   if (check_correctness == EOF) {
-    fprintf(stderr, "%s -- ", argv[position]);
+    fprintf(stderr, "%s -- ", filename);
     perror("fclose for failed");
     exit(1);
   }
