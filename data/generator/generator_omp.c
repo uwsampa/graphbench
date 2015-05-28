@@ -21,10 +21,11 @@
 #include <sys/time.h>
 #include <time.h>
 #include <unistd.h>
+#include <getopt.h>
 #include "make_graph.h"
 
 void printError() {
-  fprintf(stderr, "usage: ./generator_omp <# of vertices (log 2 base)> <-e intNumber [optional: average # of edges per vertex, defualt to be 16> <-o outputFileName [optional: default to stdout]> <-s intName [optional: default to use the current time]> <-b [optional: default is ascii version, -b for binary version]>\n");
+  fprintf(stderr, "usage: ./generator_omp <# of vertices (log 2 base)> <-e intNumber [optional: average # of edges per vertex, defualt to be 16> <-o outputFileName [optional: default to stdout]> <-s randomSeedInt [optional: default to use the current time]> <-b [optional: default is ascii version, -b for binary version]>\n");
   exit(0);
 }
 
@@ -44,7 +45,7 @@ int main(int argc, char* argv[]) {
   }
 
   // define all the variables
-  int log_numverts;
+  int log_numverts = -1;
   long int numEdges;
   double start, time_taken;
   double start_write, time_taken_write;
@@ -52,14 +53,14 @@ int main(int argc, char* argv[]) {
   packed_edge* result;
   int binary = 0; // set default to be not binary, normal tsv
 
-  log_numverts = atoi(argv[1]); // In base 2
   numEdges = 16;  // default 16
   fout = stdout;  // default the stdout
 
   int opt;
   int position = 3;
-    while ((opt = getopt(argc, argv, "e:o:s:b")) != -1) {
-        switch (opt) {
+  while(optind < argc) {
+    if ((opt = getopt(argc, argv, "e:o:s:b")) != -1) {
+      switch (opt) {
         case 'e':
             numEdges = atoi(argv[position]);
             position += 2;
@@ -85,7 +86,15 @@ int main(int argc, char* argv[]) {
             printError();
             break;
         }
+    } else {
+      if(argv[1] == NULL) {
+        printError();
+      } else {
+        log_numverts = atoi(argv[1]); // In base 2
+        optind++;
+      }
     }
+  }
 
   /* Start of graph generation timing */
   start = omp_get_wtime();
