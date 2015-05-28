@@ -23,6 +23,7 @@ After running 'make', the resulting binaries will be called 'undirected_triangle
 
 Below shows the usage for each of them:
 
+```
 ./undirected_triangle_count -g graph.txt <-f csv [optional, default to tsv]>  <-o [optional, default to not print the result>
 
 ./single_source_shortest_path -g graph.txt -s startNode <-f csv [optional, default to tsv]>  <-o [optional, default to not print the result>
@@ -34,3 +35,4 @@ Below shows the usage for each of them:
 ./breadth_first_search -g graph.txt -s startnode <-f csv [optional, default to tsv]>  <-o [optional, default to not print the result>
 
 ./betweenness_centrality -g graph.txt <-f csv [optional, default to tsv]>  <-o [optional, default to not print the result>
+```
