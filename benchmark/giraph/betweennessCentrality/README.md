@@ -1,3 +1,4 @@
+```
 cp /myhome/giraph-work/BCNode.java /usr/local/giraph/giraph-core/src/main/java/org/apache/giraph/io/formats
 
 cp /myhome/giraph-work/BCMessage.java /usr/local/giraph/giraph-core/src/main/java/org/apache/giraph/io/formats
@@ -25,3 +26,4 @@ $HADOOP_HOME/bin/hdfs dfs -put tiny-graph.txt /user/root/input/tiny-graph.txt
 $HADOOP_HOME/bin/hadoop jar myjar.jar org.apache.giraph.GiraphRunner BCComputation --yarnjars myjar.jar --workers 1 -mc BCComputation\$Master --vertexInputFormat org.apache.giraph.io.formats.JsonLongBCNodeFloatBCMessageVertexInputFormat --vertexInputPath /user/root/input/tiny-graph.txt -vertexOutputFormat org.apache.giraph.io.formats.IdWithValueTextOutputFormat --outputPath /user/root/output
 
 $HADOOP_HOME/bin/hdfs dfs -cat /user/root/output/part-m-00001
+```
