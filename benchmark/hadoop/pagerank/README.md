@@ -19,7 +19,7 @@ Make jar file and run
 ```
 cd ..
 jar -cvf pagerank.jar pagerank/*
-$HADOOP_PREFIX/bin/hadoop jar pagerank.jar pagerank/Main /user/yx0618/out10.txt second third result 10
+$HADOOP_PREFIX/bin/hadoop jar pagerank.jar pagerank/Main /user/username/out10.txt second third result 10
 ```
 
 ### Usage for Main.java
