@@ -25,6 +25,7 @@ public class InitPRPreProcessor {
 
 		Job job = Job.getInstance(conf, "InitialPageRank converter");
 
+		job.setJarByClass(InitPRPreProcessor.class);
 		job.setOutputKeyClass(Text.class);
 		job.setOutputValueClass(Text.class);
 
