@@ -5,8 +5,8 @@ After having Hadoop all setup and running,
 Put the input file in the hdfs
 
 ```
-$HADOOP_HOME/bin/hadoop dfs -put <pathToInputFile/file.txt>[eg:/sampa/home/user/bfs/input.txt] <pathForHDFSdirectory>[eg:/user/username]
-```
+$HADOOP_PREFIX/bin/hadoop dfs -put <pathToInputFile/file.txt>[eg:/sampa/home/user/bfs/input.txt] <pathForHDFSdirectory>[eg:/user/username]
+```$HADOOP_PREFIX
 
 Compile the java code
 
@@ -18,7 +18,7 @@ Make jar file and run
 
 ```
 cd ..
-jar -cvf bfs.jar bfs/*
+jar -cvf bfs.jar bfs/* 
 $HADOOP_PREFIX/bin/hadoop jar bfs.jar bfs/Main /user/username/input.txt tempDirectory outputDirectory
 ```
 
