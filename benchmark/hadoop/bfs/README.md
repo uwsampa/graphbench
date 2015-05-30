@@ -23,7 +23,10 @@ $HADOOP_PREFIX/bin/hadoop jar bfs.jar bfs/Main /user/username/input.txt tempDire
 ```
 
 ### Usage for Main.java
+
+```
 Usage: <input file> <intermediate directory name> <output directory name>
+```
 
 ## Reference
 This directory contains a Hadoop implementation of BFS.
