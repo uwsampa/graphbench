@@ -1,4 +1,4 @@
-package BFS;
+package bfs;
 
 import java.io.IOException;
 
