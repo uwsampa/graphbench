@@ -37,7 +37,6 @@ public final class Main {
 	public static void iterate(String[] args) throws Exception {
 		// what's the max number of iterations we should do?
 		int maxIt = Integer.parseInt(args[4]);
-		System.out.println(maxIt);
 		if (maxIt == 0) { // just iterate to convergence.
 			maxIt = Integer.MAX_VALUE;
 		}
