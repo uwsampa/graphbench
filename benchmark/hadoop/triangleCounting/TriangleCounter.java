@@ -177,7 +177,7 @@ public class TriangleCounter {
 
 	public static void main(String[] args) throws Exception {
 		if (args.length != 2) {
-			System.err.println("Usage: <input> <output name>");
+			System.err.println("Usage: <input file> <output directory name>");
 			System.exit(0);
 		}
 		int res = run(args);
