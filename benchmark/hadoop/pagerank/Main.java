@@ -1,4 +1,4 @@
-package Pagerank;
+package pagerank;
 
 /**
  * The code is based on the book "Hadoop in Practice" from Alex Holmes in chapter 7. 
