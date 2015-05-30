@@ -26,7 +26,7 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
  */
 public final class Main {
 
-	public static void main(String... args) throws Exception {
+	public static void main(String[] args) throws Exception {
 		if (args.length != 5) {
 			System.err.println("Usage: <input file> <intermediate folder1> <intermediate folder2> <result folder> <max number of iter>");
 			System.exit(0);
