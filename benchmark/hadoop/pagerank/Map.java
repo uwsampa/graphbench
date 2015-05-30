@@ -1,4 +1,4 @@
-package Pagerank;
+package pagerank;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 
