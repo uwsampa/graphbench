@@ -6,7 +6,7 @@ Put the input file in the hdfs
 
 ```
 $HADOOP_PREFIX/bin/hadoop dfs -put <pathToInputFile/file.txt>[eg:/sampa/home/user/bfs/input.txt] <pathForHDFSdirectory>[eg:/user/username]
-```$HADOOP_PREFIX
+```
 
 Compile the java code
 
