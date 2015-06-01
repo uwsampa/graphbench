@@ -1,1 +1,0 @@
-Vertex-centric: https://github.com/uwsampa/grappa/blob/master/applications/graphlab/sssp.cpp
