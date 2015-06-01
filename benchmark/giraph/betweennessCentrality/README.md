@@ -46,7 +46,7 @@ $HADOOP_HOME/bin/hdfs dfs -cat user/yx0618/output/part-m-00001
 
 ## Notice
 
-tiny-graph
+tiny-graph.txt
 ```
 [0,0,[[1,1],[3,3]]]
 [1,0,[[0,1],[2,2],[3,1]]]
