@@ -27,7 +27,7 @@ source <path to Grappa installation>/bin/settings.sh
 make
 ```
 
-## 2. Run a Grappa benchmark
+## 3. Run a Grappa benchmark
 
 The Grappa benchmarks here can either read a graph from a file, or use a built-in synthetic Kronecker graph generator.
 
