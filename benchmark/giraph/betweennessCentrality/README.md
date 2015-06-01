@@ -25,7 +25,7 @@ cd $GIRAPH_HOME/giraph-core/src/main/java/
 
 jar uf $GIRAPH_HOME/giraph-examples/target/giraph-examples-1.1.0-SNAPSHOT-for-hadoop-2.4.1-jar-with-dependencies.jar org/apache/giraph/io/formats/JsonLongBCNodeFloatBCMessageVertexInputFormat.class org/apache/giraph/io/formats/JsonLongBCNodeFloatBCMessageVertexInputFormat\$JsonLongDoubleFloatDoubleVertexReader.class org/apache/giraph/io/formats/BCNode.class org/apache/giraph/io/formats/BCMessage.class
 
-cd /home/yx0618/test4/graphbench/benchmark/giraph/betweennessCentrality
+cd graphbench/benchmark/giraph/betweennessCentrality
 
 javac -cp $GIRAPH_HOME/giraph-examples/target/giraph-examples-1.1.0-SNAPSHOT-for-hadoop-2.4.1-jar-with-dependencies.jar:$($HADOOP_HOME/bin/hadoop classpath) BCComputation.java
 
@@ -34,14 +34,14 @@ cp $GIRAPH_HOME/giraph-examples/target/giraph-examples-1.1.0-SNAPSHOT-for-hadoop
 jar uf myjar.jar BCComputation.class BCComputation\$Master.class
 ```
 
-Run the Giraph and check the output
+Put the input file in the hdfs, run Giraph and check the output (make sure you have the correct directory in hdfs, eg: ```$HADOOP_HOME/bin/hdfs dfs -mkdir user``` to create user directory)
 
 ```
-$HADOOP_HOME/bin/hdfs dfs -put tiny-graph.txt user/yx0618/tiny-graph.txt
+$HADOOP_HOME/bin/hdfs dfs -put tiny-graph.txt user/tiny-graph.txt
 
-$HADOOP_HOME/bin/hadoop jar myjar.jar org.apache.giraph.GiraphRunner BCComputation --yarnjars myjar.jar --workers 1 -mc BCComputation\$Master --vertexInputFormat org.apache.giraph.io.formats.JsonLongBCNodeFloatBCMessageVertexInputFormat --vertexInputPath user/yx0618/tiny-graph.txt -vertexOutputFormat org.apache.giraph.io.formats.IdWithValueTextOutputFormat --outputPath user/yx0618/output
+$HADOOP_HOME/bin/hadoop jar myjar.jar org.apache.giraph.GiraphRunner BCComputation --yarnjars myjar.jar --workers 1 -mc BCComputation\$Master --vertexInputFormat org.apache.giraph.io.formats.JsonLongBCNodeFloatBCMessageVertexInputFormat --vertexInputPath user/tiny-graph.txt -vertexOutputFormat org.apache.giraph.io.formats.IdWithValueTextOutputFormat --outputPath user/output
 
-$HADOOP_HOME/bin/hdfs dfs -cat user/yx0618/output/part-m-00001
+$HADOOP_HOME/bin/hdfs dfs -cat user/output/part-m-00001
 ```
 
 ## Notice
