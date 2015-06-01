@@ -26,7 +26,7 @@
 ////////////////////////////////////////////////////////////////////////
 
 #include <Grappa.hpp>
-#include "common.hpp"
+#include "nativegraph_common.hpp"
 
 DEFINE_bool( metrics, false, "Dump metrics");
 

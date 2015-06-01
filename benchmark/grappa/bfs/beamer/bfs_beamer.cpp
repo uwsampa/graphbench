@@ -39,7 +39,7 @@
 ////////////////////////////////////////////////////////////////////////
 
 #include <Grappa.hpp>
-#include "nativegraph_common.hpp"
+#include "common.hpp"
 #include <Reducer.hpp>
 #include <GlobalBag.hpp>
 
