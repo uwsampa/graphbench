@@ -15,15 +15,16 @@ The ```download.sh``` script can be used to download some real-world datasets at
 
 The datasets chosen include:
 
-Scale |   Vertices |         Edges | Short name    | Description
-12    |      4,039 |        88,234 | facebook      | Facebook dataset from the Stanford SNAP project: http://snap.stanford.edu/data/egonets-Facebook.html
-16    |     81,306 |               | twitter-small | Small Twitter dataset from the Stanford SNAP project: http://snap.stanford.edu/data/egonets-Twitter.html
-16    |     77,360 |               |  slashdot0811 | Slashdot social network (November 2008), from the Stanford SNAP project: http://snap.stanford.edu/data/soc-Slashdot0811.html
-16    |     82,168 |               |  slashdot0902 | Slashdot social network (February 2009), from the Stanford SNAP project: http://snap.stanford.edu/data/soc-Slashdot0902.html
-21    |  1,632,803 |               |         pokec | Pokec online social network, from the Stanford SNAP project: http://snap.stanford.edu/data/soc-pokec.html
-22    |  4,847,571 |               |   livejournal | LiveJournal social network from the Stanford SNAP project: http://snap.stanford.edu/data/com-LiveJournal.html
-25    | 41,700,000 | 1,470,000,000 | twitter-large | Large Twitter dataset from Haewoon Kwak, Changhyun Lee, Hosung Park, and Sue Moon's publication "What is Twitter, a Social Network or a News Media?": http://an.kaist.ac.kr/traces/WWW2010.html
-26    | 65,608,366 | 1,806,067,135 |    friendster | Friendster social network dataset from the Stanford SNAP project: http://snap.stanford.edu/data/com-Friendster.html
+Scale |    Vertices |          Edges | Short name    | Description
+------|-------------|----------------|---------------|--------------
+12    |       4,039 |         88,234 | facebook      | Facebook dataset from the Stanford SNAP project: http://snap.stanford.edu/data/egonets-Facebook.html
+16    |      81,306 |      1,768,149 | twitter-small | Small Twitter dataset from the Stanford SNAP project: http://snap.stanford.edu/data/egonets-Twitter.html
+16    |      77,360 |        905,468 |  slashdot0811 | Slashdot social network (November 2008), from the Stanford SNAP project: http://snap.stanford.edu/data/soc-Slashdot0811.html
+16    |      82,168 |        948,464 |  slashdot0902 | Slashdot social network (February 2009), from the Stanford SNAP project: http://snap.stanford.edu/data/soc-Slashdot0902.html
+21    |   1,632,803 |     30,622,564 |         pokec | Pokec online social network, from the Stanford SNAP project: http://snap.stanford.edu/data/soc-pokec.html
+22    |   4,847,571 |     68,993,773 |   livejournal | LiveJournal social network from the Stanford SNAP project: http://snap.stanford.edu/data/com-LiveJournal.html
+25    |  ~41,700,000 | ~1,470,000,000 | twitter-large | Large Twitter dataset from Haewoon Kwak, Changhyun Lee, Hosung Park, and Sue Moon's publication "What is Twitter, a Social Network or a News Media?": http://an.kaist.ac.kr/traces/WWW2010.html
+26    |  65,608,366 |  1,806,067,135 |    friendster | Friendster social network dataset from the Stanford SNAP project: http://snap.stanford.edu/data/com-Friendster.html
 
 ### How to run download.sh
 Usage:
