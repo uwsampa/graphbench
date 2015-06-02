@@ -1,13 +1,25 @@
 Contributing to GraphBench
 ==========================
 
-Our philosophy in GraphBench is to prefer links to external resources that are maintained, rather than code/data in the GraphBench repo, in order to reduce maintenance overhead. When a contributor wants to commit code to the GraphBench repo, he or she must take responsibility for keeping that code/data up to date.
+We're excited you want to contribute! If your change is small, please fork our repo and send a pull request.
+
+If you have lots of things you want to change, great! Get in touch and we can talk about setting up a more involved collaboration.
 
 What to contribute
 ------------------
 
-TBD
+For benchmarks, add
+- reference implementations in ```graphbench/benchmark/<framework name>```
+- instructions on bulding the framework and reference implementations in ```graphbench/benchmark/<framework name>/README.md```
 
+For datasets, add
+ - info in ```graphbench/data/README.md```
+ - either extend ```graphbench/data/download.sh``` or add a new subdirectory with your generator or download scripts
+
+Storing files 
+------------------------
+
+So far we have simply downloaded data that is hosted elsewhere. We may also be able to host small datasets on GitHub.
 
 Dealing with large files
 ------------------------
