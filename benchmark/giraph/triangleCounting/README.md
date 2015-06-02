@@ -30,12 +30,12 @@ cp $GIRAPH_HOME/giraph-examples/target/giraph-examples-1.1.0-SNAPSHOT-for-hadoop
 jar uf myjar.jar TriangleCounting.class
 ```
 
-Put the input file in the hdfs, run Giraph and check the output (make sure you have the correct directory in hdfs, eg: ```$HADOOP_HOME/bin/hdfs dfs -mkdir user``` to create user directory)
+Put the input file in the hdfs, run Giraph and check the output (make sure you have the correct directory in hdfs, eg: ```$HADOOP_HOME/bin/hdfs dfs -mkdir /home/<user>``` to create user directory)
 
 ```
-$HADOOP_HOME/bin/hdfs dfs -put tiny-graph.txt user/tiny-graph.txt
+$HADOOP_HOME/bin/hdfs dfs -put tiny-graph.txt tiny-graph.txt
 
-$HADOOP_HOME/bin/hadoop jar myjar.jar org.apache.giraph.GiraphRunner TriangleCounting --yarnjars myjar.jar --workers 1 --vertexInputFormat org.apache.giraph.io.formats.JsonDoubleDoubleFloatDoubleVertexInputFormat --vertexInputPath user/tiny-graph.txt -vertexOutputFormat org.apache.giraph.io.formats.IdWithValueTextOutputFormat --outputPath user/output
+$HADOOP_HOME/bin/hadoop jar myjar.jar org.apache.giraph.GiraphRunner TriangleCounting --yarnjars myjar.jar --workers 1 --vertexInputFormat org.apache.giraph.io.formats.JsonDoubleDoubleFloatDoubleVertexInputFormat --vertexInputPath tiny-graph.txt -vertexOutputFormat org.apache.giraph.io.formats.IdWithValueTextOutputFormat --outputPath output
 
 $HADOOP_HOME/bin/hdfs dfs -cat user/output/part-m-00001
 ```
