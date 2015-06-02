@@ -41,3 +41,6 @@ This command runs the Beamer-optimized BFS on a graph file in ASCII TSV format. 
 srun --nodes=4 --ntasks-per-node=10 -- ./bfs/bfs_beamer --path=/path/to/graph.tsv --format=tsv
 ```
 
+# Docker image
+
+Here's a Docker image for Grappa: https://registry.hub.docker.com/u/uwsampa/grappa. More info on using it is at the Grappa repo: https://github.com/uwsampa/grappa.
