@@ -31,7 +31,7 @@ Usage: <input file> <intermediate directory name> <output directory name>
 ## Reference
 This directory contains a Hadoop implementation of BFS.
 
-The code is based on the code from This code is based on Deepika Mohan's SSSPJob:
+The code is based on Deepika Mohan's SSSPJob:
 http://hadooptutorial.wikispaces.com/file/view/SSSPJob.java 
 
 Also reference to:
