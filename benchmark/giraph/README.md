@@ -10,7 +10,14 @@ Standard giraph input
 JSONArray(<vertex id>, <vertex value>, JSONArray(JSONArray(<dest vertex id>, <edge value>), ...))
 ```
 
-example
+## TSVProcessor.java
+This program can convert the standard TSV format to the one required by giraph.
+
+```
+Usage: <Program> <input file>
+```
+
+## sample output
 
 ```
 [0,0,[[1,1],[3,3]]]
