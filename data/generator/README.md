@@ -24,7 +24,7 @@ make all
 
 # Example:
 
-To produce the data with vertice number 2^16, average # of edges per vertex 4, with tsv output
+To produce a data file with 2^16 vertices and an average of 4 edges per vertex, with tsv output, do:
 
 ```
 ./generator_omp	16 -e 4 -o output16.txt -f 0
