@@ -27,5 +27,5 @@ make all
 To produce a data file with 2^16 vertices and an average of 4 edges per vertex, with tsv output, do:
 
 ```
-./generator_omp	16 -e 4 -o output16.txt -f 0
+./generator_omp	16 -e 4 -o output16.txt
 ```
