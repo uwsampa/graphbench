@@ -17,5 +17,7 @@ On a cluster using Slurm, this command runs PageRank on a graph stored in bintsv
 srun --nodes=4 --ntasks-per-node=1 -- ./pagerank --graph=/path/to/graph/file.bintsv4 --format=bintsv4
 ```
 
+# Docker image
 
-
+This Docker image may help in running GraphBench code:
+https://github.com/StartupML/jetpack
