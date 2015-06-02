@@ -9,8 +9,6 @@ GraphBench is a collection of graph kernels and datasets to aid graph-processing
 
 This is a community effort! We need your help to build a representative and relevant benchmark suite. Please [join our Google Group](http://groups.google.com/d/forum/graphbench), [clone our GitHub repo](https://github.com/uwsampa/graphbench), and contribute your favorite implementations and data sources!
 
-Note that is work in progress; things are in flux.
-
 What's inside
 -------------
 
