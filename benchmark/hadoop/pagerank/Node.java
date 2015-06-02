@@ -1,4 +1,4 @@
-package Pagerank;
+package pagerank;
 import org.apache.commons.lang.StringUtils;
 
 import java.io.IOException;

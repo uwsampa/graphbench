@@ -3,7 +3,7 @@
 // classes and the last reduce class.
 // reference: http://www.vertica.com/2011/09/21/counting-triangles/
 // github link for the code: https://github.com/vertica/Graph-Analytics----Triangle-Counting
-package TriangleCounting;
+package triangleCounting;
 
 import java.io.IOException;
 import java.util.*;
@@ -177,7 +177,7 @@ public class TriangleCounter {
 
 	public static void main(String[] args) throws Exception {
 		if (args.length != 2) {
-			System.err.println("Usage: <input> <output name>");
+			System.err.println("Usage: <input file> <output directory name>");
 			System.exit(0);
 		}
 		int res = run(args);

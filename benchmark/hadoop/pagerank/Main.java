@@ -1,4 +1,4 @@
-package Pagerank;
+package pagerank;
 
 /**
  * The code is based on the book "Hadoop in Practice" from Alex Holmes in chapter 7. 
@@ -26,14 +26,17 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
  */
 public final class Main {
 
-	public static void main(String... args) throws Exception {
+	public static void main(String[] args) throws Exception {
+		if (args.length != 5) {
+			System.err.println("Usage: <input file> <intermediate folder1> <intermediate folder2> <result folder> <max number of iter>");
+			System.exit(0);
+		}
 		iterate(args);
 	}
 
 	public static void iterate(String[] args) throws Exception {
 		// what's the max number of iterations we should do?
 		int maxIt = Integer.parseInt(args[4]);
-		System.out.println(maxIt);
 		if (maxIt == 0) { // just iterate to convergence.
 			maxIt = Integer.MAX_VALUE;
 		}

@@ -1,3 +1,0 @@
-Grappa-native BFS: https://github.com/uwsampa/grappa/blob/master/applications/nativegraph/bfs/bfs_queues.cpp
-Beamer-optimized BFS: https://github.com/uwsampa/grappa/blob/master/applications/nativegraph/bfs/bfs_beamer.cpp
-Vertex-centric BFS: https://github.com/uwsampa/grappa/blob/master/applications/graphlab/bfs.cpp

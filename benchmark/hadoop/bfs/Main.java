@@ -1,4 +1,4 @@
-package BFS;
+package bfs;
 
 import java.io.IOException;
 
@@ -103,7 +103,7 @@ public class Main {
 	 */
 	public static void main(String[] args) throws Exception {
 		if (args.length != 3) {
-			System.err.println("Usage: <in> <intermediate name> <output name>");
+			System.err.println("Usage: <input file> <intermediate directory name> <output directory name>");
 			System.exit(0);
 		}
 		TSVPreProcessor.main(args);

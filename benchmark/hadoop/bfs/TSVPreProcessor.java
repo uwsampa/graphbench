@@ -1,4 +1,4 @@
-package BFS;
+package bfs;
 
 import java.io.IOException;
 
@@ -59,7 +59,8 @@ public class TSVPreProcessor {
 		Configuration conf = new Configuration();
 
 		Job job = Job.getInstance(conf, "facebook");
-
+		
+		job.setJarByClass(TSVPreProcessor.class);
 		job.setOutputKeyClass(Text.class);
 		job.setOutputValueClass(IntWritable.class);
 

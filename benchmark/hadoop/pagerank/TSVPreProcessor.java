@@ -1,4 +1,4 @@
-package Pagerank;
+package pagerank;
 
 import java.io.IOException;
 
@@ -56,7 +56,8 @@ public class TSVPreProcessor {
 		Configuration conf = new Configuration();
 
 		Job job = Job.getInstance(conf, "TSV converter");
-
+		
+		job.setJarByClass(TSVPreProcessor.class);
 		job.setOutputKeyClass(Text.class);
 		job.setOutputValueClass(IntWritable.class);
 
