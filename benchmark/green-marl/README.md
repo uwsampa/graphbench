@@ -6,40 +6,26 @@ Get the repo
 git clone git://github.com/stanford-ppl/Green-Marl.git
 ```
 
-Change the file to allow create graph using your own input file
+Change the file to allow create graph using your own input file by substituting the graph_gen.cc and graph_gen_main.cc and graph_gen.h 
 ```
 cd Green-Marl/apps/output_cpp/gm_graph/src
-```
-
-	Task : substitute the graph_gen.cc and graph_gen_main.cc
-
-```
+cp <graphbench>/benchmark/green-marl/graph_gen.cc <graphbench>/benchmark/green-marl/graph_gen_main.cc .
 cd ../inc
+cp <graphbench>/benchmark/green-marl/graph_gen.h .
 ```
 
-	Task : substitute the graph_gen.h 
+Go to the top of the Green-marl and compile
 
-compile
-
-	Task : cd to the top directory where you put your source package
 ```
+cd $(top)
 make apps
 ```
 
-generate graph
+Generate graph (0 for undirected and 1 for directed graph)
 
 ```
 cd $(top)/apps/output_cpp
-```
-	for undirected graph:
-
-```
 bin/graph_gen data/outputName.bin pathToInputFile/inputName.txt 0
-```
-	
-	for directed graph:
-	
-```
 bin/graph_gen data/outputName.bin pathToInputFile/inputName.txt 1
 ```
 	
