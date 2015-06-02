@@ -8,9 +8,10 @@ If you have lots of things you want to change, great! Get in touch and we can ta
 What to contribute
 ------------------
 
-For benchmarks, add
+For benchmarks/frameworks, add
 - reference implementations in ```graphbench/benchmark/<framework name>```
 - instructions on bulding the framework and reference implementations in ```graphbench/benchmark/<framework name>/README.md```
+- (optional) create a Docker image for your framework and add a link in ```graphbench/benchmark/<framework name>/README.md```
 
 For datasets, add
  - info in ```graphbench/data/README.md```
