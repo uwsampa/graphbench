@@ -26,3 +26,8 @@ Usage: <Program> <input file>
 [3,0,[[0,3],[1,1],[4,4]]]
 [4,0,[[3,4],[2,4]]]
 ```
+
+# Docker image
+
+This Docker image has Hadoop and Giraph pre-configured:
+https://registry.hub.docker.com/u/uwsampa/giraph-docker
